@@ -1,0 +1,92 @@
+{
+  "config": {
+    "seed": 123,
+    "env": {
+      "C": 3000.0,
+      "k": 3,
+      "T": 1000,
+      "F": 1,
+      "enable_shaping": true
+    },
+    "train": {
+      "episodes": 3000,
+      "max_steps": 1000,
+      "gamma": 0.98,
+      "lr": 0.0003,
+      "rollout_steps": 128,
+      "value_coef": 0.5,
+      "entropy_coef_start": 0.05,
+      "entropy_coef_end": 0.005,
+      "max_grad_norm": 1.0,
+      "device": "cpu"
+    },
+    "eval": {
+      "num_episodes": 100,
+      "test_start_idx": 4000,
+      "tx_pool_path": "shared_tx_pool.npy"
+    },
+    "output": {
+      "model_path": "ac_aligned.pth",
+      "results_path": "ac_results.json"
+    }
+  },
+  "timestamp": "2026-01-30T23:07:19.110499",
+  "summary": {
+    "settled": {
+      "mean": 499191.66,
+      "std": 8782.08054189894,
+      "min": 477521.0,
+      "max": 519410.0,
+      "median": 500084.0
+    },
+    "drops": {
+      "mean": 1.71,
+      "std": 1.1941105476462386,
+      "min": 0.0,
+      "max": 6.0,
+      "median": 1.0
+    },
+    "oversize_drops": {
+      "mean": 0.0,
+      "std": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "median": 0.0
+    },
+    "insufficient_drops": {
+      "mean": 1.71,
+      "std": 1.1941105476462386,
+      "min": 0.0,
+      "max": 6.0,
+      "median": 1.0
+    },
+    "flushes": {
+      "mean": 1310.92,
+      "std": 3.4804597397470345,
+      "min": 1300.0,
+      "max": 1319.0,
+      "median": 1311.0
+    },
+    "utilization": {
+      "mean": 0.16639721999999998,
+      "std": 0.0029273601806329803,
+      "min": 0.15917366666666666,
+      "max": 0.17313666666666666,
+      "median": 0.16669466666666666
+    },
+    "avg_tx_value": {
+      "mean": 500.0459393788546,
+      "std": 8.72877874226293,
+      "min": 477.998998998999,
+      "max": 519.9299299299299,
+      "median": 500.76314942196706
+    },
+    "drop_rate": {
+      "mean": 0.0017100000000000004,
+      "std": 0.0011941105476462387,
+      "min": 0.0,
+      "max": 0.006,
+      "median": 0.001
+    }
+  }
+}
