@@ -22,10 +22,13 @@ CONFIG = {
     # 环境参数(训练 + 评估 共用)
     "env": {
         "C": 3000.0,
-        "k": 10,
+        "k": 3,
         "T": 100,          # 改成 100 或 1000 即可切场景
         "F": 1,
         "enable_shaping": True,
+    },
+    "data": {
+        "generator_name": "mix_lognorm_small_mid_uniform_tail_v1"
     },
 
     # 训练参数
@@ -80,8 +83,10 @@ def set_seed(seed: int = 123):
 # =========================================================
 def build_scenario_name(config: Dict[str, Any]) -> str:
     env = config["env"]
+    data_cfg = config["data"]
     C = int(env["C"]) if float(env["C"]).is_integer() else env["C"]
-    return f"C{C}_k{env['k']}_T{env['T']}_F{env['F']}"
+    generator_name = data_cfg["generator_name"]
+    return f"{generator_name}_C{C}_k{env['k']}_T{env['T']}_F{env['F']}"
 
 
 def build_paths(config: Dict[str, Any]) -> Dict[str, str]:
@@ -94,8 +99,9 @@ def build_paths(config: Dict[str, Any]) -> Dict[str, str]:
     results_dir = os.path.join("results", scenario)
     checkpoints_dir = os.path.join("checkpoints", scenario)
 
-    # 只按 T 选择交易池文件
-    tx_pool_filename = f"tx_pool_T{config['env']['T']}.npy"
+# 按 generator_name + T 选择交易池文件
+    generator_name = config["data"]["generator_name"]
+    tx_pool_filename = f"tx_pool_{generator_name}_T{config['env']['T']}.npy"
 
     paths = {
         "scenario": scenario,
@@ -129,16 +135,24 @@ def ensure_dirs(paths: Dict[str, str]):
 
 def validate_tx_pool_path_matches_config(tx_pool_path: str, config: Dict[str, Any]):
     """
-    防止 T 改了，但数据文件路径没跟着改。
+    防止 T 改了，或者 generator_name 改了，但数据文件路径没跟着改。
     """
     filename = os.path.basename(tx_pool_path)
-    expected = f"T{config['env']['T']}"
+    expected_t = f"T{config['env']['T']}"
+    expected_generator = config["data"]["generator_name"]
 
-    if expected not in filename:
+    if expected_t not in filename:
         raise ValueError(
             f"数据文件名与当前 T 不匹配。\n"
             f"当前数据文件: {tx_pool_path}\n"
-            f"期望文件名中包含: {expected}"
+            f"期望文件名中包含: {expected_t}"
+        )
+
+    if expected_generator not in filename:
+        raise ValueError(
+            f"数据文件名与当前 generator_name 不匹配。\n"
+            f"当前数据文件: {tx_pool_path}\n"
+            f"期望文件名中包含: {expected_generator}"
         )
 
 
@@ -1115,6 +1129,7 @@ def plot_comparison(
 # 主执行流程
 # =========================================================
 def main():
+    print(f"🧬 数据生成器: {CONFIG['data']['generator_name']}")
     """主函数 - 完整的训练和评估流程"""
     print("\n" + "=" * 70)
     print("🎯 K-Wallet DQN 训练与评估系统")

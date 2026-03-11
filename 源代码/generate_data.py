@@ -1,6 +1,7 @@
 import json
 import os
-from typing import Dict, Any
+from datetime import datetime
+from typing import Dict, Any, List
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -14,6 +15,12 @@ CONFIG = {
     # 最终交易金额范围（生成后会被 clip 到这个区间）
     "min_tx": 1,
     "max_tx": 1000,
+
+    # 是否允许覆盖已存在文件
+    "overwrite": False,
+
+    # 输出目录
+    "output_dir": "data",
 
     # 生成器配置
     "generator": {
@@ -42,6 +49,66 @@ CONFIG = {
 }
 
 
+def validate_config(config: Dict[str, Any]) -> None:
+    episodes = config["episodes"]
+    steps_per_ep = config["steps_per_ep"]
+    min_tx = config["min_tx"]
+    max_tx = config["max_tx"]
+    generator = config["generator"]
+
+    if not isinstance(episodes, int) or episodes <= 0:
+        raise ValueError(f"episodes 必须是正整数，当前为: {episodes}")
+
+    if not isinstance(steps_per_ep, int) or steps_per_ep <= 0:
+        raise ValueError(f"steps_per_ep 必须是正整数，当前为: {steps_per_ep}")
+
+    if not isinstance(min_tx, int) or not isinstance(max_tx, int):
+        raise ValueError("min_tx 和 max_tx 必须是整数")
+
+    if min_tx <= 0:
+        raise ValueError(f"min_tx 必须 > 0，当前为: {min_tx}")
+
+    if max_tx < min_tx:
+        raise ValueError(f"max_tx 必须 >= min_tx，当前 min_tx={min_tx}, max_tx={max_tx}")
+
+    if "kind" not in generator:
+        raise ValueError("generator 配置缺少 kind")
+
+    if "params" not in generator:
+        raise ValueError("generator 配置缺少 params")
+
+    kind = generator["kind"]
+    params = generator["params"]
+
+    supported_base = {"uniform", "lognormal", "exponential", "pareto"}
+    supported_all = supported_base | {"mixture", "piecewise"}
+
+    if kind not in supported_all:
+        raise ValueError(f"Unsupported generator kind: {kind}")
+
+    if kind == "mixture":
+        if "components" not in params or not params["components"]:
+            raise ValueError("mixture 生成器必须包含非空 components")
+
+        weights = [c["weight"] for c in params["components"]]
+        if any(w < 0 for w in weights):
+            raise ValueError("mixture 的 weight 不能为负数")
+
+        if sum(weights) <= 0:
+            raise ValueError("mixture 的 weight 总和必须 > 0")
+
+    if kind == "piecewise":
+        if "segments" not in params or not params["segments"]:
+            raise ValueError("piecewise 生成器必须包含非空 segments")
+
+        ratios = [seg["length_ratio"] for seg in params["segments"]]
+        if any(r < 0 for r in ratios):
+            raise ValueError("piecewise 的 length_ratio 不能为负数")
+
+        if sum(ratios) <= 0:
+            raise ValueError("piecewise 的 length_ratio 总和必须 > 0")
+
+
 def clip_and_cast(x: np.ndarray, min_tx: int, max_tx: int) -> np.ndarray:
     x = np.clip(x, min_tx, max_tx)
     x = np.rint(x).astype(int)
@@ -57,20 +124,30 @@ def sample_base(
     if kind == "uniform":
         low = params.get("low", 1)
         high = params.get("high", 1000)
+        if high < low:
+            raise ValueError(f"uniform 参数非法: low={low}, high={high}")
         return rng.integers(low, high + 1, size=size)
 
     elif kind == "lognormal":
         mean = params["mean"]
         sigma = params["sigma"]
+        if sigma < 0:
+            raise ValueError(f"lognormal 的 sigma 必须 >= 0，当前为: {sigma}")
         return rng.lognormal(mean=mean, sigma=sigma, size=size)
 
     elif kind == "exponential":
         scale = params["scale"]
+        if scale <= 0:
+            raise ValueError(f"exponential 的 scale 必须 > 0，当前为: {scale}")
         return rng.exponential(scale=scale, size=size)
 
     elif kind == "pareto":
         alpha = params["alpha"]
         xm = params.get("xm", 1.0)
+        if alpha <= 0:
+            raise ValueError(f"pareto 的 alpha 必须 > 0，当前为: {alpha}")
+        if xm <= 0:
+            raise ValueError(f"pareto 的 xm 必须 > 0，当前为: {xm}")
         return xm * (1.0 + rng.pareto(alpha, size=size))
 
     else:
@@ -169,7 +246,12 @@ def build_base_filename(config: Dict[str, Any]) -> str:
     return f"tx_pool_{name}_T{max_tx}"
 
 
-def summarize_distribution(raw_all: np.ndarray, clipped_all: np.ndarray, min_tx: int, max_tx: int) -> Dict[str, Any]:
+def summarize_distribution(
+    raw_all: np.ndarray,
+    clipped_all: np.ndarray,
+    min_tx: int,
+    max_tx: int
+) -> Dict[str, Any]:
     raw_all = raw_all.astype(float)
     clipped_all = clipped_all.astype(float)
 
@@ -201,9 +283,9 @@ def summarize_distribution(raw_all: np.ndarray, clipped_all: np.ndarray, min_tx:
     return summary
 
 
-def save_config_snapshot(config: Dict[str, Any], save_path: str) -> None:
+def save_json(obj: Dict[str, Any], save_path: str) -> None:
     with open(save_path, "w", encoding="utf-8") as f:
-        json.dump(config, f, indent=2, ensure_ascii=False)
+        json.dump(obj, f, indent=2, ensure_ascii=False)
 
 
 def save_histogram(clipped_all: np.ndarray, save_path: str, title: str) -> None:
@@ -238,42 +320,138 @@ def print_summary(summary: Dict[str, Any]) -> None:
     print("=" * 60)
 
     print("\n[Raw samples before clipping]")
-    print(f"mean   : {summary['raw_mean']:.4f}")
-    print(f"std    : {summary['raw_std']:.4f}")
-    print(f"min    : {summary['raw_min']:.4f}")
-    print(f"max    : {summary['raw_max']:.4f}")
-    print(f"p50    : {summary['raw_p50']:.4f}")
-    print(f"p90    : {summary['raw_p90']:.4f}")
-    print(f"p95    : {summary['raw_p95']:.4f}")
-    print(f"p99    : {summary['raw_p99']:.4f}")
+    print(f"mean    : {summary['raw_mean']:.4f}")
+    print(f"std     : {summary['raw_std']:.4f}")
+    print(f"min     : {summary['raw_min']:.4f}")
+    print(f"max     : {summary['raw_max']:.4f}")
+    print(f"p50     : {summary['raw_p50']:.4f}")
+    print(f"p90     : {summary['raw_p90']:.4f}")
+    print(f"p95     : {summary['raw_p95']:.4f}")
+    print(f"p99     : {summary['raw_p99']:.4f}")
 
     print("\n[Final samples after clipping + rounding]")
-    print(f"mean   : {summary['final_mean']:.4f}")
-    print(f"std    : {summary['final_std']:.4f}")
-    print(f"min    : {summary['final_min']:.4f}")
-    print(f"max    : {summary['final_max']:.4f}")
-    print(f"p50    : {summary['final_p50']:.4f}")
-    print(f"p90    : {summary['final_p90']:.4f}")
-    print(f"p95    : {summary['final_p95']:.4f}")
-    print(f"p99    : {summary['final_p99']:.4f}")
+    print(f"mean    : {summary['final_mean']:.4f}")
+    print(f"std     : {summary['final_std']:.4f}")
+    print(f"min     : {summary['final_min']:.4f}")
+    print(f"max     : {summary['final_max']:.4f}")
+    print(f"p50     : {summary['final_p50']:.4f}")
+    print(f"p90     : {summary['final_p90']:.4f}")
+    print(f"p95     : {summary['final_p95']:.4f}")
+    print(f"p99     : {summary['final_p99']:.4f}")
 
     print("\n[Clipping diagnostics]")
-    print(f"clip_low_ratio   : {summary['clip_low_ratio']:.6f}")
-    print(f"clip_high_ratio  : {summary['clip_high_ratio']:.6f}")
+    print(f"clip_low_ratio    : {summary['clip_low_ratio']:.6f}")
+    print(f"clip_high_ratio   : {summary['clip_high_ratio']:.6f}")
     print(f"final_at_min_ratio: {summary['final_at_min_ratio']:.6f}")
     print(f"final_at_max_ratio: {summary['final_at_max_ratio']:.6f}")
     print("=" * 60)
 
 
+def validate_generated_arrays(
+    raw_collector: np.ndarray,
+    all_tx: np.ndarray,
+    episodes: int,
+    steps_per_ep: int,
+    min_tx: int,
+    max_tx: int
+) -> None:
+    expected_shape = (episodes, steps_per_ep)
+
+    if raw_collector.shape != expected_shape:
+        raise ValueError(
+            f"raw_collector 形状错误: 期望 {expected_shape}, 实际 {raw_collector.shape}"
+        )
+
+    if all_tx.shape != expected_shape:
+        raise ValueError(
+            f"all_tx 形状错误: 期望 {expected_shape}, 实际 {all_tx.shape}"
+        )
+
+    if not np.isfinite(raw_collector).all():
+        raise ValueError("raw_collector 中存在 NaN 或 Inf")
+
+    if not np.isfinite(all_tx).all():
+        raise ValueError("all_tx 中存在 NaN 或 Inf")
+
+    actual_min = int(np.min(all_tx))
+    actual_max = int(np.max(all_tx))
+
+    if actual_min < min_tx or actual_max > max_tx:
+        raise ValueError(
+            f"生成后的交易金额超出范围: 实际范围 [{actual_min}, {actual_max}], "
+            f"期望范围 [{min_tx}, {max_tx}]"
+        )
+
+
+def build_output_paths(config: Dict[str, Any]) -> Dict[str, str]:
+    output_dir = config.get("output_dir", "data")
+    base_filename = build_base_filename(config)
+
+    return {
+        "output_dir": output_dir,
+        "npy_path": os.path.join(output_dir, f"{base_filename}.npy"),
+        "cfg_path": os.path.join(output_dir, f"{base_filename}_config.json"),
+        "summary_path": os.path.join(output_dir, f"{base_filename}_summary.json"),
+        "metadata_path": os.path.join(output_dir, f"{base_filename}_metadata.json"),
+        "hist_path": os.path.join(output_dir, f"{base_filename}_hist.png"),
+        "log_hist_path": os.path.join(output_dir, f"{base_filename}_hist_log.png"),
+    }
+
+
+def check_overwrite(paths: Dict[str, str], overwrite: bool) -> None:
+    existing = [p for p in paths.values() if p != paths["output_dir"] and os.path.exists(p)]
+    if existing and not overwrite:
+        msg = "以下文件已存在，且 overwrite=False，为避免覆盖，程序终止：\n"
+        msg += "\n".join(existing)
+        raise FileExistsError(msg)
+
+
+def build_metadata(
+    config: Dict[str, Any],
+    paths: Dict[str, str],
+    all_tx: np.ndarray
+) -> Dict[str, Any]:
+    return {
+        "timestamp": datetime.now().isoformat(),
+        "seed": config["seed"],
+        "episodes": config["episodes"],
+        "steps_per_ep": config["steps_per_ep"],
+        "min_tx": config["min_tx"],
+        "max_tx": config["max_tx"],
+        "generator_kind": config["generator"]["kind"],
+        "generator_name": config["generator"].get("name", config["generator"]["kind"]),
+        "shape": list(all_tx.shape),
+        "dtype": str(all_tx.dtype),
+        "paths": {
+            "npy_path": paths["npy_path"],
+            "cfg_path": paths["cfg_path"],
+            "summary_path": paths["summary_path"],
+            "metadata_path": paths["metadata_path"],
+            "hist_path": paths["hist_path"],
+            "log_hist_path": paths["log_hist_path"],
+        },
+        "preview": {
+            "EP0_first_5": all_tx[0, :5].tolist(),
+            "EP1000_first_6": all_tx[min(1000, all_tx.shape[0] - 1), :6].tolist(),
+            "last_episode_last_5": all_tx[-1, -5:].tolist(),
+        }
+    }
+
+
 def generate_tx_pool() -> None:
+    validate_config(CONFIG)
+
     rng = np.random.default_rng(CONFIG["seed"])
 
     episodes = CONFIG["episodes"]
     steps_per_ep = CONFIG["steps_per_ep"]
     min_tx = CONFIG["min_tx"]
     max_tx = CONFIG["max_tx"]
+    overwrite = CONFIG.get("overwrite", False)
 
-    os.makedirs("data", exist_ok=True)
+    paths = build_output_paths(CONFIG)
+    os.makedirs(paths["output_dir"], exist_ok=True)
+    check_overwrite(paths, overwrite=overwrite)
 
     all_tx = np.zeros((episodes, steps_per_ep), dtype=int)
     raw_collector = np.zeros((episodes, steps_per_ep), dtype=float)
@@ -287,16 +465,14 @@ def generate_tx_pool() -> None:
         raw_collector[ep] = raw
         all_tx[ep] = clip_and_cast(raw, min_tx=min_tx, max_tx=max_tx)
 
-    base_filename = build_base_filename(CONFIG)
-
-    npy_path = os.path.join("data", f"{base_filename}.npy")
-    cfg_path = os.path.join("data", f"{base_filename}_config.json")
-    summary_path = os.path.join("data", f"{base_filename}_summary.json")
-    hist_path = os.path.join("data", f"{base_filename}_hist.png")
-    log_hist_path = os.path.join("data", f"{base_filename}_hist_log.png")
-
-    np.save(npy_path, all_tx)
-    save_config_snapshot(CONFIG, cfg_path)
+    validate_generated_arrays(
+        raw_collector=raw_collector,
+        all_tx=all_tx,
+        episodes=episodes,
+        steps_per_ep=steps_per_ep,
+        min_tx=min_tx,
+        max_tx=max_tx
+    )
 
     summary = summarize_distribution(
         raw_all=raw_collector.reshape(-1),
@@ -305,26 +481,31 @@ def generate_tx_pool() -> None:
         max_tx=max_tx
     )
 
-    with open(summary_path, "w", encoding="utf-8") as f:
-        json.dump(summary, f, indent=2, ensure_ascii=False)
+    metadata = build_metadata(CONFIG, paths, all_tx)
+
+    np.save(paths["npy_path"], all_tx)
+    save_json(CONFIG, paths["cfg_path"])
+    save_json(summary, paths["summary_path"])
+    save_json(metadata, paths["metadata_path"])
 
     title = f"{CONFIG['generator'].get('name', CONFIG['generator']['kind'])} | T={max_tx}"
-    save_histogram(all_tx.reshape(-1), hist_path, title)
-    save_log_histogram(all_tx.reshape(-1), log_hist_path, title)
+    save_histogram(all_tx.reshape(-1), paths["hist_path"], title)
+    save_log_histogram(all_tx.reshape(-1), paths["log_hist_path"], title)
 
     print("=" * 60)
     print("✅ 交易序列生成完成")
     print("=" * 60)
     print(f"generator kind : {CONFIG['generator']['kind']}")
     print(f"generator name : {CONFIG['generator'].get('name', CONFIG['generator']['kind'])}")
-    print(f"npy path       : {npy_path}")
-    print(f"config path    : {cfg_path}")
-    print(f"summary path   : {summary_path}")
-    print(f"hist path      : {hist_path}")
-    print(f"log hist path  : {log_hist_path}")
+    print(f"npy path       : {paths['npy_path']}")
+    print(f"config path    : {paths['cfg_path']}")
+    print(f"summary path   : {paths['summary_path']}")
+    print(f"metadata path  : {paths['metadata_path']}")
+    print(f"hist path      : {paths['hist_path']}")
+    print(f"log hist path  : {paths['log_hist_path']}")
     print(f"shape          : {all_tx.shape}")
     print(f"EP0 first 5    : {all_tx[0, :5].tolist()}")
-    print(f"EP1000 first 6 : {all_tx[1000, :6].tolist()}")
+    print(f"EP1000 first 6 : {all_tx[min(1000, all_tx.shape[0] - 1), :6].tolist()}")
     print(f"EP4999 last 5  : {all_tx[-1, -5:].tolist()}")
     print("=" * 60)
 
