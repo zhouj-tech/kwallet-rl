@@ -10,12 +10,47 @@ import os
 import json
 import hashlib
 from datetime import datetime
+from pathlib import Path
 from scipy import stats
+
+
+# =========================================================
+# ✅ 固定项目根目录（无论从哪里运行，都统一写到项目根目录）
+# 假设当前脚本放在 kwallet-rl/源代码/ 下
+# =========================================================
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+
+def generator_alias(name: str) -> str:
+    """
+    给 generator 一个简短别名，避免路径和标题太长
+    """
+    alias_map = {
+        "mix_lognorm_small_mid_uniform_tail_v1": "mixTail",
+        "mixture": "mix",
+        "uniform": "uni",
+        "lognormal": "logn",
+        "exponential": "exp",
+        "pareto": "par",
+    }
+    return alias_map.get(name, name[:12])
+
+
+def build_run_stamp() -> str:
+    return datetime.now().strftime("%Y%m%d_%H%M%S")
+
+
+def build_title_tag(config: Dict[str, Any], run_stamp: str) -> str:
+    env = config["env"]
+    gen_name = config["data"]["generator_name"]
+    alias = generator_alias(gen_name)
+    return f"{run_stamp} | C={int(env['C'])} k={env['k']} T={env['T']} F={env['F']} | {alias}"
 
 # =========================================================
 # ✅ 统一参数设置
 # 你以后主要改 env 里的参数，尤其是 T / C / k / F
 # =========================================================
+
 CONFIG = {
     "seed": 123,
 
@@ -23,7 +58,7 @@ CONFIG = {
     "env": {
         "C": 3000.0,
         "k": 3,
-        "T": 100,          # 改成 100 或 1000 即可切场景
+        "T": 1000,          # 改成 100 或 1000 即可切场景
         "F": 1,
         "enable_shaping": True,
     },
@@ -83,54 +118,71 @@ def set_seed(seed: int = 123):
 # =========================================================
 def build_scenario_name(config: Dict[str, Any]) -> str:
     env = config["env"]
-    data_cfg = config["data"]
+    gen_name = config["data"]["generator_name"]
+    alias = generator_alias(gen_name)
     C = int(env["C"]) if float(env["C"]).is_integer() else env["C"]
-    generator_name = data_cfg["generator_name"]
-    return f"{generator_name}_C{C}_k{env['k']}_T{env['T']}_F{env['F']}"
+    return f"C{C}_k{env['k']}_T{env['T']}_F{env['F']}_{alias}"
 
 
 def build_paths(config: Dict[str, Any]) -> Dict[str, str]:
     """
-    根据当前 CONFIG 自动生成本次实验的所有路径
+    统一使用项目根目录，避免结果漂移到“源代码/”下
     """
     scenario = build_scenario_name(config)
+    run_stamp = build_run_stamp()
 
-    data_dir = "data"
-    results_dir = os.path.join("results", scenario)
-    checkpoints_dir = os.path.join("checkpoints", scenario)
+    # 固定根目录
+    data_pool_dir = PROJECT_ROOT / "data" / "pools"
+    data_report_root = PROJECT_ROOT / "data" / "reports"
 
-# 按 generator_name + T 选择交易池文件
+    result_scenario_dir = PROJECT_ROOT / "results" / scenario
+    result_run_dir = result_scenario_dir / run_stamp
+
+    checkpoint_scenario_dir = PROJECT_ROOT / "checkpoints" / scenario
+    checkpoint_run_dir = checkpoint_scenario_dir / run_stamp
+
     generator_name = config["data"]["generator_name"]
     tx_pool_filename = f"tx_pool_{generator_name}_T{config['env']['T']}.npy"
 
     paths = {
+        "project_root": str(PROJECT_ROOT),
         "scenario": scenario,
-        "data_dir": data_dir,
-        "results_dir": results_dir,
-        "checkpoints_dir": checkpoints_dir,
+        "run_stamp": run_stamp,
+        "title_tag": build_title_tag(config, run_stamp),
 
-        # 输入数据
-        "tx_pool_path": os.path.join(data_dir, tx_pool_filename),
+        # data
+        "data_pool_dir": str(data_pool_dir),
+        "data_report_root": str(data_report_root),
+        "tx_pool_path": str(data_pool_dir / tx_pool_filename),
 
-        # 输出文件
-        "results_json_path": os.path.join(results_dir, "dqn_results.json"),
-        "eval_plot_path": os.path.join(results_dir, "dqn_evaluation.png"),
-        "training_plot_path": os.path.join(results_dir, "training_curves.png"),
-        "comparison_plot_path": os.path.join(results_dir, "dqn_vs_baseline.png"),
-        "config_snapshot_path": os.path.join(results_dir, "run_config.json"),
-        "model_path": os.path.join(checkpoints_dir, "k_wallet_dqn_aligned.pth"),
+        # results
+        "result_scenario_dir": str(result_scenario_dir),
+        "result_run_dir": str(result_run_dir),
+        "run_info_path": str(result_run_dir / "run_info.json"),
+        "results_json_path": str(result_run_dir / "metrics.json"),
+        "summary_txt_path": str(result_run_dir / "metrics_summary.txt"),
+        "eval_plot_path": str(result_run_dir / "eval_hist.png"),
+        "training_plot_path": str(result_run_dir / "train_curve.png"),
+        "comparison_plot_path": str(result_run_dir / "compare_baseline.png"),
 
-        # baseline 结果（同一场景下）
-        "baseline_results_path": os.path.join(results_dir, "baseline_results.json"),
+        # checkpoints
+        "checkpoint_scenario_dir": str(checkpoint_scenario_dir),
+        "checkpoint_run_dir": str(checkpoint_run_dir),
+        "model_path": str(checkpoint_run_dir / "model.pth"),
+
+        # baseline：放在该场景总目录下，方便不同 run 共用
+        "baseline_results_path": str(result_scenario_dir / "baseline_results.json"),
     }
 
     return paths
 
-
 def ensure_dirs(paths: Dict[str, str]):
-    os.makedirs(paths["data_dir"], exist_ok=True)
-    os.makedirs(paths["results_dir"], exist_ok=True)
-    os.makedirs(paths["checkpoints_dir"], exist_ok=True)
+    os.makedirs(paths["data_pool_dir"], exist_ok=True)
+    os.makedirs(paths["data_report_root"], exist_ok=True)
+    os.makedirs(paths["result_scenario_dir"], exist_ok=True)
+    os.makedirs(paths["result_run_dir"], exist_ok=True)
+    os.makedirs(paths["checkpoint_scenario_dir"], exist_ok=True)
+    os.makedirs(paths["checkpoint_run_dir"], exist_ok=True)
 
 
 def validate_tx_pool_path_matches_config(tx_pool_path: str, config: Dict[str, Any]):
@@ -156,18 +208,20 @@ def validate_tx_pool_path_matches_config(tx_pool_path: str, config: Dict[str, An
         )
 
 
-def save_config_snapshot(config: Dict[str, Any], paths: Dict[str, str]):
+def save_run_info(config: Dict[str, Any], paths: Dict[str, str]):
     snapshot = {
         "scenario": paths["scenario"],
+        "run_stamp": paths["run_stamp"],
+        "title_tag": paths["title_tag"],
         "timestamp": datetime.now().isoformat(),
         "config": config,
         "paths": paths,
     }
 
-    with open(paths["config_snapshot_path"], "w", encoding="utf-8") as f:
+    with open(paths["run_info_path"], "w", encoding="utf-8") as f:
         json.dump(snapshot, f, indent=2, ensure_ascii=False)
 
-    print(f"📝 本次运行配置已保存至: {paths['config_snapshot_path']}")
+    print(f"📝 本次运行信息已保存至: {paths['run_info_path']}")
 
 
 # =========================================================
@@ -871,13 +925,40 @@ def save_results(results: Dict[str, Any], save_path: str):
 
     print(f"💾 评估结果已保存至: {save_path}")
 
+def save_results_summary_txt(results: Dict[str, Any], save_path: str):
+    summary = results["summary"]
 
-def plot_evaluation_results(results: Dict[str, Any], save_path: str):
+    lines = []
+    lines.append("DQN Evaluation Summary")
+    lines.append("=" * 60)
+    lines.append(f"timestamp   : {results['timestamp']}")
+    lines.append(f"scenario    : {results['scenario']}")
+    lines.append(f"episodes    : {results['num_episodes']}")
+    lines.append("")
+
+    key_metrics = ["settled", "drops", "flushes", "utilization", "drop_rate",
+                   "avg_tx_value", "oversize_drops", "insufficient_drops"]
+
+    for metric in key_metrics:
+        if metric in summary:
+            s = summary[metric]
+            lines.append(
+                f"{metric:<20} mean={s['mean']:.6f}  std={s['std']:.6f}  "
+                f"min={s['min']:.6f}  max={s['max']:.6f}  median={s['median']:.6f}"
+            )
+
+    with open(save_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+
+    print(f"📝 文本摘要已保存至: {save_path}")
+
+
+def plot_evaluation_results(results: Dict[str, Any], save_path: str, title_tag: str):
     """生成评估结果可视化图表（保留最重要的四个指标）"""
     summary = results["summary"]
 
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-    fig.suptitle(f"DQN 评估结果分析 - {results['scenario']}", fontsize=16, fontweight="bold")
+    fig.suptitle(f"DQN Evaluation\n{title_tag}", fontsize=15, fontweight="bold")
 
     metrics_to_plot = [
         ("settled", "总处理金额", "C0"),
@@ -912,16 +993,17 @@ def plot_evaluation_results(results: Dict[str, Any], save_path: str):
     plt.close()
 
 
-def plot_training_curves(
+def ƒ(
     returns: List[float],
     loss_history: List[float],
     epsilons: List[float],
     save_path: str,
+    title_tag: str,
     window: int = 100
 ):
     """绘制训练曲线"""
     fig, axes = plt.subplots(2, 2, figsize=(16, 10))
-    fig.suptitle("DQN 训练过程分析", fontsize=16, fontweight="bold")
+    fig.suptitle(f"DQN Training Curves\n{title_tag}", fontsize=15, fontweight="bold")
 
     # 1. Returns 曲线
     ax = axes[0, 0]
@@ -1061,7 +1143,12 @@ def compare_with_baseline(
         print("注: *** p<0.001, ** p<0.01, * p<0.05")
         print("=" * 70 + "\n")
 
-        plot_comparison(dqn_results, baseline_results, save_path=comparison_plot_path)
+        plot_comparison(
+            dqn_results,
+            baseline_results,
+            save_path=comparison_plot_path,
+            title_tag=f"{datetime.now().strftime('%Y%m%d_%H%M%S')} | {dqn_results['scenario']}"
+        )
 
     except Exception as e:
         print(f"⚠️  对比分析失败: {str(e)}\n")
@@ -1070,14 +1157,15 @@ def compare_with_baseline(
 def plot_comparison(
     dqn_results: Dict[str, Any],
     baseline_results: Dict[str, Any],
-    save_path: str
+    save_path: str,
+    title_tag: str
 ):
     """生成 DQN 与 Baseline 的对比可视化"""
     dqn_summary = dqn_results["summary"]
     baseline_summary = baseline_results["summary"]
 
     fig, axes = plt.subplots(2, 2, figsize=(16, 12))
-    fig.suptitle(f"DQN vs Baseline 对比分析 - {dqn_results['scenario']}", fontsize=16, fontweight="bold")
+    fig.suptitle(f"DQN vs Baseline\n{title_tag}", fontsize=15, fontweight="bold")
 
     metrics_to_compare = [
         ("settled", "总处理金额"),
@@ -1143,12 +1231,14 @@ def main():
     ensure_dirs(paths)
 
     print(f"🧪 当前场景: {paths['scenario']}")
-    print(f"📂 数据路径: {paths['tx_pool_path']}")
-    print(f"📂 结果目录: {paths['results_dir']}")
-    print(f"📂 模型目录: {paths['checkpoints_dir']}")
+    print(f"🕒 本次运行: {paths['run_stamp']}")
+    print(f"📂 项目根目录: {paths['project_root']}")
+    print(f"📂 数据文件: {paths['tx_pool_path']}")
+    print(f"📂 本次结果目录: {paths['result_run_dir']}")
+    print(f"📂 本次模型目录: {paths['checkpoint_run_dir']}")
 
     # 保存本次配置快照
-    save_config_snapshot(CONFIG, paths)
+    save_run_info(CONFIG, paths)
 
     try:
         # ============================================
@@ -1163,13 +1253,14 @@ def main():
         )
 
         # 绘制训练曲线
-        plot_training_curves(
-            returns,
-            loss_history,
-            epsilons,
-            save_path=paths["training_plot_path"],
-            window=CONFIG["plot"]["window"]
-        )
+        ƒ(
+           returns,
+           loss_history,
+           epsilons,
+           save_path=paths["training_plot_path"],
+           title_tag=paths["title_tag"],
+           window=CONFIG["plot"]["window"]
+        ) 
 
         # ============================================
         # 阶段 2: 评估
@@ -1189,9 +1280,14 @@ def main():
         # 保存结果
         if CONFIG["output"]["save_results"]:
             save_results(results, paths["results_json_path"])
+            save_results_summary_txt(results, paths["summary_txt_path"])
 
         # 生成可视化
-        plot_evaluation_results(results, paths["eval_plot_path"])
+        plot_evaluation_results(
+           results,
+           paths["eval_plot_path"],
+           title_tag=paths["title_tag"]
+        )
 
         # ============================================
         # 阶段 3: 与 Baseline 对比
@@ -1207,14 +1303,18 @@ def main():
 
         print("\n✅ 所有任务完成!")
         print("=" * 70)
-        print("\n📁 生成的文件:")
-        print(f"   - {paths['model_path']}: 训练好的模型")
-        print(f"   - {paths['results_json_path']}: 评估结果(JSON)")
-        print(f"   - {paths['eval_plot_path']}: 评估可视化")
-        print(f"   - {paths['training_plot_path']}: 训练曲线")
-        print(f"   - {paths['comparison_plot_path']}: 对比图表(若 baseline 结果存在)")
-        print(f"   - {paths['config_snapshot_path']}: 本次运行配置快照")
+        print("\n📁 本次运行产物:")
+        print(f"   [结果目录]   {paths['result_run_dir']}")
+        print(f"   [模型目录]   {paths['checkpoint_run_dir']}")
+        print(f"   - {paths['run_info_path']}")
+        print(f"   - {paths['results_json_path']}")
+        print(f"   - {paths['summary_txt_path']}")
+        print(f"   - {paths['training_plot_path']}")
+        print(f"   - {paths['eval_plot_path']}")
+        print(f"   - {paths['comparison_plot_path']}  (若 baseline 存在)")
+        print(f"   - {paths['model_path']}")
         print("=" * 70 + "\n")
+
 
     except Exception as e:
         print(f"\n❌ 执行过程中发生错误: {str(e)}")

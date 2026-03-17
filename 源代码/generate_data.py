@@ -5,8 +5,13 @@ from typing import Dict, Any, List
 
 import matplotlib.pyplot as plt
 import numpy as np
+from pathlib import Path
 
-
+# =========================================================
+# ✅ 固定项目根目录
+# 假设当前脚本在 kwallet-rl/源代码/ 下
+# =========================================================
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CONFIG = {
     "seed": 123,
     "episodes": 5000,
@@ -384,22 +389,35 @@ def validate_generated_arrays(
 
 
 def build_output_paths(config: Dict[str, Any]) -> Dict[str, str]:
-    output_dir = config.get("output_dir", "data")
     base_filename = build_base_filename(config)
 
+    pool_dir = PROJECT_ROOT / "data" / "pools"
+    report_dir = PROJECT_ROOT / "data" / "reports" / base_filename
+
     return {
-        "output_dir": output_dir,
-        "npy_path": os.path.join(output_dir, f"{base_filename}.npy"),
-        "cfg_path": os.path.join(output_dir, f"{base_filename}_config.json"),
-        "summary_path": os.path.join(output_dir, f"{base_filename}_summary.json"),
-        "metadata_path": os.path.join(output_dir, f"{base_filename}_metadata.json"),
-        "hist_path": os.path.join(output_dir, f"{base_filename}_hist.png"),
-        "log_hist_path": os.path.join(output_dir, f"{base_filename}_hist_log.png"),
+        "pool_dir": str(pool_dir),
+        "report_dir": str(report_dir),
+
+        "npy_path": str(pool_dir / f"{base_filename}.npy"),
+        "cfg_path": str(report_dir / "data_config.json"),
+        "summary_path": str(report_dir / "data_summary.json"),
+        "metadata_path": str(report_dir / "data_metadata.json"),
+        "hist_path": str(report_dir / "hist.png"),
+        "log_hist_path": str(report_dir / "hist_log.png"),
     }
 
 
 def check_overwrite(paths: Dict[str, str], overwrite: bool) -> None:
-    existing = [p for p in paths.values() if p != paths["output_dir"] and os.path.exists(p)]
+    existing = [
+        paths["npy_path"],
+        paths["cfg_path"],
+        paths["summary_path"],
+        paths["metadata_path"],
+        paths["hist_path"],
+        paths["log_hist_path"],
+    ]
+    existing = [p for p in existing if os.path.exists(p)]
+
     if existing and not overwrite:
         msg = "以下文件已存在，且 overwrite=False，为避免覆盖，程序终止：\n"
         msg += "\n".join(existing)
@@ -450,7 +468,8 @@ def generate_tx_pool() -> None:
     overwrite = CONFIG.get("overwrite", False)
 
     paths = build_output_paths(CONFIG)
-    os.makedirs(paths["output_dir"], exist_ok=True)
+    os.makedirs(paths["pool_dir"], exist_ok=True)
+    os.makedirs(paths["report_dir"], exist_ok=True)
     check_overwrite(paths, overwrite=overwrite)
 
     all_tx = np.zeros((episodes, steps_per_ep), dtype=int)
@@ -497,7 +516,8 @@ def generate_tx_pool() -> None:
     print("=" * 60)
     print(f"generator kind : {CONFIG['generator']['kind']}")
     print(f"generator name : {CONFIG['generator'].get('name', CONFIG['generator']['kind'])}")
-    print(f"npy path       : {paths['npy_path']}")
+    print(f"pool path      : {paths['npy_path']}")
+    print(f"report dir     : {paths['report_dir']}")
     print(f"config path    : {paths['cfg_path']}")
     print(f"summary path   : {paths['summary_path']}")
     print(f"metadata path  : {paths['metadata_path']}")
