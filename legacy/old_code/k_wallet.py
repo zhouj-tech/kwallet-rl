@@ -59,7 +59,7 @@ CONFIG = {
         "C": 3000.0,
         "k": 3,
         "T": 1000,          # 改成 100 或 1000 即可切场景
-        "F": 1,
+        "F": 3,
         "enable_shaping": True,
     },
     "data": {
@@ -954,17 +954,17 @@ def save_results_summary_txt(results: Dict[str, Any], save_path: str):
 
 
 def plot_evaluation_results(results: Dict[str, Any], save_path: str, title_tag: str):
-    """生成评估结果可视化图表（保留最重要的四个指标）"""
+    """Generate evaluation result plots"""
     summary = results["summary"]
 
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
     fig.suptitle(f"DQN Evaluation\n{title_tag}", fontsize=15, fontweight="bold")
 
     metrics_to_plot = [
-        ("settled", "总处理金额", "C0"),
-        ("drops", "丢包数", "C1"),
-        ("flushes", "刷新次数", "C2"),
-        ("utilization", "资金利用率", "C3"),
+        ("settled", "Total Settled", "C0"),
+        ("drops", "Drops", "C1"),
+        ("flushes", "Flushes", "C2"),
+        ("utilization", "Utilization", "C3"),
     ]
 
     for idx, (metric, label, color) in enumerate(metrics_to_plot):
@@ -982,18 +982,18 @@ def plot_evaluation_results(results: Dict[str, Any], save_path: str, title_tag: 
         ax.axvline(median, color="green", linestyle=":", linewidth=2, label=f"Median: {median:.2f}")
 
         ax.set_xlabel(label, fontsize=11)
-        ax.set_ylabel("频数", fontsize=11)
-        ax.set_title(f"{label} 分布", fontsize=12, fontweight="bold")
+        ax.set_ylabel("Count", fontsize=11)
+        ax.set_title(f"{label} Distribution", fontsize=12, fontweight="bold")
         ax.legend(fontsize=9)
         ax.grid(True, alpha=0.3)
 
     plt.tight_layout()
     plt.savefig(save_path, dpi=300, bbox_inches="tight")
-    print(f"📈 可视化图表已保存至: {save_path}")
+    print(f"📈 Evaluation plot saved to: {save_path}")
     plt.close()
 
 
-def ƒ(
+def plot_training_curves(
     returns: List[float],
     loss_history: List[float],
     epsilons: List[float],
@@ -1001,11 +1001,11 @@ def ƒ(
     title_tag: str,
     window: int = 100
 ):
-    """绘制训练曲线"""
+    """Plot training curves"""
     fig, axes = plt.subplots(2, 2, figsize=(16, 10))
     fig.suptitle(f"DQN Training Curves\n{title_tag}", fontsize=15, fontweight="bold")
 
-    # 1. Returns 曲线
+    # 1. Return curve
     ax = axes[0, 0]
     ax.plot(returns, alpha=0.3, color="blue", label="Episode Return")
     if len(returns) >= window:
@@ -1019,11 +1019,11 @@ def ƒ(
         )
     ax.set_xlabel("Episode", fontsize=11)
     ax.set_ylabel("Return", fontsize=11)
-    ax.set_title("训练回报曲线", fontsize=12, fontweight="bold")
+    ax.set_title("Training Return", fontsize=12, fontweight="bold")
     ax.legend(fontsize=9)
     ax.grid(True, alpha=0.3)
 
-    # 2. Loss 曲线
+    # 2. Loss curve
     ax = axes[0, 1]
     if loss_history:
         ax.plot(loss_history, alpha=0.5, color="orange")
@@ -1039,19 +1039,19 @@ def ƒ(
             )
         ax.set_xlabel("Training Step", fontsize=11)
         ax.set_ylabel("Loss", fontsize=11)
-        ax.set_title("训练损失曲线", fontsize=12, fontweight="bold")
+        ax.set_title("Training Loss", fontsize=12, fontweight="bold")
         ax.legend(fontsize=9)
         ax.grid(True, alpha=0.3)
 
-    # 3. Epsilon 衰减曲线
+    # 3. Epsilon decay
     ax = axes[1, 0]
     ax.plot(epsilons, color="green", linewidth=2)
     ax.set_xlabel("Episode", fontsize=11)
     ax.set_ylabel("Epsilon", fontsize=11)
-    ax.set_title("探索率衰减曲线", fontsize=12, fontweight="bold")
+    ax.set_title("Epsilon Decay", fontsize=12, fontweight="bold")
     ax.grid(True, alpha=0.3)
 
-    # 4. 最近1000个 episodes 的 returns 分布
+    # 4. Return distribution of the most recent 1000 episodes
     ax = axes[1, 1]
     if len(returns) >= 1000:
         recent_returns = returns[-1000:]
@@ -1064,16 +1064,15 @@ def ƒ(
             label=f"Mean: {np.mean(recent_returns):.2f}"
         )
         ax.set_xlabel("Return", fontsize=11)
-        ax.set_ylabel("频数", fontsize=11)
-        ax.set_title("最近1000回合回报分布", fontsize=12, fontweight="bold")
+        ax.set_ylabel("Count", fontsize=11)
+        ax.set_title("Recent 1000-Episode Return Distribution", fontsize=12, fontweight="bold")
         ax.legend(fontsize=9)
         ax.grid(True, alpha=0.3)
 
     plt.tight_layout()
     plt.savefig(save_path, dpi=300, bbox_inches="tight")
-    print(f"📈 训练曲线已保存至: {save_path}")
+    print(f"📈 Training curves saved to: {save_path}")
     plt.close()
-
 
 def compare_with_baseline(
     dqn_results: Dict[str, Any],
@@ -1253,14 +1252,14 @@ def main():
         )
 
         # 绘制训练曲线
-        ƒ(
+        plot_training_curves(
            returns,
            loss_history,
            epsilons,
            save_path=paths["training_plot_path"],
            title_tag=paths["title_tag"],
            window=CONFIG["plot"]["window"]
-        ) 
+        )
 
         # ============================================
         # 阶段 2: 评估
