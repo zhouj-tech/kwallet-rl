@@ -1,0 +1,90 @@
+{
+"benchmark_name": "kwallet_structural_regimes",
+"benchmark_version": "v1",
+"status": "frozen",
+"description": "Four structurally distinct but difficulty-controlled synthetic transaction regimes for downstream generalist-vs-specialist experiments.",
+"regimes": [
+{
+"name": "SL",
+"time_structure": "smooth",
+"size_structure": "light_tail"
+},
+{
+"name": "SH",
+"time_structure": "smooth",
+"size_structure": "heavy_tail"
+},
+{
+"name": "BL",
+"time_structure": "bursty",
+"size_structure": "light_tail"
+},
+{
+"name": "BH",
+"time_structure": "bursty",
+"size_structure": "heavy_tail"
+}
+],
+"generator_files": [
+"phase1_regime_generator_compact.py"
+],
+"baseline_files": [
+"fwf_regime_difficulty_eval_fixed_v2.py",
+"fa_regime_difficulty_eval.py"
+],
+"difficulty_proxy": {
+"name": "operational_difficulty_proxy",
+"formula": "d(b,r) = 0.6 * (1 - ValAcc) + 0.4 * DropRate",
+"notes": "ValAcc is value acceptance ratio; DropRate is dropped transaction ratio."
+},
+"average_difficulty_definition": {
+"formula": "AvgDifficulty(r) = (d(FWF,r) + d(FA,r)) / 2",
+"baselines_used": ["FWF", "FA"]
+},
+"difficulty_summary": {
+"SL": {
+"fwf_difficulty": 0.0544,
+"fa_difficulty": 0.0356,
+"avg_difficulty": 0.0450
+},
+"SH": {
+"fwf_difficulty": 0.0555,
+"fa_difficulty": 0.0353,
+"avg_difficulty": 0.0454
+},
+"BL": {
+"fwf_difficulty": 0.0487,
+"fa_difficulty": 0.0319,
+"avg_difficulty": 0.0403
+},
+"BH": {
+"fwf_difficulty": 0.0501,
+"fa_difficulty": 0.0320,
+"avg_difficulty": 0.0411
+}
+},
+"validation_summary": {
+"structural_separation_confirmed": true,
+"difficulty_control_confirmed": true,
+"notes": [
+"SL/SH are smooth regimes; BL/BH are bursty regimes.",
+"SL/BL are light-tail regimes; SH/BH are heavy-tail regimes.",
+"Average difficulty ranges from 0.0403 to 0.0454.",
+"Maximum average difficulty gap is 0.0051."
+]
+},
+"frozen_items": [
+"REGIME_CONFIGS",
+"GLOBAL",
+"MU_STAR",
+"regime order: [SL, SH, BL, BH]",
+"difficulty proxy formula",
+"baseline validation results"
+],
+"intended_downstream_use": [
+"specialist policy training",
+"generalist policy training",
+"cross-regime evaluation",
+"generalist-vs-specialist comparison"
+]
+}
