@@ -341,6 +341,8 @@ class KWalletEnv:
 
         self.rng = np.random.default_rng(seed)
         self._tx_stream: Optional[List[int]] = None
+        self._recent_tx_cache: Optional[np.ndarray] = None
+        self._recent_mask_cache: Optional[np.ndarray] = None
         self.reset()
 
     @property
@@ -374,6 +376,7 @@ class KWalletEnv:
                 int(self.rng.integers(1, self.max_transaction + 1))
                 for _ in range(self.max_steps)
             ]
+        self._build_recent_context_cache()
 
         self.current_tx = self._tx_stream[self.time]
         return self._get_state()
@@ -394,15 +397,45 @@ class KWalletEnv:
         state.append(self.time / max(1, self.max_steps - 1))
         return state
 
-    def _get_recent_tx_window_and_mask(self) -> Tuple[List[float], List[float]]:
+    def _build_recent_context_cache(self) -> None:
+        if self.model_mode != "attn_context":
+            self._recent_tx_cache = None
+            self._recent_mask_cache = None
+            return
+
+        n_steps = len(self._tx_stream)
+        window = self.attention_window_size
+        values = np.zeros((n_steps, window), dtype=np.float32)
+        masks = np.zeros((n_steps, window), dtype=np.float32)
+        tx = np.asarray(self._tx_stream, dtype=np.float32) / float(self.max_transaction)
+
+        for t in range(n_steps):
+            start = max(0, t - window)
+            hist = tx[start:t]
+            hist_len = int(hist.shape[0])
+            if hist_len > 0:
+                values[t, window - hist_len:] = hist
+                masks[t, window - hist_len:] = 1.0
+
+        self._recent_tx_cache = values
+        self._recent_mask_cache = masks
+
+    def _get_recent_tx_window_and_mask(self) -> Tuple[np.ndarray, np.ndarray]:
+        if (
+            self._recent_tx_cache is not None
+            and self._recent_mask_cache is not None
+            and self.time < self._recent_tx_cache.shape[0]
+        ):
+            return self._recent_tx_cache[self.time], self._recent_mask_cache[self.time]
+
         hist = list(self.tx_history)
         if len(hist) > self.attention_window_size:
             hist = hist[-self.attention_window_size:]
         pad_len = self.attention_window_size - len(hist)
         padded = [0.0] * pad_len + hist
         valid_mask = [0.0] * pad_len + [1.0] * len(hist)
-        values = [float(x) / self.max_transaction for x in padded]
-        return values, valid_mask
+        values = np.array([float(x) / self.max_transaction for x in padded], dtype=np.float32)
+        return values, np.array(valid_mask, dtype=np.float32)
 
     def get_recent_tx_debug(self) -> Tuple[List[int], List[float]]:
         hist = list(self.tx_history)
@@ -415,8 +448,10 @@ class KWalletEnv:
         state = self._get_base_state()
         if self.model_mode == "attn_context":
             recent_tx, recent_mask = self._get_recent_tx_window_and_mask()
-            state.extend(recent_tx)
-            state.extend(recent_mask)
+            return np.concatenate([np.array(state, dtype=np.float32), recent_tx, recent_mask]).astype(
+                np.float32,
+                copy=False,
+            )
         return np.array(state, dtype=np.float32)
 
     def _decode_action(self, action_int: int) -> Tuple[int, int]:
@@ -829,34 +864,36 @@ def evaluate_agent_on_array(
     agent.epsilon = 0.0
     all_results = []
 
-    for ep in range(num_eval_episodes):
-        s = env.reset(tx_stream=tx_pool[ep])
-        total_requested_value = 0.0
-        total_tx_count = 0
-        accepted_count = 0
-        for _ in range(max_steps):
-            current_tx = env.current_tx
-            total_requested_value += float(current_tx)
-            total_tx_count += 1
-            a = agent.act(s)
-            t0 = time.perf_counter()
-            s, _, done, info = env.step(a)
-            if agent.timing is not None:
-                agent.timing.add("env_step_state", time.perf_counter() - t0)
-            if info.get("accepted", False):
-                accepted_count += 1
-            if done:
-                break
+    try:
+        with torch.inference_mode():
+            for ep in range(num_eval_episodes):
+                s = env.reset(tx_stream=tx_pool[ep])
+                total_requested_value = 0.0
+                total_tx_count = 0
+                accepted_count = 0
+                for _ in range(max_steps):
+                    current_tx = env.current_tx
+                    total_requested_value += float(current_tx)
+                    total_tx_count += 1
+                    a = agent.act(s)
+                    t0 = time.perf_counter()
+                    s, _, done, info = env.step(a)
+                    if agent.timing is not None:
+                        agent.timing.add("env_step_state", time.perf_counter() - t0)
+                    if info.get("accepted", False):
+                        accepted_count += 1
+                    if done:
+                        break
 
-        metrics = env.get_metrics()
-        metrics["value_accept_ratio"] = metrics["settled"] / total_requested_value if total_requested_value > 0 else 0.0
-        metrics["count_accept_ratio"] = accepted_count / total_tx_count if total_tx_count > 0 else 0.0
-        metrics["total_requested_value"] = total_requested_value
-        metrics["total_tx_count"] = total_tx_count
-        metrics["accepted_count"] = accepted_count
-        all_results.append(metrics)
-
-    agent.epsilon = old_eps
+                metrics = env.get_metrics()
+                metrics["value_accept_ratio"] = metrics["settled"] / total_requested_value if total_requested_value > 0 else 0.0
+                metrics["count_accept_ratio"] = accepted_count / total_tx_count if total_tx_count > 0 else 0.0
+                metrics["total_requested_value"] = total_requested_value
+                metrics["total_tx_count"] = total_tx_count
+                metrics["accepted_count"] = accepted_count
+                all_results.append(metrics)
+    finally:
+        agent.epsilon = old_eps
     return {
         "label": label,
         "num_episodes": num_eval_episodes,
@@ -1310,6 +1347,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", type=str, default=CONFIG["train"]["device"])
     parser.add_argument("--episodes", type=int, default=CONFIG["train"]["episodes"])
     parser.add_argument("--eval_episodes", type=int, default=CONFIG["eval"]["num_episodes"])
+    parser.add_argument("--val_every", type=int, default=CONFIG["train"]["val_every"])
+    parser.add_argument("--val_episodes", type=int, default=CONFIG["train"]["val_num_episodes"])
     parser.add_argument("--save_mode", choices=["none", "full"], default=CONFIG["save_mode"])
     parser.add_argument("--debug_mode", action="store_true")
     parser.add_argument("--skip_leakage_check", action="store_true")
@@ -1334,6 +1373,8 @@ def apply_args_to_config(args: argparse.Namespace) -> Dict[str, Any]:
     config["data"]["train_pool_file"] = train_pool_file_for_regime(args.train_regime)
     config["train"]["device"] = args.device
     config["train"]["episodes"] = int(args.episodes)
+    config["train"]["val_every"] = int(args.val_every)
+    config["train"]["val_num_episodes"] = int(args.val_episodes)
     config["eval"]["num_episodes"] = int(args.eval_episodes)
     return config
 
