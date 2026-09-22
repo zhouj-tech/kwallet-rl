@@ -170,6 +170,39 @@ def transfer_table(exp):
     return {"transfer_retention": ret} if ret else missing
 
 
+def compact_transfer_table(kscale):
+    """Compact 3x3 cross-k table from the frozen transfer long CSV.
+
+    Set-SC-FAC fills every (train k, deploy k) cell; the k-shaped flat MLP
+    (sc_fac) only has matched-k diagonal cells, shown in parentheses.
+    Off-diagonal set cells are zero-shot and marked with a dagger.
+    """
+    f = TBL / f"{kscale}_transfer_long.csv"
+    if not f.exists():
+        return {"compact_transfer": str(f)}
+    df = pd.read_csv(f)
+    piv = {m: df[df.method == m].pivot_table(
+        index="train_k", columns="test_k", values="money", aggfunc="mean")
+        for m in ["set_sc_fac", "sc_fac"]}
+    ks = sorted(piv["set_sc_fac"].index)
+    lines = [r"\begin{tabular}{l" + "c" * len(ks) + "}", r"\hline",
+             r"train $k$ \textbackslash\ deploy $k$ & "
+             + " & ".join("$k=" + str(int(k)) + "$" for k in ks) + r"\\", r"\hline"]
+    for kt in ks:
+        cells = []
+        for ke in ks:
+            v = piv["set_sc_fac"].loc[kt, ke]
+            if kt == ke:
+                flat = piv["sc_fac"].loc[kt, ke]
+                cells.append(f"{v:.0f} ({flat:.0f})")
+            else:
+                cells.append(f"{v:.0f}$^{{\\dagger}}$")
+        lines.append("$k=" + str(int(kt)) + "$ & " + " & ".join(cells) + r"\\")
+    lines += [r"\hline", r"\end{tabular}"]
+    (TAB / "transfer_compact.tex").write_text("\n".join(lines))
+    return {}
+
+
 def switching_table():
     f = ROOT / "runs" / "switching" / "switch_summary.csv"
     if not f.exists():
@@ -308,6 +341,7 @@ def main():
     tr = transfer_table(args.kscale)
     claims["missing"].update({k: v for k, v in tr.items() if isinstance(v, str)})
     claims.update({k: v for k, v in tr.items() if not isinstance(v, str)})
+    claims["missing"].update(compact_transfer_table(args.kscale))
     claims["missing"].update(switching_table())
     claims["missing"].update(efficiency_table())
     claims.update(build_claims(args.exp, args.ablation, args.kscale))
