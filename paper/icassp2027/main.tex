@@ -40,8 +40,8 @@ budgets, factorization is the reliable effect: the settle-conditioned
 factored policy beats the joint head at every budget and the independent
 variant at most budgets, whereas zero- and shuffled-conditioning ablations
 detect no benefit from the settle-to-flush path. The equivariant encoder
-loads and runs zero-shot at unseen wallet counts, with asymmetric transfer
-and one training failure at the largest $k$. A single validation-selected
+loads and runs zero-shot at unseen wallet counts, although transfer
+quality is asymmetric. A single validation-selected
 balance-feedback rule remains the strongest tested controller, both on
 stationary streams and across abrupt regime switches.
 \end{abstract}
@@ -58,8 +58,9 @@ Network~\cite{poon2016lightning,miller2019sprites,kolachala2024sok} process
 streams of transactions over wallets backed by finite collateral, and routing
 under scarce channel funds has been studied for payment channel
 networks~\cite{sivaraman2020spider}; reinforcement learning has more recently
-been applied to PCN scheduling, paid rebalancing, and liquidity
-placement~\cite{papadis2023rebalancing,chen2024drlpcr,mishra2025relearn}.
+been applied to PCN scheduling, paid rebalancing and hybrid
+pathfinding, and liquidity
+placement~\cite{papadis2023rebalancing,chen2024drlpcr,mishra2025relearn,valko2025hybrid}.
 Transactions arrive sequentially, each
 with a requested value, and at every arrival the node must either settle it
 into one of $k$ wallets that currently holds enough free balance or drop it;
@@ -67,13 +68,16 @@ independently, it may \emph{flush} one wallet, paying a fixed fee to empty and
 recharge it while the wallet briefly cannot accept funds. The problem is
 inherently sequential: a flush frees capacity for future arrivals but costs
 money and removes a wallet from service, while greedily accepting now can
-starve a later, larger transaction. Collateral is partitioned per wallet
+starve a later, larger transaction. The task thus combines streaming
+observations, structured discrete actions, and online resource allocation
+under nonstationary transaction arrivals. Collateral is partitioned per wallet
 rather than pooled, and future arrivals are unknown. Such sequential
 decisions are the domain of online competitive
 analysis~\cite{borodin1998online} and its learning-augmented
 variants~\cite{lykouris2018competitive}; the closest formal model, online
 collateral maintenance with $k$ wallets of capacity $C/k$, admits worst-case
-competitive guarantees~\cite{almashaqbeh2024competitive}, alongside related
+competitive guarantees~\cite{almashaqbeh2024competitive}, alongside PCN
+topology-and-admission analyses~\cite{chatterjee2025boosting} and related
 online-inventory results~\cite{lin2019competitive}.
 
 This structure makes a naive policy parameterization costly. A joint
@@ -106,19 +110,19 @@ set processing is supplied by sum-based and attention-based set
 encoders~\cite{zaheer2017deepsets,lee2019settransformer}; and RL has been used
 for PCN routing, relay-node rebalancing, and liquidity
 allocation~\cite{sivaraman2020spider,papadis2023rebalancing,chen2024drlpcr,mishra2025relearn}.
-We claim neither factorization nor set encoding as new primitives. Our
-contribution is a controlled empirical audit of which structural biases pay
-off in this streaming collateral-control problem, using matched mechanism
-ablations, zero-shot cross-$k$ deployment, and a strong validation-selected
-feedback baseline, with paired tests and null results reported.
+Building on these established primitives, we conduct a controlled empirical
+audit of which structural biases improve streaming collateral control:
+matched mechanism ablations, zero-shot cross-$k$ deployment, a strong
+validation-selected feedback baseline, and paired multi-seed evaluation, with
+null results reported alongside positive ones.
 
 Finally, learned controllers should be assessed against a baseline that uses
 the most informative available signal, namely current wallet fill. We
 therefore include a validation-selected balance-feedback rule on equal
 footing with the learned policies. All questions are answered on a faithful
-port of the prior environment and its twelve-regime traffic generator with
-matched seeds and paired confidence intervals; null results are reported
-together with positive ones.
+port of the original K-Wallet environment and its twelve-regime traffic
+generator with matched seeds and paired confidence intervals; null results
+are reported together with positive ones.
 
 \noindent Our contributions are:
 \begin{itemize}
@@ -172,11 +176,12 @@ failed seeds are retained (Fig.~\ref{fig:overview}).
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.98\columnwidth]{assets/figs/fig1_compact.pdf}
-\caption{One collateral-control decision. The action pair is planned jointly,
-but the flush executes first (fee $\tau$, cooldown $F$ steps) and settlement
-follows. Drops are oversize, frozen, or avoidable and carry no penalty; the
-binary availability indicator is omitted from $s_t$ for compactness.}
+\includegraphics[width=0.98\columnwidth]{assets/figs/fig1_chatgpt.png}
+\caption{One collateral-control decision. The policy selects a settle action
+and a flush action; the environment executes the flush first (fee $\tau$,
+cooldown $F$) and settlement second. Accepted value earns $p x_t$; drops are
+oversize, frozen, or avoidable (the binary availability indicator is not
+drawn in $s_t$).}
 \label{fig:overview}
 \end{figure}
 
@@ -248,13 +253,27 @@ $p$-values within pre-specified contrast families; these corrections are
 exploratory, as the study was not powered for them. Rule baselines are the
 native one-flush references FA and FWF (reconstructed, since the reference
 design allowed multiple flushes per step), a rotation rule (ROT), and the
-balance-feedback policy \textbf{BFP}: best-fit settlement that proactively
-flushes the fullest usable wallet when its remaining balance falls below a
-fraction of wallet capacity. Its single threshold ($0.5$) was chosen once on
-the $300$-episode validation pools by mean Money over the implemented
-candidate thresholds $\{0.3,0.5,0.8\}$, then frozen and evaluated once on the
-test pools; it was not re-tuned per capacity. We also report an oracle
+balance-feedback policy \textbf{BFP}. It settles into the usable (non-cooling)
+wallet with the smallest remaining free balance that covers $x_t$ (best
+fit), and in the same step flushes the most depleted usable wallet other
+than the settle wallet when its free balance satisfies $b_i<\theta C/k$; if
+nothing fits, it flushes the most depleted usable wallet and the transaction
+drops. A single threshold $\theta{=}0.5$ was selected once, by mean Money
+over $\theta\in\{0.3,0.5,0.8\}$, on the $300$-episode mixed validation pool
+($25$ episodes per regime), then frozen and used unchanged at all four
+capacities; test pools were never used for tuning. We also report an oracle
 feasible value and the drop decomposition.
+\noindent\textbf{Implementation details.} All learned policies share one PPO
+configuration: a two-layer trunk with $256$ hidden units (a $32$-dimensional
+settle embedding in SC-FAC), Adam at $3{\times}10^{-4}$, discount
+$\gamma{=}0.99$, GAE $\lambda{=}0.95$, clipping $\epsilon{=}0.2$, value
+coefficient $0.5$, entropy coefficient linearly annealed
+$0.02{\to}0.001$, and gradient-norm clipping at $1.0$. Each run trains for
+$3000$ episodes collected in $8$-episode rollouts, with $10$ update epochs
+and $512$-transition minibatches. Checkpoints are selected by deterministic
+Money on validation, and every reported number uses deterministic
+($\arg\max$) evaluation on the shared test pools. Main seeds are
+$123,323,532,777,999$; ablation and switching runs use the first three.
 
 \noindent\textbf{Factorization and the strong baseline.}
 Table~\ref{tab:main} reports Money per capacity; the seed-level paired
@@ -284,8 +303,8 @@ seeds.
 
 \begin{table}[htb]
 \centering
-\scriptsize
-\setlength{\tabcolsep}{3.2pt}
+\footnotesize
+\setlength{\tabcolsep}{3.6pt}
 \inputtable{main_results.tex}
 \caption{Money per episode (mean$\pm$SE over $n{=}5$ training seeds) versus
 collateral $C$. Rules need no seeds.}
@@ -324,13 +343,11 @@ retention is asymmetric, strongest toward larger-wallet operating points and
 weakest when a model trained with large wallets meets the small wallets at
 $k{=}24$ (e.g.\ $k{=}6{\to}24$ yields $4433$). At matched $k$ the set encoder
 is slightly above the flat MLP at $k{=}6$ ($46742$ vs.\ $44820$) and $k{=}12$
-($36391$ vs.\ $34193$); at $k{=}24$ the all-seed aggregate is $9190$ vs.\
-$13610$, and it includes one failed training seed (seed $532$, Money $0$,
-retained in the primary aggregate). Excluding that single failure gives
-$13785$ (mean of the two surviving set seeds) vs.\ $13610$ for the flat MLP
-($n{=}3$); the all-seed result is therefore sensitive to one training failure,
-and this exclusion sensitivity is reported separately rather than used as the
-headline.
+($36391$ vs.\ $34193$). At $k{=}24$ the primary all-seed Set-SC-FAC mean is
+$9190$ versus $13610$ for the flat model, and includes one failed Set-SC-FAC
+run (seed $532$, Money $0$), retained in the primary aggregate; a
+sensitivity calculation over the two nonfailed set runs yields $13785$
+(flat MLP $n{=}3$), which we report only as a sensitivity analysis.
 
 \begin{table}[t]
 \centering
@@ -382,9 +399,10 @@ zero, shuffled, and matched-seed comparisons at the tested flush price.
 
 The permutation-equivariant encoder provides a different property: operational
 cross-$k$ deployability, allowing one trained policy to be loaded at wallet
-counts the training never saw. Zero-shot retention is asymmetric, and the
-all-seed matched-$k$ comparison at $k{=}24$ is dominated by one failed
-training run rather than a stable performance deficit. A practitioner fixed
+counts the training never saw. Zero-shot retention is asymmetric. At
+$k{=}24$, the all-seed result is strongly affected by one failed training
+run, which is retained in the primary aggregate; this indicates training
+instability and prevents a claim of matched-scale superiority. A practitioner fixed
 at one wallet count gains little from the set parameterization; one who must
 redeploy across changing counts gains portability that a fixed-shape network
 cannot provide.
@@ -400,18 +418,19 @@ lookahead under expensive flushes---are the natural direction for future work.
 Limitations are one flush per step, a finite horizon, one fixed fee, no
 lookahead, homogeneous wallets, single-process PPO without vectorized
 rollouts, and training instability at some $k$ (the retained failed seed).
-The environment is a faithful port of the prior one, and policies together
-with unspecified hyperparameters are documented re-implementations selected on
-validation; the prior manuscript's learned numbers are treated as reported
-rather than regenerated.
+The environment is a faithful port of the original (anonymous, unpublished)
+K-Wallet specification, and policies together with unspecified
+hyperparameters are documented re-implementations selected on validation;
+the original manuscript's learned numbers are treated as reported rather
+than regenerated.
 
 \section*{Acknowledgment}
 Generative AI assistance (OpenAI ChatGPT) was used to support manuscript
-drafting and editing and to produce the two conceptual illustrations, and an
-AI coding assistant was used during code development and visualization. All
-experimental results, statistical analyses, and technical claims were
-produced by the released code with fixed seeds and evaluation pools, and were
-reviewed and approved by the authors.
+drafting and editing and to produce the two conceptual illustrations, and
+the Trae AI coding assistant was used during code development and
+visualization. All experimental results, statistical analyses, and technical
+claims were produced by the project code with fixed seeds and evaluation
+pools, and were reviewed and approved by the authors.
 
 \clearpage
 \bibliographystyle{IEEEbib}
