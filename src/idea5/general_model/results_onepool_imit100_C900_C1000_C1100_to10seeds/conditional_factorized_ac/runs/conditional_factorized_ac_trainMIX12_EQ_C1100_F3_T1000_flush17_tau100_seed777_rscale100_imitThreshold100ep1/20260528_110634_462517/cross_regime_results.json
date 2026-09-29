@@ -1,0 +1,4778 @@
+{
+  "config": {
+    "model_name": "conditional_factorized_ac",
+    "model_mode": "conditional_factorized_ac",
+    "seed": 777,
+    "save_mode": "full",
+    "env": {
+      "C": 1100.0,
+      "F": 3,
+      "T": 1000,
+      "T_max": 250.0,
+      "flush_levels": 17,
+      "flush_grid": "uniform",
+      "state_feature_mode": "base",
+      "mask_mode": "none",
+      "num_flush_choices": 17,
+      "flush_fractions": [
+        0.0,
+        0.0625,
+        0.125,
+        0.1875,
+        0.25,
+        0.3125,
+        0.375,
+        0.4375,
+        0.5,
+        0.5625,
+        0.625,
+        0.6875,
+        0.75,
+        0.8125,
+        0.875,
+        0.9375,
+        1.0
+      ],
+      "action_size": 34,
+      "state_size": 8
+    },
+    "reward": {
+      "money_p": 1.0,
+      "money_tau": 100.0,
+      "drop_penalty": 0.0
+    },
+    "data": {
+      "train_regime": "MIX12_EQ",
+      "data_root": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools",
+      "train_pool_path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/MIX12_EQ_US_TLS_LNS_TLNS_TPLS_PLS_UB_TLB_LNB_TLNB_TPLB_PLB_master_T1000.npy",
+      "val_pool_path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/MIX12_EQ_US_TLS_LNS_TLNS_TPLS_PLS_UB_TLB_LNB_TLNB_TPLB_PLB_val_T1000.npy",
+      "test_pool_paths": {
+        "US": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/US_static_eval_T1000.npy",
+        "TLS": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TLS_static_eval_T1000.npy",
+        "LNS": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/LNS_static_eval_T1000.npy",
+        "TLNS": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TLNS_static_eval_T1000.npy",
+        "TPLS": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TPLS_static_eval_T1000.npy",
+        "PLS": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/PLS_static_eval_T1000.npy",
+        "UB": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/UB_static_eval_T1000.npy",
+        "TLB": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TLB_static_eval_T1000.npy",
+        "LNB": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/LNB_static_eval_T1000.npy",
+        "TLNB": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TLNB_static_eval_T1000.npy",
+        "TPLB": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TPLB_static_eval_T1000.npy",
+        "PLB": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/PLB_static_eval_T1000.npy"
+      }
+    },
+    "train": {
+      "episodes": 1500,
+      "max_steps": 1000,
+      "device": "cpu",
+      "learning_rate": 0.0001,
+      "gamma": 0.98,
+      "gae_lambda": 0.95,
+      "clip_eps": 0.1,
+      "reward_scale": 100.0,
+      "update_epochs": 4,
+      "minibatch_size": 256,
+      "value_coef": 0.5,
+      "entropy_coef_start": 0.03,
+      "entropy_coef_end": 0.003,
+      "max_grad_norm": 1.0,
+      "val_every": 50,
+      "val_num_episodes": 200,
+      "hidden_size": 128,
+      "log_every": 25
+    },
+    "imitation": {
+      "mode": "threshold_pretrain",
+      "imitation_mode": "threshold_pretrain",
+      "episodes": 100,
+      "imitation_episodes": 100,
+      "epochs": 1,
+      "imitation_epochs": 1,
+      "batch_size": 512,
+      "imitation_batch_size": 512,
+      "lr": 0.0003,
+      "imitation_lr": 0.0003,
+      "selected_eta": 0.8,
+      "num_samples": 100000,
+      "expert_train_money_mean": 44382.38,
+      "selection_method": "grid_validation_money"
+    },
+    "threshold_advantage_mode": "none",
+    "eval": {
+      "num_episodes": 200,
+      "max_steps": 1000
+    },
+    "output": {
+      "result_root": "src/idea5/general_model/results_onepool_imit100_C900_C1000_C1100_to10seeds",
+      "log_root": "/Users/qiubi/kwallet-rl/src/idea5/general_model/logs"
+    },
+    "conditional": {
+      "settle_embed_dim": 32,
+      "conditional_hidden_size": 256
+    },
+    "pool_fingerprints": {
+      "train": {
+        "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/MIX12_EQ_US_TLS_LNS_TLNS_TPLS_PLS_UB_TLB_LNB_TLNB_TPLB_PLB_master_T1000.npy",
+        "shape": [
+          5000,
+          1000
+        ],
+        "dtype": "float32",
+        "min": 1.0,
+        "max": 250.0,
+        "mean": 50.045894622802734,
+        "md5": "c6b2047a96bee1eb123e28815c6cf10e"
+      },
+      "validation": {
+        "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/MIX12_EQ_US_TLS_LNS_TLNS_TPLS_PLS_UB_TLB_LNB_TLNB_TPLB_PLB_val_T1000.npy",
+        "shape": [
+          300,
+          1000
+        ],
+        "dtype": "float32",
+        "min": 1.0,
+        "max": 250.0,
+        "mean": 50.04153060913086,
+        "md5": "4e871168dd843bb997bfd911fa17a775"
+      },
+      "eval": {
+        "US": {
+          "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/US_static_eval_T1000.npy",
+          "shape": [
+            200,
+            1000
+          ],
+          "dtype": "float32",
+          "min": 20.0,
+          "max": 80.0,
+          "mean": 49.98527526855469,
+          "md5": "f11752707a72332c8018214b0513a1e9"
+        },
+        "TLS": {
+          "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TLS_static_eval_T1000.npy",
+          "shape": [
+            200,
+            1000
+          ],
+          "dtype": "float32",
+          "min": 1.0,
+          "max": 118.0,
+          "mean": 49.9650993347168,
+          "md5": "da2a7882cd8f3b8f39ed7c9bed9e6683"
+        },
+        "LNS": {
+          "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/LNS_static_eval_T1000.npy",
+          "shape": [
+            200,
+            1000
+          ],
+          "dtype": "float32",
+          "min": 2.0,
+          "max": 180.0,
+          "mean": 50.08150100708008,
+          "md5": "ab56e9a812c4a1cacfec2e8021a9d9dd"
+        },
+        "TLNS": {
+          "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TLNS_static_eval_T1000.npy",
+          "shape": [
+            200,
+            1000
+          ],
+          "dtype": "float32",
+          "min": 3.0,
+          "max": 120.0,
+          "mean": 50.08230972290039,
+          "md5": "620f9745b1183f95d8be9ad458b238fb"
+        },
+        "TPLS": {
+          "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TPLS_static_eval_T1000.npy",
+          "shape": [
+            200,
+            1000
+          ],
+          "dtype": "float32",
+          "min": 31.0,
+          "max": 120.0,
+          "mean": 49.973609924316406,
+          "md5": "a8f91c4af146b6a5239b9f223880a440"
+        },
+        "PLS": {
+          "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/PLS_static_eval_T1000.npy",
+          "shape": [
+            200,
+            1000
+          ],
+          "dtype": "float32",
+          "min": 28.0,
+          "max": 250.0,
+          "mean": 50.08811569213867,
+          "md5": "7f18b898cd969dca51ed8f3224256a54"
+        },
+        "UB": {
+          "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/UB_static_eval_T1000.npy",
+          "shape": [
+            200,
+            1000
+          ],
+          "dtype": "float32",
+          "min": 19.0,
+          "max": 100.0,
+          "mean": 49.9824333190918,
+          "md5": "4299e8615897f090c2e71a27a39211ad"
+        },
+        "TLB": {
+          "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TLB_static_eval_T1000.npy",
+          "shape": [
+            200,
+            1000
+          ],
+          "dtype": "float32",
+          "min": 1.0,
+          "max": 120.0,
+          "mean": 49.983665466308594,
+          "md5": "2d4014eeaf1d7277ec4163485db93f10"
+        },
+        "LNB": {
+          "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/LNB_static_eval_T1000.npy",
+          "shape": [
+            200,
+            1000
+          ],
+          "dtype": "float32",
+          "min": 1.0,
+          "max": 180.0,
+          "mean": 50.31512451171875,
+          "md5": "5da9137b26c552170737758f0e994da1"
+        },
+        "TLNB": {
+          "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TLNB_static_eval_T1000.npy",
+          "shape": [
+            200,
+            1000
+          ],
+          "dtype": "float32",
+          "min": 3.0,
+          "max": 120.0,
+          "mean": 50.10114669799805,
+          "md5": "ea59186e80e9cbb91be8b20feabf01fe"
+        },
+        "TPLB": {
+          "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TPLB_static_eval_T1000.npy",
+          "shape": [
+            200,
+            1000
+          ],
+          "dtype": "float32",
+          "min": 28.0,
+          "max": 120.0,
+          "mean": 49.969966888427734,
+          "md5": "fcb8d08dbf6abd465e1268e2717b244b"
+        },
+        "PLB": {
+          "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/PLB_static_eval_T1000.npy",
+          "shape": [
+            200,
+            1000
+          ],
+          "dtype": "float32",
+          "min": 26.0,
+          "max": 250.0,
+          "mean": 50.06477355957031,
+          "md5": "a4ca964a6878552990d4d5c1817c6f20"
+        }
+      }
+    },
+    "scenario": "conditional_factorized_ac_trainMIX12_EQ_C1100_F3_T1000_flush17_tau100_seed777_rscale100_imitThreshold100ep1"
+  },
+  "scenario": "conditional_factorized_ac_trainMIX12_EQ_C1100_F3_T1000_flush17_tau100_seed777_rscale100_imitThreshold100ep1",
+  "model_name": "conditional_factorized_ac",
+  "model_mode": "conditional_factorized_ac",
+  "train_regime": "MIX12_EQ",
+  "seed": 777,
+  "timestamp": "2026-05-28T11:32:15.614001",
+  "test_results": {
+    "US": {
+      "label": "US",
+      "num_episodes": 200,
+      "summary": {
+        "available_collateral": {
+          "mean": 539.23,
+          "std": 262.036175174345,
+          "min": 46.0,
+          "max": 998.0,
+          "median": 578.5
+        },
+        "capacity_drop_rate": {
+          "mean": 0.00010499999999999999,
+          "std": 0.0003065534211193867,
+          "min": 0.0,
+          "max": 0.001,
+          "median": 0.0
+        },
+        "capacity_drops": {
+          "mean": 0.105,
+          "std": 0.3065534211193866,
+          "min": 0.0,
+          "max": 1.0,
+          "median": 0.0
+        },
+        "committed_unflushed": {
+          "mean": 373.09,
+          "std": 246.6618574080719,
+          "min": 0.0,
+          "max": 837.0,
+          "median": 361.5
+        },
+        "drop_rate": {
+          "mean": 0.00010499999999999999,
+          "std": 0.0003065534211193867,
+          "min": 0.0,
+          "max": 0.001,
+          "median": 0.0
+        },
+        "drops": {
+          "mean": 0.105,
+          "std": 0.3065534211193866,
+          "min": 0.0,
+          "max": 1.0,
+          "median": 0.0
+        },
+        "flush_action_histogram": {
+          "mean": [
+            945.55,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            54.45
+          ],
+          "std": [
+            0.6614378277661488,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.6614378277661467
+          ],
+          "min": [
+            944.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            53.0
+          ],
+          "max": [
+            947.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            56.0
+          ],
+          "median": [
+            946.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            54.0
+          ]
+        },
+        "flush_action_prob": {
+          "mean": [
+            0.9455499999999971,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.05444999999999998
+          ],
+          "std": [
+            0.0006614378277661473,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0006614378277661476
+          ],
+          "min": [
+            0.944,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.053
+          ],
+          "max": [
+            0.947,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.056
+          ],
+          "median": [
+            0.946,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.054
+          ]
+        },
+        "flushes": {
+          "mean": 54.45,
+          "std": 0.6614378277661476,
+          "min": 53.0,
+          "max": 56.0,
+          "median": 54.0
+        },
+        "full_flush_rate": {
+          "mean": 0.05445000000000001,
+          "std": 0.0006614378277661482,
+          "min": 0.053,
+          "max": 0.056,
+          "median": 0.054
+        },
+        "mean_flush_action": {
+          "mean": 0.8712000000000002,
+          "std": 0.010583005244258372,
+          "min": 0.848,
+          "max": 0.896,
+          "median": 0.864
+        },
+        "mean_flush_fraction": {
+          "mean": 0.05445000000000001,
+          "std": 0.0006614378277661482,
+          "min": 0.053,
+          "max": 0.056,
+          "median": 0.054
+        },
+        "middle_flush_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "money": {
+          "mean": 44532.72,
+          "std": 480.468627071529,
+          "min": 43204.0,
+          "max": 45681.0,
+          "median": 44555.5
+        },
+        "pending_flush": {
+          "mean": 187.68,
+          "std": 358.7560000891971,
+          "min": 0.0,
+          "max": 912.0,
+          "median": 0.0
+        },
+        "policy_discard_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "policy_discards": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_accept_count": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "settle_accept_rate": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "median": 1.0
+        },
+        "settle_reject_count": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_reject_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settled_value": {
+          "mean": 49977.72,
+          "std": 536.9909697564756,
+          "min": 48504.0,
+          "max": 51281.0,
+          "median": 50020.0
+        },
+        "total_steps": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "total_transaction_value": {
+          "mean": 49985.275,
+          "std": 536.9457229320296,
+          "min": 48570.0,
+          "max": 51344.0,
+          "median": 50027.0
+        },
+        "value_accept_ratio": {
+          "mean": 0.9998489160663633,
+          "std": 0.00044275603534062847,
+          "min": 0.9983807634700239,
+          "max": 1.0,
+          "median": 1.0
+        },
+        "zero_flush_rate": {
+          "mean": 0.9455500000000001,
+          "std": 0.0006614378277661482,
+          "min": 0.944,
+          "max": 0.947,
+          "median": 0.946
+        }
+      },
+      "test_regime": "US"
+    },
+    "TLS": {
+      "label": "TLS",
+      "num_episodes": 200,
+      "summary": {
+        "available_collateral": {
+          "mean": 543.3,
+          "std": 256.60925548389713,
+          "min": 66.0,
+          "max": 975.0,
+          "median": 558.0
+        },
+        "capacity_drop_rate": {
+          "mean": 5e-05,
+          "std": 0.0002179449471770337,
+          "min": 0.0,
+          "max": 0.001,
+          "median": 0.0
+        },
+        "capacity_drops": {
+          "mean": 0.05,
+          "std": 0.21794494717703367,
+          "min": 0.0,
+          "max": 1.0,
+          "median": 0.0
+        },
+        "committed_unflushed": {
+          "mean": 391.555,
+          "std": 248.70534166961514,
+          "min": 0.0,
+          "max": 837.0,
+          "median": 390.5
+        },
+        "drop_rate": {
+          "mean": 5e-05,
+          "std": 0.0002179449471770337,
+          "min": 0.0,
+          "max": 0.001,
+          "median": 0.0
+        },
+        "drops": {
+          "mean": 0.05,
+          "std": 0.21794494717703367,
+          "min": 0.0,
+          "max": 1.0,
+          "median": 0.0
+        },
+        "flush_action_histogram": {
+          "mean": [
+            945.535,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            54.465
+          ],
+          "std": [
+            0.573389047680543,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.5733890476805421
+          ],
+          "min": [
+            944.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            53.0
+          ],
+          "max": [
+            947.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            56.0
+          ],
+          "median": [
+            946.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            54.0
+          ]
+        },
+        "flush_action_prob": {
+          "mean": [
+            0.9455349999999973,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.054465000000000006
+          ],
+          "std": [
+            0.0005733890476805435,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.000573389047680544
+          ],
+          "min": [
+            0.944,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.053
+          ],
+          "max": [
+            0.947,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.056
+          ],
+          "median": [
+            0.946,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.054
+          ]
+        },
+        "flushes": {
+          "mean": 54.465,
+          "std": 0.573389047680543,
+          "min": 53.0,
+          "max": 56.0,
+          "median": 54.0
+        },
+        "full_flush_rate": {
+          "mean": 0.05446500000000002,
+          "std": 0.0005733890476805434,
+          "min": 0.053,
+          "max": 0.056,
+          "median": 0.054
+        },
+        "mean_flush_action": {
+          "mean": 0.8714400000000003,
+          "std": 0.009174224762888695,
+          "min": 0.848,
+          "max": 0.896,
+          "median": 0.864
+        },
+        "mean_flush_fraction": {
+          "mean": 0.05446500000000002,
+          "std": 0.0005733890476805434,
+          "min": 0.053,
+          "max": 0.056,
+          "median": 0.054
+        },
+        "middle_flush_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "money": {
+          "mean": 44514.795,
+          "std": 374.33707133411195,
+          "min": 43541.0,
+          "max": 45328.0,
+          "median": 44519.0
+        },
+        "pending_flush": {
+          "mean": 165.145,
+          "std": 341.0818288548952,
+          "min": 0.0,
+          "max": 930.0,
+          "median": 0.0
+        },
+        "policy_discard_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "policy_discards": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_accept_count": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "settle_accept_rate": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "median": 1.0
+        },
+        "settle_reject_count": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_reject_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settled_value": {
+          "mean": 49961.295,
+          "std": 418.9117544006136,
+          "min": 48841.0,
+          "max": 50928.0,
+          "median": 49959.0
+        },
+        "total_steps": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "total_transaction_value": {
+          "mean": 49965.1,
+          "std": 420.80589349485115,
+          "min": 48841.0,
+          "max": 50928.0,
+          "median": 49959.0
+        },
+        "value_accept_ratio": {
+          "mean": 0.9999242177431281,
+          "std": 0.0003338119399398803,
+          "min": 0.9980335293182901,
+          "max": 1.0,
+          "median": 1.0
+        },
+        "zero_flush_rate": {
+          "mean": 0.945535,
+          "std": 0.0005733890476805435,
+          "min": 0.944,
+          "max": 0.947,
+          "median": 0.946
+        }
+      },
+      "test_regime": "TLS"
+    },
+    "LNS": {
+      "label": "LNS",
+      "num_episodes": 200,
+      "summary": {
+        "available_collateral": {
+          "mean": 549.705,
+          "std": 280.3036531602826,
+          "min": 15.0,
+          "max": 1020.0,
+          "median": 562.0
+        },
+        "capacity_drop_rate": {
+          "mean": 0.0057,
+          "std": 0.0020832666655999656,
+          "min": 0.001,
+          "max": 0.012,
+          "median": 0.006
+        },
+        "capacity_drops": {
+          "mean": 5.7,
+          "std": 2.083266665599966,
+          "min": 1.0,
+          "max": 12.0,
+          "median": 6.0
+        },
+        "committed_unflushed": {
+          "mean": 366.735,
+          "std": 257.2871445972379,
+          "min": 0.0,
+          "max": 858.0,
+          "median": 316.0
+        },
+        "drop_rate": {
+          "mean": 0.0057,
+          "std": 0.0020832666655999656,
+          "min": 0.001,
+          "max": 0.012,
+          "median": 0.006
+        },
+        "drops": {
+          "mean": 5.7,
+          "std": 2.083266665599966,
+          "min": 1.0,
+          "max": 12.0,
+          "median": 6.0
+        },
+        "flush_action_histogram": {
+          "mean": [
+            946.63,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            53.37
+          ],
+          "std": [
+            1.110450359088598,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.110450359088601
+          ],
+          "min": [
+            944.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            50.0
+          ],
+          "max": [
+            950.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            56.0
+          ],
+          "median": [
+            947.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            53.0
+          ]
+        },
+        "flush_action_prob": {
+          "mean": [
+            0.94663,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.05337000000000001
+          ],
+          "std": [
+            0.0011104503590886007,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0011104503590886007
+          ],
+          "min": [
+            0.944,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.05
+          ],
+          "max": [
+            0.95,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.056
+          ],
+          "median": [
+            0.947,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.053
+          ]
+        },
+        "flushes": {
+          "mean": 53.37,
+          "std": 1.1104503590885997,
+          "min": 50.0,
+          "max": 56.0,
+          "median": 53.0
+        },
+        "full_flush_rate": {
+          "mean": 0.053370000000000015,
+          "std": 0.0011104503590886007,
+          "min": 0.05,
+          "max": 0.056,
+          "median": 0.053
+        },
+        "mean_flush_action": {
+          "mean": 0.8539200000000002,
+          "std": 0.01776720574541761,
+          "min": 0.8,
+          "max": 0.896,
+          "median": 0.848
+        },
+        "mean_flush_fraction": {
+          "mean": 0.053370000000000015,
+          "std": 0.0011104503590886007,
+          "min": 0.05,
+          "max": 0.056,
+          "median": 0.053
+        },
+        "middle_flush_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "money": {
+          "mean": 44160.58,
+          "std": 844.8756320311292,
+          "min": 41651.0,
+          "max": 46462.0,
+          "median": 44201.0
+        },
+        "pending_flush": {
+          "mean": 183.56,
+          "std": 361.8369610750123,
+          "min": 0.0,
+          "max": 1002.0,
+          "median": 0.0
+        },
+        "policy_discard_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "policy_discards": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_accept_count": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "settle_accept_rate": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "median": 1.0
+        },
+        "settle_reject_count": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_reject_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settled_value": {
+          "mean": 49497.58,
+          "std": 947.7082428680253,
+          "min": 46651.0,
+          "max": 52062.0,
+          "median": 49547.0
+        },
+        "total_steps": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "total_transaction_value": {
+          "mean": 50081.5,
+          "std": 962.5207582177123,
+          "min": 47222.0,
+          "max": 52582.0,
+          "median": 50122.5
+        },
+        "value_accept_ratio": {
+          "mean": 0.9883533110166985,
+          "std": 0.004746226399347806,
+          "min": 0.9751895926974635,
+          "max": 0.9992228562079473,
+          "median": 0.9883550936233658
+        },
+        "zero_flush_rate": {
+          "mean": 0.9466299999999999,
+          "std": 0.0011104503590886007,
+          "min": 0.944,
+          "max": 0.95,
+          "median": 0.947
+        }
+      },
+      "test_regime": "LNS"
+    },
+    "TLNS": {
+      "label": "TLNS",
+      "num_episodes": 200,
+      "summary": {
+        "available_collateral": {
+          "mean": 535.935,
+          "std": 265.09817195710724,
+          "min": 56.0,
+          "max": 1014.0,
+          "median": 514.5
+        },
+        "capacity_drop_rate": {
+          "mean": 0.002505,
+          "std": 0.0015524094176472907,
+          "min": 0.0,
+          "max": 0.007,
+          "median": 0.002
+        },
+        "capacity_drops": {
+          "mean": 2.505,
+          "std": 1.5524094176472907,
+          "min": 0.0,
+          "max": 7.0,
+          "median": 2.0
+        },
+        "committed_unflushed": {
+          "mean": 396.095,
+          "std": 255.33498776117622,
+          "min": 0.0,
+          "max": 842.0,
+          "median": 370.5
+        },
+        "drop_rate": {
+          "mean": 0.002505,
+          "std": 0.0015524094176472907,
+          "min": 0.0,
+          "max": 0.007,
+          "median": 0.002
+        },
+        "drops": {
+          "mean": 2.505,
+          "std": 1.5524094176472907,
+          "min": 0.0,
+          "max": 7.0,
+          "median": 2.0
+        },
+        "flush_action_histogram": {
+          "mean": [
+            945.97,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            54.03
+          ],
+          "std": [
+            0.9322553298319094,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.9322553298319088
+          ],
+          "min": [
+            944.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            51.0
+          ],
+          "max": [
+            949.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            56.0
+          ],
+          "median": [
+            946.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            54.0
+          ]
+        },
+        "flush_action_prob": {
+          "mean": [
+            0.9459699999999986,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.05403000000000005
+          ],
+          "std": [
+            0.0009322553298319089,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0009322553298319097
+          ],
+          "min": [
+            0.944,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.051
+          ],
+          "max": [
+            0.949,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.056
+          ],
+          "median": [
+            0.946,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.054
+          ]
+        },
+        "flushes": {
+          "mean": 54.03,
+          "std": 0.9322553298319082,
+          "min": 51.0,
+          "max": 56.0,
+          "median": 54.0
+        },
+        "full_flush_rate": {
+          "mean": 0.054030000000000016,
+          "std": 0.0009322553298319091,
+          "min": 0.051,
+          "max": 0.056,
+          "median": 0.054
+        },
+        "mean_flush_action": {
+          "mean": 0.8644800000000002,
+          "std": 0.014916085277310545,
+          "min": 0.816,
+          "max": 0.896,
+          "median": 0.864
+        },
+        "mean_flush_fraction": {
+          "mean": 0.054030000000000016,
+          "std": 0.0009322553298319091,
+          "min": 0.051,
+          "max": 0.056,
+          "median": 0.054
+        },
+        "middle_flush_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "money": {
+          "mean": 44456.515,
+          "std": 735.3187878566682,
+          "min": 42526.0,
+          "max": 46365.0,
+          "median": 44475.5
+        },
+        "pending_flush": {
+          "mean": 167.97,
+          "std": 347.02849897378746,
+          "min": 0.0,
+          "max": 965.0,
+          "median": 0.0
+        },
+        "policy_discard_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "policy_discards": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_accept_count": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "settle_accept_rate": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "median": 1.0
+        },
+        "settle_reject_count": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_reject_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settled_value": {
+          "mean": 49859.515,
+          "std": 821.4734504382963,
+          "min": 47626.0,
+          "max": 51965.0,
+          "median": 49875.5
+        },
+        "total_steps": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "total_transaction_value": {
+          "mean": 50082.31,
+          "std": 837.9189065178085,
+          "min": 47746.0,
+          "max": 52484.0,
+          "median": 50052.5
+        },
+        "value_accept_ratio": {
+          "mean": 0.9955598214420602,
+          "std": 0.002894096707181902,
+          "min": 0.9879770201172685,
+          "max": 1.0,
+          "median": 0.9961019707391767
+        },
+        "zero_flush_rate": {
+          "mean": 0.9459699999999998,
+          "std": 0.0009322553298319091,
+          "min": 0.944,
+          "max": 0.949,
+          "median": 0.946
+        }
+      },
+      "test_regime": "TLNS"
+    },
+    "TPLS": {
+      "label": "TPLS",
+      "num_episodes": 200,
+      "summary": {
+        "available_collateral": {
+          "mean": 539.525,
+          "std": 247.20792741131908,
+          "min": 101.0,
+          "max": 996.0,
+          "median": 556.5
+        },
+        "capacity_drop_rate": {
+          "mean": 0.00191,
+          "std": 0.0015105959089048268,
+          "min": 0.0,
+          "max": 0.01,
+          "median": 0.002
+        },
+        "capacity_drops": {
+          "mean": 1.91,
+          "std": 1.5105959089048269,
+          "min": 0.0,
+          "max": 10.0,
+          "median": 2.0
+        },
+        "committed_unflushed": {
+          "mean": 395.6,
+          "std": 249.9496749347756,
+          "min": 0.0,
+          "max": 847.0,
+          "median": 403.5
+        },
+        "drop_rate": {
+          "mean": 0.00191,
+          "std": 0.0015105959089048268,
+          "min": 0.0,
+          "max": 0.01,
+          "median": 0.002
+        },
+        "drops": {
+          "mean": 1.91,
+          "std": 1.5105959089048269,
+          "min": 0.0,
+          "max": 10.0,
+          "median": 2.0
+        },
+        "flush_action_histogram": {
+          "mean": [
+            945.93,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            54.07
+          ],
+          "std": [
+            0.7778817390837759,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.7778817390837777
+          ],
+          "min": [
+            944.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            52.0
+          ],
+          "max": [
+            948.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            56.0
+          ],
+          "median": [
+            946.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            54.0
+          ]
+        },
+        "flush_action_prob": {
+          "mean": [
+            0.9459299999999985,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.05407000000000006
+          ],
+          "std": [
+            0.000777881739083778,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0007778817390837759
+          ],
+          "min": [
+            0.944,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.052
+          ],
+          "max": [
+            0.948,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.056
+          ],
+          "median": [
+            0.946,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.054
+          ]
+        },
+        "flushes": {
+          "mean": 54.07,
+          "std": 0.7778817390837761,
+          "min": 52.0,
+          "max": 56.0,
+          "median": 54.0
+        },
+        "full_flush_rate": {
+          "mean": 0.05407000000000002,
+          "std": 0.0007778817390837768,
+          "min": 0.052,
+          "max": 0.056,
+          "median": 0.054
+        },
+        "mean_flush_action": {
+          "mean": 0.8651200000000003,
+          "std": 0.01244610782534043,
+          "min": 0.832,
+          "max": 0.896,
+          "median": 0.864
+        },
+        "mean_flush_fraction": {
+          "mean": 0.05407000000000002,
+          "std": 0.0007778817390837768,
+          "min": 0.052,
+          "max": 0.056,
+          "median": 0.054
+        },
+        "middle_flush_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "money": {
+          "mean": 44398.01,
+          "std": 613.3552232597355,
+          "min": 42473.0,
+          "max": 45904.0,
+          "median": 44440.0
+        },
+        "pending_flush": {
+          "mean": 164.875,
+          "std": 340.5375006882502,
+          "min": 0.0,
+          "max": 932.0,
+          "median": 0.0
+        },
+        "policy_discard_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "policy_discards": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_accept_count": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "settle_accept_rate": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "median": 1.0
+        },
+        "settle_reject_count": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_reject_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settled_value": {
+          "mean": 49805.01,
+          "std": 683.2448242760424,
+          "min": 47673.0,
+          "max": 51504.0,
+          "median": 49840.0
+        },
+        "total_steps": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "total_transaction_value": {
+          "mean": 49973.61,
+          "std": 701.8334260349816,
+          "min": 47964.0,
+          "max": 52161.0,
+          "median": 49982.0
+        },
+        "value_accept_ratio": {
+          "mean": 0.9966346193620598,
+          "std": 0.0028205180054697476,
+          "min": 0.9823814727478384,
+          "max": 1.0,
+          "median": 0.9975505949478871
+        },
+        "zero_flush_rate": {
+          "mean": 0.9459299999999999,
+          "std": 0.0007778817390837768,
+          "min": 0.944,
+          "max": 0.948,
+          "median": 0.946
+        }
+      },
+      "test_regime": "TPLS"
+    },
+    "PLS": {
+      "label": "PLS",
+      "num_episodes": 200,
+      "summary": {
+        "available_collateral": {
+          "mean": 564.95,
+          "std": 259.0366914164864,
+          "min": 98.0,
+          "max": 998.0,
+          "median": 559.5
+        },
+        "capacity_drop_rate": {
+          "mean": 0.006090000000000001,
+          "std": 0.0027824269981438867,
+          "min": 0.0,
+          "max": 0.015,
+          "median": 0.006
+        },
+        "capacity_drops": {
+          "mean": 6.09,
+          "std": 2.7824269981438867,
+          "min": 0.0,
+          "max": 15.0,
+          "median": 6.0
+        },
+        "committed_unflushed": {
+          "mean": 408.09,
+          "std": 253.68484759638287,
+          "min": 0.0,
+          "max": 842.0,
+          "median": 395.0
+        },
+        "drop_rate": {
+          "mean": 0.006090000000000001,
+          "std": 0.0027824269981438867,
+          "min": 0.0,
+          "max": 0.015,
+          "median": 0.006
+        },
+        "drops": {
+          "mean": 6.09,
+          "std": 2.7824269981438867,
+          "min": 0.0,
+          "max": 15.0,
+          "median": 6.0
+        },
+        "flush_action_histogram": {
+          "mean": [
+            946.73,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            53.27
+          ],
+          "std": [
+            1.1606463716395305,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.1606463716395266
+          ],
+          "min": [
+            943.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            50.0
+          ],
+          "max": [
+            950.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            57.0
+          ],
+          "median": [
+            947.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            53.0
+          ]
+        },
+        "flush_action_prob": {
+          "mean": [
+            0.9467299999999997,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.05327000000000001
+          ],
+          "std": [
+            0.0011606463716395273,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0011606463716395286
+          ],
+          "min": [
+            0.943,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.05
+          ],
+          "max": [
+            0.95,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.057
+          ],
+          "median": [
+            0.947,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.053
+          ]
+        },
+        "flushes": {
+          "mean": 53.27,
+          "std": 1.1606463716395272,
+          "min": 50.0,
+          "max": 57.0,
+          "median": 53.0
+        },
+        "full_flush_rate": {
+          "mean": 0.05327000000000002,
+          "std": 0.0011606463716395284,
+          "min": 0.05,
+          "max": 0.057,
+          "median": 0.053
+        },
+        "mean_flush_action": {
+          "mean": 0.8523200000000003,
+          "std": 0.018570341946232454,
+          "min": 0.8,
+          "max": 0.912,
+          "median": 0.848
+        },
+        "mean_flush_fraction": {
+          "mean": 0.05327000000000002,
+          "std": 0.0011606463716395284,
+          "min": 0.05,
+          "max": 0.057,
+          "median": 0.053
+        },
+        "middle_flush_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "money": {
+          "mean": 44002.93,
+          "std": 969.6560963042515,
+          "min": 41783.0,
+          "max": 47073.0,
+          "median": 43945.0
+        },
+        "pending_flush": {
+          "mean": 126.96,
+          "std": 308.40434238188016,
+          "min": 0.0,
+          "max": 936.0,
+          "median": 0.0
+        },
+        "policy_discard_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "policy_discards": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_accept_count": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "settle_accept_rate": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "median": 1.0
+        },
+        "settle_reject_count": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_reject_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settled_value": {
+          "mean": 49329.93,
+          "std": 1077.0783282101634,
+          "min": 46783.0,
+          "max": 52773.0,
+          "median": 49250.5
+        },
+        "total_steps": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "total_transaction_value": {
+          "mean": 50088.115,
+          "std": 1167.6900109939281,
+          "min": 47273.0,
+          "max": 53938.0,
+          "median": 50020.0
+        },
+        "value_accept_ratio": {
+          "mean": 0.9849198873292275,
+          "std": 0.006920792584675397,
+          "min": 0.9619308188391635,
+          "max": 1.0,
+          "median": 0.9851428899773169
+        },
+        "zero_flush_rate": {
+          "mean": 0.9467300000000001,
+          "std": 0.0011606463716395284,
+          "min": 0.943,
+          "max": 0.95,
+          "median": 0.947
+        }
+      },
+      "test_regime": "PLS"
+    },
+    "UB": {
+      "label": "UB",
+      "num_episodes": 200,
+      "summary": {
+        "available_collateral": {
+          "mean": 543.055,
+          "std": 257.87191001541834,
+          "min": 96.0,
+          "max": 978.0,
+          "median": 540.5
+        },
+        "capacity_drop_rate": {
+          "mean": 0.0011650000000000002,
+          "std": 0.0010236088119980212,
+          "min": 0.0,
+          "max": 0.005,
+          "median": 0.001
+        },
+        "capacity_drops": {
+          "mean": 1.165,
+          "std": 1.023608811998021,
+          "min": 0.0,
+          "max": 5.0,
+          "median": 1.0
+        },
+        "committed_unflushed": {
+          "mean": 399.495,
+          "std": 255.75183278913173,
+          "min": 0.0,
+          "max": 834.0,
+          "median": 390.5
+        },
+        "drop_rate": {
+          "mean": 0.0011650000000000002,
+          "std": 0.0010236088119980212,
+          "min": 0.0,
+          "max": 0.005,
+          "median": 0.001
+        },
+        "drops": {
+          "mean": 1.165,
+          "std": 1.023608811998021,
+          "min": 0.0,
+          "max": 5.0,
+          "median": 1.0
+        },
+        "flush_action_histogram": {
+          "mean": [
+            945.715,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            54.285
+          ],
+          "std": [
+            0.8796448146837438,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.8796448146837454
+          ],
+          "min": [
+            944.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            52.0
+          ],
+          "max": [
+            948.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            56.0
+          ],
+          "median": [
+            946.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            54.0
+          ]
+        },
+        "flush_action_prob": {
+          "mean": [
+            0.945714999999998,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.054285000000000014
+          ],
+          "std": [
+            0.0008796448146837454,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0008796448146837457
+          ],
+          "min": [
+            0.944,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.052
+          ],
+          "max": [
+            0.948,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.056
+          ],
+          "median": [
+            0.946,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.054
+          ]
+        },
+        "flushes": {
+          "mean": 54.285,
+          "std": 0.879644814683745,
+          "min": 52.0,
+          "max": 56.0,
+          "median": 54.0
+        },
+        "full_flush_rate": {
+          "mean": 0.054285000000000014,
+          "std": 0.0008796448146837457,
+          "min": 0.052,
+          "max": 0.056,
+          "median": 0.054
+        },
+        "mean_flush_action": {
+          "mean": 0.8685600000000002,
+          "std": 0.01407431703493993,
+          "min": 0.832,
+          "max": 0.896,
+          "median": 0.864
+        },
+        "mean_flush_fraction": {
+          "mean": 0.054285000000000014,
+          "std": 0.0008796448146837457,
+          "min": 0.052,
+          "max": 0.056,
+          "median": 0.054
+        },
+        "middle_flush_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "money": {
+          "mean": 44459.265,
+          "std": 691.5392214292693,
+          "min": 42293.0,
+          "max": 46300.0,
+          "median": 44424.5
+        },
+        "pending_flush": {
+          "mean": 157.45,
+          "std": 336.13400229670304,
+          "min": 0.0,
+          "max": 927.0,
+          "median": 0.0
+        },
+        "policy_discard_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "policy_discards": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_accept_count": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "settle_accept_rate": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "median": 1.0
+        },
+        "settle_reject_count": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_reject_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settled_value": {
+          "mean": 49887.765,
+          "std": 772.8098988593508,
+          "min": 47493.0,
+          "max": 51900.0,
+          "median": 49833.5
+        },
+        "total_steps": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "total_transaction_value": {
+          "mean": 49982.435,
+          "std": 793.5675684999986,
+          "min": 47574.0,
+          "max": 52099.0,
+          "median": 49934.5
+        },
+        "value_accept_ratio": {
+          "mean": 0.9981133863191803,
+          "std": 0.0016825697793730876,
+          "min": 0.9927780643625252,
+          "max": 1.0,
+          "median": 0.9983046432182079
+        },
+        "zero_flush_rate": {
+          "mean": 0.945715,
+          "std": 0.0008796448146837458,
+          "min": 0.944,
+          "max": 0.948,
+          "median": 0.946
+        }
+      },
+      "test_regime": "UB"
+    },
+    "TLB": {
+      "label": "TLB",
+      "num_episodes": 200,
+      "summary": {
+        "available_collateral": {
+          "mean": 530.51,
+          "std": 260.54857493373476,
+          "min": 32.0,
+          "max": 1009.0,
+          "median": 533.5
+        },
+        "capacity_drop_rate": {
+          "mean": 0.0008400000000000001,
+          "std": 0.0009509994742374993,
+          "min": 0.0,
+          "max": 0.006,
+          "median": 0.001
+        },
+        "capacity_drops": {
+          "mean": 0.84,
+          "std": 0.9509994742374993,
+          "min": 0.0,
+          "max": 6.0,
+          "median": 1.0
+        },
+        "committed_unflushed": {
+          "mean": 372.555,
+          "std": 253.8961933054531,
+          "min": 0.0,
+          "max": 838.0,
+          "median": 362.0
+        },
+        "drop_rate": {
+          "mean": 0.0008400000000000001,
+          "std": 0.0009509994742374993,
+          "min": 0.0,
+          "max": 0.006,
+          "median": 0.001
+        },
+        "drops": {
+          "mean": 0.84,
+          "std": 0.9509994742374993,
+          "min": 0.0,
+          "max": 6.0,
+          "median": 1.0
+        },
+        "flush_action_histogram": {
+          "mean": [
+            945.605,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            54.395
+          ],
+          "std": [
+            0.8360472474687067,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.8360472474687051
+          ],
+          "min": [
+            943.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            52.0
+          ],
+          "max": [
+            948.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            57.0
+          ],
+          "median": [
+            946.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            54.0
+          ]
+        },
+        "flush_action_prob": {
+          "mean": [
+            0.9456049999999978,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.05439500000000003
+          ],
+          "std": [
+            0.000836047247468707,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0008360472474687079
+          ],
+          "min": [
+            0.943,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.052
+          ],
+          "max": [
+            0.948,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.057
+          ],
+          "median": [
+            0.946,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.054
+          ]
+        },
+        "flushes": {
+          "mean": 54.395,
+          "std": 0.8360472474687063,
+          "min": 52.0,
+          "max": 57.0,
+          "median": 54.0
+        },
+        "full_flush_rate": {
+          "mean": 0.054395000000000006,
+          "std": 0.0008360472474687068,
+          "min": 0.052,
+          "max": 0.057,
+          "median": 0.054
+        },
+        "mean_flush_action": {
+          "mean": 0.8703200000000001,
+          "std": 0.013376755959499309,
+          "min": 0.832,
+          "max": 0.912,
+          "median": 0.864
+        },
+        "mean_flush_fraction": {
+          "mean": 0.054395000000000006,
+          "std": 0.0008360472474687068,
+          "min": 0.052,
+          "max": 0.057,
+          "median": 0.054
+        },
+        "middle_flush_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "money": {
+          "mean": 44473.945,
+          "std": 644.3719360547914,
+          "min": 43060.0,
+          "max": 46753.0,
+          "median": 44490.5
+        },
+        "pending_flush": {
+          "mean": 196.935,
+          "std": 365.63172834834785,
+          "min": 0.0,
+          "max": 942.0,
+          "median": 0.0
+        },
+        "policy_discard_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "policy_discards": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_accept_count": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "settle_accept_rate": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "median": 1.0
+        },
+        "settle_reject_count": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_reject_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settled_value": {
+          "mean": 49913.445,
+          "std": 719.2491132945526,
+          "min": 48360.0,
+          "max": 52453.0,
+          "median": 49917.0
+        },
+        "total_steps": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "total_transaction_value": {
+          "mean": 49983.665,
+          "std": 735.2621592160173,
+          "min": 48360.0,
+          "max": 52504.0,
+          "median": 49967.0
+        },
+        "value_accept_ratio": {
+          "mean": 0.9986006049150573,
+          "std": 0.0015552991042943698,
+          "min": 0.9901531311900046,
+          "max": 1.0,
+          "median": 0.9985616901157297
+        },
+        "zero_flush_rate": {
+          "mean": 0.9456049999999999,
+          "std": 0.0008360472474687068,
+          "min": 0.943,
+          "max": 0.948,
+          "median": 0.946
+        }
+      },
+      "test_regime": "TLB"
+    },
+    "LNB": {
+      "label": "LNB",
+      "num_episodes": 200,
+      "summary": {
+        "available_collateral": {
+          "mean": 525.2,
+          "std": 267.2660659343045,
+          "min": 29.0,
+          "max": 1052.0,
+          "median": 499.0
+        },
+        "capacity_drop_rate": {
+          "mean": 0.00715,
+          "std": 0.0023701265788982663,
+          "min": 0.001,
+          "max": 0.015,
+          "median": 0.007
+        },
+        "capacity_drops": {
+          "mean": 7.15,
+          "std": 2.370126578898266,
+          "min": 1.0,
+          "max": 15.0,
+          "median": 7.0
+        },
+        "committed_unflushed": {
+          "mean": 405.325,
+          "std": 264.0802139028973,
+          "min": 0.0,
+          "max": 850.0,
+          "median": 442.5
+        },
+        "drop_rate": {
+          "mean": 0.00715,
+          "std": 0.0023701265788982663,
+          "min": 0.001,
+          "max": 0.015,
+          "median": 0.007
+        },
+        "drops": {
+          "mean": 7.15,
+          "std": 2.370126578898266,
+          "min": 1.0,
+          "max": 15.0,
+          "median": 7.0
+        },
+        "flush_action_histogram": {
+          "mean": [
+            946.72,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            53.28
+          ],
+          "std": [
+            1.221310771261763,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.2213107712617592
+          ],
+          "min": [
+            944.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            50.0
+          ],
+          "max": [
+            950.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            56.0
+          ],
+          "median": [
+            947.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            53.0
+          ]
+        },
+        "flush_action_prob": {
+          "mean": [
+            0.9467200000000001,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.053280000000000056
+          ],
+          "std": [
+            0.0012213107712617621,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0012213107712617638
+          ],
+          "min": [
+            0.944,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.05
+          ],
+          "max": [
+            0.95,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.056
+          ],
+          "median": [
+            0.947,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.053
+          ]
+        },
+        "flushes": {
+          "mean": 53.28,
+          "std": 1.2213107712617621,
+          "min": 50.0,
+          "max": 56.0,
+          "median": 53.0
+        },
+        "full_flush_rate": {
+          "mean": 0.053280000000000015,
+          "std": 0.001221310771261763,
+          "min": 0.05,
+          "max": 0.056,
+          "median": 0.053
+        },
+        "mean_flush_action": {
+          "mean": 0.8524800000000002,
+          "std": 0.019540972340188208,
+          "min": 0.8,
+          "max": 0.896,
+          "median": 0.848
+        },
+        "mean_flush_fraction": {
+          "mean": 0.053280000000000015,
+          "std": 0.001221310771261763,
+          "min": 0.05,
+          "max": 0.056,
+          "median": 0.053
+        },
+        "middle_flush_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "money": {
+          "mean": 44215.51,
+          "std": 1010.1230964095416,
+          "min": 41490.0,
+          "max": 46593.0,
+          "median": 44195.5
+        },
+        "pending_flush": {
+          "mean": 169.475,
+          "std": 350.36806272119037,
+          "min": 0.0,
+          "max": 1006.0,
+          "median": 0.0
+        },
+        "policy_discard_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "policy_discards": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_accept_count": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "settle_accept_rate": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "median": 1.0
+        },
+        "settle_reject_count": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_reject_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settled_value": {
+          "mean": 49543.51,
+          "std": 1125.0160487299727,
+          "min": 46490.0,
+          "max": 52193.0,
+          "median": 49524.0
+        },
+        "total_steps": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "total_transaction_value": {
+          "mean": 50315.125,
+          "std": 1192.9524925054643,
+          "min": 46834.0,
+          "max": 53491.0,
+          "median": 50316.0
+        },
+        "value_accept_ratio": {
+          "mean": 0.984702298245374,
+          "std": 0.005475957975069646,
+          "min": 0.9697970740915526,
+          "max": 0.998885489067661,
+          "median": 0.9854071902096451
+        },
+        "zero_flush_rate": {
+          "mean": 0.94672,
+          "std": 0.001221310771261763,
+          "min": 0.944,
+          "max": 0.95,
+          "median": 0.947
+        }
+      },
+      "test_regime": "LNB"
+    },
+    "TLNB": {
+      "label": "TLNB",
+      "num_episodes": 200,
+      "summary": {
+        "available_collateral": {
+          "mean": 574.23,
+          "std": 255.43701200100193,
+          "min": 34.0,
+          "max": 1028.0,
+          "median": 611.0
+        },
+        "capacity_drop_rate": {
+          "mean": 0.0034200000000000003,
+          "std": 0.0019166637681137502,
+          "min": 0.0,
+          "max": 0.009,
+          "median": 0.003
+        },
+        "capacity_drops": {
+          "mean": 3.42,
+          "std": 1.9166637681137504,
+          "min": 0.0,
+          "max": 9.0,
+          "median": 3.0
+        },
+        "committed_unflushed": {
+          "mean": 389.445,
+          "std": 242.76704260463362,
+          "min": 0.0,
+          "max": 842.0,
+          "median": 383.0
+        },
+        "drop_rate": {
+          "mean": 0.0034200000000000003,
+          "std": 0.0019166637681137502,
+          "min": 0.0,
+          "max": 0.009,
+          "median": 0.003
+        },
+        "drops": {
+          "mean": 3.42,
+          "std": 1.9166637681137504,
+          "min": 0.0,
+          "max": 9.0,
+          "median": 3.0
+        },
+        "flush_action_histogram": {
+          "mean": [
+            946.065,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            53.935
+          ],
+          "std": [
+            1.1961500741963804,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.196150074196378
+          ],
+          "min": [
+            943.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            50.0
+          ],
+          "max": [
+            950.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            57.0
+          ],
+          "median": [
+            946.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            54.0
+          ]
+        },
+        "flush_action_prob": {
+          "mean": [
+            0.9460649999999993,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.05393500000000006
+          ],
+          "std": [
+            0.0011961500741963786,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0011961500741963797
+          ],
+          "min": [
+            0.943,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.05
+          ],
+          "max": [
+            0.95,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.057
+          ],
+          "median": [
+            0.946,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.054
+          ]
+        },
+        "flushes": {
+          "mean": 53.935,
+          "std": 1.1961500741963778,
+          "min": 50.0,
+          "max": 57.0,
+          "median": 54.0
+        },
+        "full_flush_rate": {
+          "mean": 0.05393500000000001,
+          "std": 0.0011961500741963786,
+          "min": 0.05,
+          "max": 0.057,
+          "median": 0.054
+        },
+        "mean_flush_action": {
+          "mean": 0.8629600000000002,
+          "std": 0.019138401187142058,
+          "min": 0.8,
+          "max": 0.912,
+          "median": 0.864
+        },
+        "mean_flush_fraction": {
+          "mean": 0.05393500000000001,
+          "std": 0.0011961500741963786,
+          "min": 0.05,
+          "max": 0.057,
+          "median": 0.054
+        },
+        "middle_flush_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "money": {
+          "mean": 44399.715,
+          "std": 953.3957068159054,
+          "min": 41692.0,
+          "max": 46616.0,
+          "median": 44401.0
+        },
+        "pending_flush": {
+          "mean": 136.325,
+          "std": 318.43021115308767,
+          "min": 0.0,
+          "max": 936.0,
+          "median": 0.0
+        },
+        "policy_discard_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "policy_discards": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_accept_count": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "settle_accept_rate": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "median": 1.0
+        },
+        "settle_reject_count": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_reject_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settled_value": {
+          "mean": 49793.215,
+          "std": 1067.576422920158,
+          "min": 46692.0,
+          "max": 52316.0,
+          "median": 49796.5
+        },
+        "total_steps": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "total_transaction_value": {
+          "mean": 50101.145,
+          "std": 1106.0050515142323,
+          "min": 47128.0,
+          "max": 52778.0,
+          "median": 50064.0
+        },
+        "value_accept_ratio": {
+          "mean": 0.9938743784070577,
+          "std": 0.003684965678914291,
+          "min": 0.9807254515100926,
+          "max": 1.0,
+          "median": 0.9941041843021347
+        },
+        "zero_flush_rate": {
+          "mean": 0.9460649999999999,
+          "std": 0.0011961500741963788,
+          "min": 0.943,
+          "max": 0.95,
+          "median": 0.946
+        }
+      },
+      "test_regime": "TLNB"
+    },
+    "TPLB": {
+      "label": "TPLB",
+      "num_episodes": 200,
+      "summary": {
+        "available_collateral": {
+          "mean": 510.805,
+          "std": 252.6035173448699,
+          "min": 37.0,
+          "max": 999.0,
+          "median": 511.5
+        },
+        "capacity_drop_rate": {
+          "mean": 0.00253,
+          "std": 0.0015649600633882003,
+          "min": 0.0,
+          "max": 0.007,
+          "median": 0.002
+        },
+        "capacity_drops": {
+          "mean": 2.53,
+          "std": 1.5649600633882002,
+          "min": 0.0,
+          "max": 7.0,
+          "median": 2.0
+        },
+        "committed_unflushed": {
+          "mean": 404.09,
+          "std": 257.6697729653209,
+          "min": 0.0,
+          "max": 840.0,
+          "median": 421.5
+        },
+        "drop_rate": {
+          "mean": 0.00253,
+          "std": 0.0015649600633882003,
+          "min": 0.0,
+          "max": 0.007,
+          "median": 0.002
+        },
+        "drops": {
+          "mean": 2.53,
+          "std": 1.5649600633882002,
+          "min": 0.0,
+          "max": 7.0,
+          "median": 2.0
+        },
+        "flush_action_histogram": {
+          "mean": [
+            945.995,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            54.005
+          ],
+          "std": [
+            0.956543255686849,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.9565432556868496
+          ],
+          "min": [
+            944.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            52.0
+          ],
+          "max": [
+            948.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            56.0
+          ],
+          "median": [
+            946.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            54.0
+          ]
+        },
+        "flush_action_prob": {
+          "mean": [
+            0.9459949999999986,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.05400500000000002
+          ],
+          "std": [
+            0.0009565432556868507,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0009565432556868515
+          ],
+          "min": [
+            0.944,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.052
+          ],
+          "max": [
+            0.948,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.056
+          ],
+          "median": [
+            0.946,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.054
+          ]
+        },
+        "flushes": {
+          "mean": 54.005,
+          "std": 0.956543255686851,
+          "min": 52.0,
+          "max": 56.0,
+          "median": 54.0
+        },
+        "full_flush_rate": {
+          "mean": 0.05400500000000001,
+          "std": 0.0009565432556868517,
+          "min": 0.052,
+          "max": 0.056,
+          "median": 0.054
+        },
+        "mean_flush_action": {
+          "mean": 0.8640800000000002,
+          "std": 0.015304692090989627,
+          "min": 0.832,
+          "max": 0.896,
+          "median": 0.864
+        },
+        "mean_flush_fraction": {
+          "mean": 0.05400500000000001,
+          "std": 0.0009565432556868517,
+          "min": 0.052,
+          "max": 0.056,
+          "median": 0.054
+        },
+        "middle_flush_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "money": {
+          "mean": 44342.205,
+          "std": 767.0238346850767,
+          "min": 42133.0,
+          "max": 46436.0,
+          "median": 44310.0
+        },
+        "pending_flush": {
+          "mean": 185.105,
+          "std": 359.25367635558024,
+          "min": 0.0,
+          "max": 961.0,
+          "median": 0.0
+        },
+        "policy_discard_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "policy_discards": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_accept_count": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "settle_accept_rate": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "median": 1.0
+        },
+        "settle_reject_count": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_reject_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settled_value": {
+          "mean": 49742.705,
+          "std": 854.7245801865066,
+          "min": 47333.0,
+          "max": 52036.0,
+          "median": 49710.0
+        },
+        "total_steps": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "total_transaction_value": {
+          "mean": 49969.965,
+          "std": 890.8866671889303,
+          "min": 47520.0,
+          "max": 52431.0,
+          "median": 49923.5
+        },
+        "value_accept_ratio": {
+          "mean": 0.9954680320132593,
+          "std": 0.003096137741833292,
+          "min": 0.9860185756050993,
+          "max": 1.0,
+          "median": 0.9962950772261496
+        },
+        "zero_flush_rate": {
+          "mean": 0.9459949999999999,
+          "std": 0.0009565432556868516,
+          "min": 0.944,
+          "max": 0.948,
+          "median": 0.946
+        }
+      },
+      "test_regime": "TPLB"
+    },
+    "PLB": {
+      "label": "PLB",
+      "num_episodes": 200,
+      "summary": {
+        "available_collateral": {
+          "mean": 548.05,
+          "std": 271.65052457155315,
+          "min": 11.0,
+          "max": 1030.0,
+          "median": 563.5
+        },
+        "capacity_drop_rate": {
+          "mean": 0.0073,
+          "std": 0.0028670542373662898,
+          "min": 0.001,
+          "max": 0.017,
+          "median": 0.007
+        },
+        "capacity_drops": {
+          "mean": 7.3,
+          "std": 2.86705423736629,
+          "min": 1.0,
+          "max": 17.0,
+          "median": 7.0
+        },
+        "committed_unflushed": {
+          "mean": 375.12,
+          "std": 255.81680085561229,
+          "min": 0.0,
+          "max": 851.0,
+          "median": 373.5
+        },
+        "drop_rate": {
+          "mean": 0.0073,
+          "std": 0.0028670542373662898,
+          "min": 0.001,
+          "max": 0.017,
+          "median": 0.007
+        },
+        "drops": {
+          "mean": 7.3,
+          "std": 2.86705423736629,
+          "min": 1.0,
+          "max": 17.0,
+          "median": 7.0
+        },
+        "flush_action_histogram": {
+          "mean": [
+            946.96,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            53.04
+          ],
+          "std": [
+            1.1993331480451956,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.1993331480451965
+          ],
+          "min": [
+            943.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            50.0
+          ],
+          "max": [
+            950.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            57.0
+          ],
+          "median": [
+            947.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            53.0
+          ]
+        },
+        "flush_action_prob": {
+          "mean": [
+            0.94696,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.05304000000000001
+          ],
+          "std": [
+            0.0011993331480451982,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.001199333148045198
+          ],
+          "min": [
+            0.943,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.05
+          ],
+          "max": [
+            0.95,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.057
+          ],
+          "median": [
+            0.947,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.053
+          ]
+        },
+        "flushes": {
+          "mean": 53.04,
+          "std": 1.1993331480451959,
+          "min": 50.0,
+          "max": 57.0,
+          "median": 53.0
+        },
+        "full_flush_rate": {
+          "mean": 0.05304000000000001,
+          "std": 0.0011993331480451969,
+          "min": 0.05,
+          "max": 0.057,
+          "median": 0.053
+        },
+        "mean_flush_action": {
+          "mean": 0.8486400000000002,
+          "std": 0.01918933036872315,
+          "min": 0.8,
+          "max": 0.912,
+          "median": 0.848
+        },
+        "mean_flush_fraction": {
+          "mean": 0.05304000000000001,
+          "std": 0.0011993331480451969,
+          "min": 0.05,
+          "max": 0.057,
+          "median": 0.053
+        },
+        "middle_flush_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "money": {
+          "mean": 43834.9,
+          "std": 1016.6180698767852,
+          "min": 41581.0,
+          "max": 46773.0,
+          "median": 43744.0
+        },
+        "pending_flush": {
+          "mean": 176.83,
+          "std": 354.10453414210895,
+          "min": 0.0,
+          "max": 1051.0,
+          "median": 0.0
+        },
+        "policy_discard_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "policy_discards": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_accept_count": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "settle_accept_rate": {
+          "mean": 1.0,
+          "std": 0.0,
+          "min": 1.0,
+          "max": 1.0,
+          "median": 1.0
+        },
+        "settle_reject_count": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settle_reject_rate": {
+          "mean": 0.0,
+          "std": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "median": 0.0
+        },
+        "settled_value": {
+          "mean": 49138.9,
+          "std": 1129.9615480183386,
+          "min": 46602.0,
+          "max": 52473.0,
+          "median": 49044.0
+        },
+        "total_steps": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "min": 1000.0,
+          "max": 1000.0,
+          "median": 1000.0
+        },
+        "total_transaction_value": {
+          "mean": 50064.775,
+          "std": 1187.6670637746086,
+          "min": 47223.0,
+          "max": 53107.0,
+          "median": 50140.0
+        },
+        "value_accept_ratio": {
+          "mean": 0.9815597933776472,
+          "std": 0.008376846844508162,
+          "min": 0.9529492538519012,
+          "max": 0.9976938304863364,
+          "median": 0.9824997130469859
+        },
+        "zero_flush_rate": {
+          "mean": 0.94696,
+          "std": 0.0011993331480451969,
+          "min": 0.943,
+          "max": 0.95,
+          "median": 0.947
+        }
+      },
+      "test_regime": "PLB"
+    }
+  },
+  "aggregate": {
+    "mean_value_accept_ratio": 0.9931299388530928,
+    "worst_regime_value_accept_ratio": 0.9815597933776472,
+    "std_value_accept_ratio_across_regimes": 0.006227575190405308,
+    "mean_drops": 3.2304166666666667,
+    "mean_flushes": 53.88291666666666,
+    "mean_money": 44315.924166666664,
+    "worst_regime_money": 43834.9,
+    "mean_settled_value": 49704.21583333333,
+    "mean_settle_accept_rate": 1.0,
+    "mean_settle_reject_rate": 0.0,
+    "mean_zero_flush_rate": 0.9461170833333336,
+    "mean_full_flush_rate": 0.053882916666666676,
+    "mean_middle_flush_rate": 0.0,
+    "mean_flush_fraction": 0.053882916666666676,
+    "mean_flush_action": 0.8621266666666668,
+    "mean_flush_action_histogram": [
+      946.1170833333335,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      53.88291666666666
+    ],
+    "mean_flush_action_prob": [
+      0.9461170833333322,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.05388291666666669
+    ]
+  }
+}

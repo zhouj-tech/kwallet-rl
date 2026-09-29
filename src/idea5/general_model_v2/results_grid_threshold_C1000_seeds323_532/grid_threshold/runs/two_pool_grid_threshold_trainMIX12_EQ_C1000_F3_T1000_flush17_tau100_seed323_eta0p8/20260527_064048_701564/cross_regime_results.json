@@ -1,0 +1,2089 @@
+{
+  "config": {
+    "model_name": "grid_threshold",
+    "model_mode": "grid_threshold",
+    "threshold_mode": "grid",
+    "seed": 323,
+    "save_mode": "full",
+    "env": {
+      "C": 1000.0,
+      "F": 3,
+      "T": 1000,
+      "T_max": 250.0,
+      "flush_levels": 17,
+      "flush_grid": "uniform",
+      "state_feature_mode": "base",
+      "mask_mode": "none",
+      "num_flush_choices": 33,
+      "action_size": 66,
+      "factorized_policy_output_size": 35,
+      "state_size": 8,
+      "flush_fractions": [
+        0.0,
+        0.0625,
+        0.125,
+        0.1875,
+        0.25,
+        0.3125,
+        0.375,
+        0.4375,
+        0.5,
+        0.5625,
+        0.625,
+        0.6875,
+        0.75,
+        0.8125,
+        0.875,
+        0.9375,
+        1.0
+      ],
+      "flush_action_decoding": {
+        "no_flush": 0,
+        "pool_A_actions": [
+          1,
+          16
+        ],
+        "pool_B_actions": [
+          17,
+          32
+        ],
+        "pool_A_first_fraction": 0.0625,
+        "pool_A_full_action": 16,
+        "pool_B_first_action": 17,
+        "pool_B_first_fraction": 0.0625,
+        "pool_B_full_action": 32
+      }
+    },
+    "reward": {
+      "money_p": 1.0,
+      "money_tau": 100.0,
+      "drop_penalty": 0.0
+    },
+    "data": {
+      "train_regime": "MIX12_EQ",
+      "data_root": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools",
+      "train_pool_path": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/MIX12_EQ_two_pool_train_T1000.npz",
+      "val_pool_path": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/MIX12_EQ_two_pool_val_T1000.npz",
+      "test_pool_paths": {
+        "US": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/US_two_pool_test_T1000.npz",
+        "TLS": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/TLS_two_pool_test_T1000.npz",
+        "LNS": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/LNS_two_pool_test_T1000.npz",
+        "TLNS": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/TLNS_two_pool_test_T1000.npz",
+        "TPLS": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/TPLS_two_pool_test_T1000.npz",
+        "PLS": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/PLS_two_pool_test_T1000.npz",
+        "UB": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/UB_two_pool_test_T1000.npz",
+        "TLB": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/TLB_two_pool_test_T1000.npz",
+        "LNB": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/LNB_two_pool_test_T1000.npz",
+        "TLNB": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/TLNB_two_pool_test_T1000.npz",
+        "TPLB": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/TPLB_two_pool_test_T1000.npz",
+        "PLB": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/PLB_two_pool_test_T1000.npz"
+      }
+    },
+    "train": {
+      "episodes": 1000,
+      "max_steps": 1000,
+      "device": "cpu",
+      "val_num_episodes": 200,
+      "reward_scale": 1.0,
+      "clip_eps": 0.0
+    },
+    "eval": {
+      "num_episodes": 200,
+      "max_steps": 1000
+    },
+    "output": {
+      "result_root": "src/idea5/general_model_v2/results_grid_threshold_C1000_seeds323_532",
+      "log_root": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/logs"
+    },
+    "pool_fingerprints": {
+      "train": {
+        "path": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/MIX12_EQ_two_pool_train_T1000.npz",
+        "values_shape": [
+          5000,
+          1000
+        ],
+        "types_shape": [
+          5000,
+          1000
+        ],
+        "values_dtype": "float32",
+        "types_dtype": "int64",
+        "min": 1.0,
+        "max": 250.0,
+        "mean": 50.045894622802734,
+        "type_A_ratio": 0.4998506,
+        "type_B_ratio": 0.5001494,
+        "md5": "2054364eb0e48449399a5df893281e51"
+      },
+      "validation": {
+        "path": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/MIX12_EQ_two_pool_val_T1000.npz",
+        "values_shape": [
+          300,
+          1000
+        ],
+        "types_shape": [
+          300,
+          1000
+        ],
+        "values_dtype": "float32",
+        "types_dtype": "int64",
+        "min": 1.0,
+        "max": 250.0,
+        "mean": 50.04153060913086,
+        "type_A_ratio": 0.4998766666666667,
+        "type_B_ratio": 0.5001233333333334,
+        "md5": "6bc1f79a9c8979a3304924212e1a9c2e"
+      },
+      "eval": {
+        "US": {
+          "path": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/US_two_pool_test_T1000.npz",
+          "values_shape": [
+            200,
+            1000
+          ],
+          "types_shape": [
+            200,
+            1000
+          ],
+          "values_dtype": "float32",
+          "types_dtype": "int64",
+          "min": 20.0,
+          "max": 80.0,
+          "mean": 49.98527526855469,
+          "type_A_ratio": 0.502245,
+          "type_B_ratio": 0.497755,
+          "md5": "49acb1c4f54079098a445373bb48eaf6"
+        },
+        "TLS": {
+          "path": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/TLS_two_pool_test_T1000.npz",
+          "values_shape": [
+            200,
+            1000
+          ],
+          "types_shape": [
+            200,
+            1000
+          ],
+          "values_dtype": "float32",
+          "types_dtype": "int64",
+          "min": 1.0,
+          "max": 118.0,
+          "mean": 49.9650993347168,
+          "type_A_ratio": 0.501775,
+          "type_B_ratio": 0.498225,
+          "md5": "ceb3a0d1db621833a2543e367c149566"
+        },
+        "LNS": {
+          "path": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/LNS_two_pool_test_T1000.npz",
+          "values_shape": [
+            200,
+            1000
+          ],
+          "types_shape": [
+            200,
+            1000
+          ],
+          "values_dtype": "float32",
+          "types_dtype": "int64",
+          "min": 2.0,
+          "max": 180.0,
+          "mean": 50.08150100708008,
+          "type_A_ratio": 0.499875,
+          "type_B_ratio": 0.500125,
+          "md5": "a890d8838d0aaba73828d0c58e229ed4"
+        },
+        "TLNS": {
+          "path": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/TLNS_two_pool_test_T1000.npz",
+          "values_shape": [
+            200,
+            1000
+          ],
+          "types_shape": [
+            200,
+            1000
+          ],
+          "values_dtype": "float32",
+          "types_dtype": "int64",
+          "min": 3.0,
+          "max": 120.0,
+          "mean": 50.08230972290039,
+          "type_A_ratio": 0.499825,
+          "type_B_ratio": 0.500175,
+          "md5": "db27d39ecea39a097e75fac49e358ba4"
+        },
+        "TPLS": {
+          "path": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/TPLS_two_pool_test_T1000.npz",
+          "values_shape": [
+            200,
+            1000
+          ],
+          "types_shape": [
+            200,
+            1000
+          ],
+          "values_dtype": "float32",
+          "types_dtype": "int64",
+          "min": 31.0,
+          "max": 120.0,
+          "mean": 49.973609924316406,
+          "type_A_ratio": 0.50033,
+          "type_B_ratio": 0.49967,
+          "md5": "e0f1ac3c38242d76b880617b223a2381"
+        },
+        "PLS": {
+          "path": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/PLS_two_pool_test_T1000.npz",
+          "values_shape": [
+            200,
+            1000
+          ],
+          "types_shape": [
+            200,
+            1000
+          ],
+          "values_dtype": "float32",
+          "types_dtype": "int64",
+          "min": 28.0,
+          "max": 250.0,
+          "mean": 50.08811569213867,
+          "type_A_ratio": 0.50079,
+          "type_B_ratio": 0.49921,
+          "md5": "aebb86fa8c23aa7a2ee4f7399392e18c"
+        },
+        "UB": {
+          "path": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/UB_two_pool_test_T1000.npz",
+          "values_shape": [
+            200,
+            1000
+          ],
+          "types_shape": [
+            200,
+            1000
+          ],
+          "values_dtype": "float32",
+          "types_dtype": "int64",
+          "min": 19.0,
+          "max": 100.0,
+          "mean": 49.9824333190918,
+          "type_A_ratio": 0.4995,
+          "type_B_ratio": 0.5005,
+          "md5": "85be73b095cefa3646456cc36ef5786e"
+        },
+        "TLB": {
+          "path": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/TLB_two_pool_test_T1000.npz",
+          "values_shape": [
+            200,
+            1000
+          ],
+          "types_shape": [
+            200,
+            1000
+          ],
+          "values_dtype": "float32",
+          "types_dtype": "int64",
+          "min": 1.0,
+          "max": 120.0,
+          "mean": 49.983665466308594,
+          "type_A_ratio": 0.50046,
+          "type_B_ratio": 0.49954,
+          "md5": "1868ee5c2ec97cb034b6c159b8a2062d"
+        },
+        "LNB": {
+          "path": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/LNB_two_pool_test_T1000.npz",
+          "values_shape": [
+            200,
+            1000
+          ],
+          "types_shape": [
+            200,
+            1000
+          ],
+          "values_dtype": "float32",
+          "types_dtype": "int64",
+          "min": 1.0,
+          "max": 180.0,
+          "mean": 50.31512451171875,
+          "type_A_ratio": 0.50007,
+          "type_B_ratio": 0.49993,
+          "md5": "d18865eeab70d2b21cbb0a473039c664"
+        },
+        "TLNB": {
+          "path": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/TLNB_two_pool_test_T1000.npz",
+          "values_shape": [
+            200,
+            1000
+          ],
+          "types_shape": [
+            200,
+            1000
+          ],
+          "values_dtype": "float32",
+          "types_dtype": "int64",
+          "min": 3.0,
+          "max": 120.0,
+          "mean": 50.10114669799805,
+          "type_A_ratio": 0.499035,
+          "type_B_ratio": 0.500965,
+          "md5": "10ad55dfa911e9dad5554c407e5128a3"
+        },
+        "TPLB": {
+          "path": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/TPLB_two_pool_test_T1000.npz",
+          "values_shape": [
+            200,
+            1000
+          ],
+          "types_shape": [
+            200,
+            1000
+          ],
+          "values_dtype": "float32",
+          "types_dtype": "int64",
+          "min": 28.0,
+          "max": 120.0,
+          "mean": 49.969966888427734,
+          "type_A_ratio": 0.5015,
+          "type_B_ratio": 0.4985,
+          "md5": "87c460ad1f20243f8fa792f41dfb47ae"
+        },
+        "PLB": {
+          "path": "/Users/qiubi/kwallet-rl/src/idea5/general_model_v2/data/pools/PLB_two_pool_test_T1000.npz",
+          "values_shape": [
+            200,
+            1000
+          ],
+          "types_shape": [
+            200,
+            1000
+          ],
+          "values_dtype": "float32",
+          "types_dtype": "int64",
+          "min": 26.0,
+          "max": 250.0,
+          "mean": 50.06477355957031,
+          "type_A_ratio": 0.500125,
+          "type_B_ratio": 0.499875,
+          "md5": "cc34f0bf9f1e7084a7c196542e7a9db6"
+        }
+      }
+    },
+    "eta": 0.8,
+    "selection_method": "grid_validation_money",
+    "scenario": "two_pool_grid_threshold_trainMIX12_EQ_C1000_F3_T1000_flush17_tau100_seed323_eta0p8"
+  },
+  "scenario": "two_pool_grid_threshold_trainMIX12_EQ_C1000_F3_T1000_flush17_tau100_seed323_eta0p8",
+  "model_name": "grid_threshold",
+  "model_mode": "grid_threshold",
+  "train_regime": "MIX12_EQ",
+  "seed": 323,
+  "timestamp": "2026-05-27T06:41:05.960007",
+  "selected_eta": 0.8,
+  "selection_method": "grid_validation_money",
+  "eta": 0.8,
+  "test_results": {
+    "US": {
+      "label": "US",
+      "eta": 0.8,
+      "num_episodes": 200,
+      "summary": {
+        "available_A": {
+          "mean": 493.965,
+          "std": 240.46902872303534,
+          "min": 23.0,
+          "max": 964.0,
+          "median": 498.0
+        },
+        "available_B": {
+          "mean": 536.225,
+          "std": 250.8208411894833,
+          "min": 11.0,
+          "max": 1000.0,
+          "median": 554.0
+        },
+        "committed_A": {
+          "mean": 408.33,
+          "std": 242.9279133817273,
+          "min": 0.0,
+          "max": 849.0,
+          "median": 419.5
+        },
+        "committed_B": {
+          "mean": 395.58,
+          "std": 242.94076150370483,
+          "min": 0.0,
+          "max": 847.0,
+          "median": 381.5
+        },
+        "drop_A_count": {
+          "mean": 0.995,
+          "std": 0.9874082235833364,
+          "min": 0.0,
+          "max": 5.0,
+          "median": 1.0
+        },
+        "drop_B_count": {
+          "mean": 1.115,
+          "std": 0.9908455984662797,
+          "min": 0.0,
+          "max": 4.0,
+          "median": 1.0
+        },
+        "drop_rate": {
+          "mean": 0.0021100000000000003,
+          "std": 0.0013848826665100549,
+          "min": 0.0,
+          "max": 0.006,
+          "median": 0.002
+        },
+        "dropped_value": {
+          "mean": 130.335,
+          "std": 87.1506326712549,
+          "min": 0.0,
+          "max": 412.0,
+          "median": 119.5
+        },
+        "drops": {
+          "mean": 2.11,
+          "std": 1.3848826665100549,
+          "min": 0.0,
+          "max": 6.0,
+          "median": 2.0
+        },
+        "flush_A_count": {
+          "mean": 28.895,
+          "std": 1.0266328457632747,
+          "min": 26.0,
+          "max": 32.0,
+          "median": 29.0
+        },
+        "flush_B_count": {
+          "mean": 28.69,
+          "std": 0.991917335265394,
+          "min": 26.0,
+          "max": 31.0,
+          "median": 29.0
+        },
+        "flushes": {
+          "mean": 57.585,
+          "std": 0.8442600310330934,
+          "min": 55.0,
+          "max": 60.0,
+          "median": 58.0
+        },
+        "money": {
+          "mean": 44096.44,
+          "std": 478.4923577237154,
+          "min": 42742.0,
+          "max": 45368.0,
+          "median": 44127.0
+        },
+        "settled_A_value": {
+          "mean": 25015.35,
+          "std": 852.2622703722136,
+          "min": 22078.0,
+          "max": 27199.0,
+          "median": 25039.5
+        },
+        "settled_B_value": {
+          "mean": 24839.59,
+          "std": 814.7431815609137,
+          "min": 22877.0,
+          "max": 27055.0,
+          "median": 24803.0
+        },
+        "settled_value": {
+          "mean": 49854.94,
+          "std": 542.6252909697446,
+          "min": 48242.0,
+          "max": 51268.0,
+          "median": 49896.5
+        },
+        "total_transaction_value": {
+          "mean": 49985.275,
+          "std": 536.9457229320296,
+          "min": 48570.0,
+          "max": 51344.0,
+          "median": 50027.0
+        },
+        "total_value": {
+          "mean": 49985.275,
+          "std": 536.9457229320296,
+          "min": 48570.0,
+          "max": 51344.0,
+          "median": 50027.0
+        },
+        "value_accept_ratio": {
+          "mean": 0.9973925128918729,
+          "std": 0.0017456516007966951,
+          "min": 0.9917700405505283,
+          "max": 1.0,
+          "median": 0.9975759683038844
+        }
+      },
+      "test_regime": "US"
+    },
+    "TLS": {
+      "label": "TLS",
+      "eta": 0.8,
+      "num_episodes": 200,
+      "summary": {
+        "available_A": {
+          "mean": 509.265,
+          "std": 245.19929603283938,
+          "min": 25.0,
+          "max": 1000.0,
+          "median": 478.5
+        },
+        "available_B": {
+          "mean": 555.195,
+          "std": 249.19784705129376,
+          "min": 24.0,
+          "max": 1000.0,
+          "median": 592.5
+        },
+        "committed_A": {
+          "mean": 421.875,
+          "std": 248.2757325535462,
+          "min": 0.0,
+          "max": 855.0,
+          "median": 450.5
+        },
+        "committed_B": {
+          "mean": 372.59,
+          "std": 237.09878089100332,
+          "min": 0.0,
+          "max": 817.0,
+          "median": 362.0
+        },
+        "drop_A_count": {
+          "mean": 0.83,
+          "std": 0.8781229982183589,
+          "min": 0.0,
+          "max": 4.0,
+          "median": 1.0
+        },
+        "drop_B_count": {
+          "mean": 0.825,
+          "std": 0.8799857953399021,
+          "min": 0.0,
+          "max": 4.0,
+          "median": 1.0
+        },
+        "drop_rate": {
+          "mean": 0.0016550000000000004,
+          "std": 0.0013099522892075115,
+          "min": 0.0,
+          "max": 0.007,
+          "median": 0.001
+        },
+        "dropped_value": {
+          "mean": 98.16,
+          "std": 77.59725768350323,
+          "min": 0.0,
+          "max": 411.0,
+          "median": 83.0
+        },
+        "drops": {
+          "mean": 1.655,
+          "std": 1.3099522892075115,
+          "min": 0.0,
+          "max": 7.0,
+          "median": 1.0
+        },
+        "flush_A_count": {
+          "mean": 28.88,
+          "std": 1.0176443386566842,
+          "min": 26.0,
+          "max": 32.0,
+          "median": 29.0
+        },
+        "flush_B_count": {
+          "mean": 28.725,
+          "std": 1.0720890821195783,
+          "min": 25.0,
+          "max": 32.0,
+          "median": 29.0
+        },
+        "flushes": {
+          "mean": 57.605,
+          "std": 0.740928471581434,
+          "min": 56.0,
+          "max": 59.0,
+          "median": 58.0
+        },
+        "money": {
+          "mean": 44106.44,
+          "std": 372.9515738001383,
+          "min": 43171.0,
+          "max": 45044.0,
+          "median": 44115.5
+        },
+        "settled_A_value": {
+          "mean": 25031.225,
+          "std": 854.6542250378219,
+          "min": 22704.0,
+          "max": 27611.0,
+          "median": 24982.5
+        },
+        "settled_B_value": {
+          "mean": 24835.715,
+          "std": 870.0276281676347,
+          "min": 22187.0,
+          "max": 27969.0,
+          "median": 24837.5
+        },
+        "settled_value": {
+          "mean": 49866.94,
+          "std": 425.07221315912903,
+          "min": 48831.0,
+          "max": 50844.0,
+          "median": 49896.0
+        },
+        "total_transaction_value": {
+          "mean": 49965.1,
+          "std": 420.80589349485115,
+          "min": 48841.0,
+          "max": 50928.0,
+          "median": 49959.0
+        },
+        "total_value": {
+          "mean": 49965.1,
+          "std": 420.80589349485115,
+          "min": 48841.0,
+          "max": 50928.0,
+          "median": 49959.0
+        },
+        "value_accept_ratio": {
+          "mean": 0.9980357829014828,
+          "std": 0.001552716213701862,
+          "min": 0.9917310478029937,
+          "max": 1.0,
+          "median": 0.9983410180732357
+        }
+      },
+      "test_regime": "TLS"
+    },
+    "LNS": {
+      "label": "LNS",
+      "eta": 0.8,
+      "num_episodes": 200,
+      "summary": {
+        "available_A": {
+          "mean": 530.405,
+          "std": 269.1669017078437,
+          "min": 11.0,
+          "max": 1000.0,
+          "median": 517.0
+        },
+        "available_B": {
+          "mean": 545.325,
+          "std": 258.0952525231722,
+          "min": 13.0,
+          "max": 1000.0,
+          "median": 574.0
+        },
+        "committed_A": {
+          "mean": 375.665,
+          "std": 259.00639523957705,
+          "min": 0.0,
+          "max": 853.0,
+          "median": 355.0
+        },
+        "committed_B": {
+          "mean": 386.33,
+          "std": 248.01613072540263,
+          "min": 0.0,
+          "max": 859.0,
+          "median": 371.0
+        },
+        "drop_A_count": {
+          "mean": 3.14,
+          "std": 1.7001176429882727,
+          "min": 0.0,
+          "max": 8.0,
+          "median": 3.0
+        },
+        "drop_B_count": {
+          "mean": 3.12,
+          "std": 1.8962067397834024,
+          "min": 0.0,
+          "max": 9.0,
+          "median": 3.0
+        },
+        "drop_rate": {
+          "mean": 0.006260000000000001,
+          "std": 0.0024274266209300746,
+          "min": 0.001,
+          "max": 0.013,
+          "median": 0.006
+        },
+        "dropped_value": {
+          "mean": 591.755,
+          "std": 254.83933168763411,
+          "min": 47.0,
+          "max": 1399.0,
+          "median": 567.5
+        },
+        "drops": {
+          "mean": 6.26,
+          "std": 2.4274266209300746,
+          "min": 1.0,
+          "max": 13.0,
+          "median": 6.0
+        },
+        "flush_A_count": {
+          "mean": 28.41,
+          "std": 1.342348687934696,
+          "min": 25.0,
+          "max": 32.0,
+          "median": 28.0
+        },
+        "flush_B_count": {
+          "mean": 28.335,
+          "std": 1.2299491859422487,
+          "min": 25.0,
+          "max": 31.0,
+          "median": 28.0
+        },
+        "flushes": {
+          "mean": 56.745,
+          "std": 1.2806150865892532,
+          "min": 53.0,
+          "max": 60.0,
+          "median": 57.0
+        },
+        "money": {
+          "mean": 43815.245,
+          "std": 849.9705024146426,
+          "min": 41668.0,
+          "max": 45692.0,
+          "median": 43844.5
+        },
+        "settled_A_value": {
+          "mean": 24761.34,
+          "std": 1136.8508584682513,
+          "min": 22010.0,
+          "max": 27698.0,
+          "median": 24789.0
+        },
+        "settled_B_value": {
+          "mean": 24728.405,
+          "std": 1040.0755025357535,
+          "min": 21689.0,
+          "max": 27282.0,
+          "median": 24812.5
+        },
+        "settled_value": {
+          "mean": 49489.745,
+          "std": 963.0556058582495,
+          "min": 47068.0,
+          "max": 51550.0,
+          "median": 49504.5
+        },
+        "total_transaction_value": {
+          "mean": 50081.5,
+          "std": 962.5207582177123,
+          "min": 47222.0,
+          "max": 52582.0,
+          "median": 50122.5
+        },
+        "total_value": {
+          "mean": 50081.5,
+          "std": 962.5207582177123,
+          "min": 47222.0,
+          "max": 52582.0,
+          "median": 50122.5
+        },
+        "value_accept_ratio": {
+          "mean": 0.9881925078022559,
+          "std": 0.005054407183476001,
+          "min": 0.9722860538827258,
+          "max": 0.9990514631685167,
+          "median": 0.9885793256483676
+        }
+      },
+      "test_regime": "LNS"
+    },
+    "TLNS": {
+      "label": "TLNS",
+      "eta": 0.8,
+      "num_episodes": 200,
+      "summary": {
+        "available_A": {
+          "mean": 555.61,
+          "std": 266.15457520020203,
+          "min": 15.0,
+          "max": 1000.0,
+          "median": 578.5
+        },
+        "available_B": {
+          "mean": 526.54,
+          "std": 269.8408019555234,
+          "min": 3.0,
+          "max": 1000.0,
+          "median": 533.5
+        },
+        "committed_A": {
+          "mean": 370.95,
+          "std": 251.5475253307017,
+          "min": 0.0,
+          "max": 872.0,
+          "median": 345.0
+        },
+        "committed_B": {
+          "mean": 383.115,
+          "std": 260.0514983133148,
+          "min": 0.0,
+          "max": 890.0,
+          "median": 356.0
+        },
+        "drop_A_count": {
+          "mean": 2.185,
+          "std": 1.652505673212652,
+          "min": 0.0,
+          "max": 8.0,
+          "median": 2.0
+        },
+        "drop_B_count": {
+          "mean": 2.105,
+          "std": 1.3168048450700658,
+          "min": 0.0,
+          "max": 7.0,
+          "median": 2.0
+        },
+        "drop_rate": {
+          "mean": 0.00429,
+          "std": 0.002021360927692034,
+          "min": 0.0,
+          "max": 0.011,
+          "median": 0.004
+        },
+        "dropped_value": {
+          "mean": 341.06,
+          "std": 165.72032585051238,
+          "min": 0.0,
+          "max": 819.0,
+          "median": 320.5
+        },
+        "drops": {
+          "mean": 4.29,
+          "std": 2.021360927692034,
+          "min": 0.0,
+          "max": 11.0,
+          "median": 4.0
+        },
+        "flush_A_count": {
+          "mean": 28.6,
+          "std": 1.1357816691600546,
+          "min": 25.0,
+          "max": 32.0,
+          "median": 29.0
+        },
+        "flush_B_count": {
+          "mean": 28.61,
+          "std": 1.143634557015483,
+          "min": 26.0,
+          "max": 32.0,
+          "median": 29.0
+        },
+        "flushes": {
+          "mean": 57.21,
+          "std": 1.0751278993682565,
+          "min": 54.0,
+          "max": 60.0,
+          "median": 57.0
+        },
+        "money": {
+          "mean": 44020.25,
+          "std": 711.6723666828718,
+          "min": 42041.0,
+          "max": 46150.0,
+          "median": 44027.0
+        },
+        "settled_A_value": {
+          "mean": 24870.98,
+          "std": 946.618349494663,
+          "min": 21996.0,
+          "max": 27224.0,
+          "median": 24901.0
+        },
+        "settled_B_value": {
+          "mean": 24870.27,
+          "std": 938.5096201424896,
+          "min": 22650.0,
+          "max": 27518.0,
+          "median": 24832.0
+        },
+        "settled_value": {
+          "mean": 49741.25,
+          "std": 803.4140013094121,
+          "min": 47441.0,
+          "max": 52150.0,
+          "median": 49717.0
+        },
+        "total_transaction_value": {
+          "mean": 50082.31,
+          "std": 837.9189065178085,
+          "min": 47746.0,
+          "max": 52484.0,
+          "median": 50052.5
+        },
+        "total_value": {
+          "mean": 50082.31,
+          "std": 837.9189065178085,
+          "min": 47746.0,
+          "max": 52484.0,
+          "median": 50052.5
+        },
+        "value_accept_ratio": {
+          "mean": 0.9932048982616497,
+          "std": 0.003267398531771645,
+          "min": 0.9840528068228285,
+          "max": 1.0,
+          "median": 0.9935667197553992
+        }
+      },
+      "test_regime": "TLNS"
+    },
+    "TPLS": {
+      "label": "TPLS",
+      "eta": 0.8,
+      "num_episodes": 200,
+      "summary": {
+        "available_A": {
+          "mean": 526.69,
+          "std": 240.91883259720484,
+          "min": 8.0,
+          "max": 1000.0,
+          "median": 531.5
+        },
+        "available_B": {
+          "mean": 537.495,
+          "std": 267.80278186568563,
+          "min": 26.0,
+          "max": 1000.0,
+          "median": 571.0
+        },
+        "committed_A": {
+          "mean": 412.735,
+          "std": 238.61432223359935,
+          "min": 0.0,
+          "max": 827.0,
+          "median": 415.0
+        },
+        "committed_B": {
+          "mean": 369.56,
+          "std": 253.23227756350494,
+          "min": 0.0,
+          "max": 834.0,
+          "median": 328.5
+        },
+        "drop_A_count": {
+          "mean": 1.695,
+          "std": 1.3007593935851471,
+          "min": 0.0,
+          "max": 5.0,
+          "median": 2.0
+        },
+        "drop_B_count": {
+          "mean": 1.825,
+          "std": 1.3979896280015813,
+          "min": 0.0,
+          "max": 7.0,
+          "median": 2.0
+        },
+        "drop_rate": {
+          "mean": 0.0035200000000000006,
+          "std": 0.0019234344283078641,
+          "min": 0.0,
+          "max": 0.01,
+          "median": 0.003
+        },
+        "dropped_value": {
+          "mean": 271.24,
+          "std": 165.53634767023223,
+          "min": 0.0,
+          "max": 773.0,
+          "median": 248.0
+        },
+        "drops": {
+          "mean": 3.52,
+          "std": 1.9234344283078642,
+          "min": 0.0,
+          "max": 10.0,
+          "median": 3.0
+        },
+        "flush_A_count": {
+          "mean": 28.625,
+          "std": 1.0790620927453618,
+          "min": 26.0,
+          "max": 31.0,
+          "median": 29.0
+        },
+        "flush_B_count": {
+          "mean": 28.62,
+          "std": 1.1556816170554933,
+          "min": 26.0,
+          "max": 32.0,
+          "median": 29.0
+        },
+        "flushes": {
+          "mean": 57.245,
+          "std": 0.9513017397229967,
+          "min": 54.0,
+          "max": 60.0,
+          "median": 57.0
+        },
+        "money": {
+          "mean": 43977.87,
+          "std": 621.8380521486282,
+          "min": 41994.0,
+          "max": 46161.0,
+          "median": 43975.5
+        },
+        "settled_A_value": {
+          "mean": 24871.545,
+          "std": 925.2181407511421,
+          "min": 22645.0,
+          "max": 27095.0,
+          "median": 24933.0
+        },
+        "settled_B_value": {
+          "mean": 24830.825,
+          "std": 975.7158727698346,
+          "min": 21984.0,
+          "max": 27203.0,
+          "median": 24812.5
+        },
+        "settled_value": {
+          "mean": 49702.37,
+          "std": 699.4802950047986,
+          "min": 47394.0,
+          "max": 52161.0,
+          "median": 49700.0
+        },
+        "total_transaction_value": {
+          "mean": 49973.61,
+          "std": 701.8334260349816,
+          "min": 47964.0,
+          "max": 52161.0,
+          "median": 49982.0
+        },
+        "total_value": {
+          "mean": 49973.61,
+          "std": 701.8334260349816,
+          "min": 47964.0,
+          "max": 52161.0,
+          "median": 49982.0
+        },
+        "value_accept_ratio": {
+          "mean": 0.9945774215778229,
+          "std": 0.003298549687796493,
+          "min": 0.9846736458085494,
+          "max": 1.0,
+          "median": 0.9950773982100346
+        }
+      },
+      "test_regime": "TPLS"
+    },
+    "PLS": {
+      "label": "PLS",
+      "eta": 0.8,
+      "num_episodes": 200,
+      "summary": {
+        "available_A": {
+          "mean": 544.875,
+          "std": 247.71324020931945,
+          "min": 73.0,
+          "max": 1000.0,
+          "median": 535.5
+        },
+        "available_B": {
+          "mean": 536.215,
+          "std": 267.3891336142888,
+          "min": 21.0,
+          "max": 1000.0,
+          "median": 555.0
+        },
+        "committed_A": {
+          "mean": 399.0,
+          "std": 244.30178059113692,
+          "min": 0.0,
+          "max": 831.0,
+          "median": 407.5
+        },
+        "committed_B": {
+          "mean": 385.49,
+          "std": 257.27887573603863,
+          "min": 0.0,
+          "max": 888.0,
+          "median": 376.5
+        },
+        "drop_A_count": {
+          "mean": 3.515,
+          "std": 2.114184239842876,
+          "min": 0.0,
+          "max": 11.0,
+          "median": 3.0
+        },
+        "drop_B_count": {
+          "mean": 3.21,
+          "std": 2.013926513058508,
+          "min": 0.0,
+          "max": 10.0,
+          "median": 3.0
+        },
+        "drop_rate": {
+          "mean": 0.006725,
+          "std": 0.00299489148384378,
+          "min": 0.001,
+          "max": 0.015,
+          "median": 0.007
+        },
+        "dropped_value": {
+          "mean": 800.785,
+          "std": 413.1890351582433,
+          "min": 45.0,
+          "max": 2095.0,
+          "median": 771.5
+        },
+        "drops": {
+          "mean": 6.725,
+          "std": 2.99489148384378,
+          "min": 1.0,
+          "max": 15.0,
+          "median": 7.0
+        },
+        "flush_A_count": {
+          "mean": 28.35,
+          "std": 1.306713434537198,
+          "min": 26.0,
+          "max": 32.0,
+          "median": 28.0
+        },
+        "flush_B_count": {
+          "mean": 28.28,
+          "std": 1.1320777358467926,
+          "min": 26.0,
+          "max": 32.0,
+          "median": 28.0
+        },
+        "flushes": {
+          "mean": 56.63,
+          "std": 1.3539202339872167,
+          "min": 53.0,
+          "max": 62.0,
+          "median": 57.0
+        },
+        "money": {
+          "mean": 43624.33,
+          "std": 944.8485545842783,
+          "min": 41384.0,
+          "max": 46962.0,
+          "median": 43589.5
+        },
+        "settled_A_value": {
+          "mean": 24689.9,
+          "std": 1095.9877599681486,
+          "min": 22095.0,
+          "max": 28379.0,
+          "median": 24698.5
+        },
+        "settled_B_value": {
+          "mean": 24597.43,
+          "std": 960.3990186896277,
+          "min": 22378.0,
+          "max": 28336.0,
+          "median": 24521.5
+        },
+        "settled_value": {
+          "mean": 49287.33,
+          "std": 1067.5440089757424,
+          "min": 46684.0,
+          "max": 53162.0,
+          "median": 49247.5
+        },
+        "total_transaction_value": {
+          "mean": 50088.115,
+          "std": 1167.6900109939281,
+          "min": 47273.0,
+          "max": 53938.0,
+          "median": 50020.0
+        },
+        "total_value": {
+          "mean": 50088.115,
+          "std": 1167.6900109939281,
+          "min": 47273.0,
+          "max": 53938.0,
+          "median": 50020.0
+        },
+        "value_accept_ratio": {
+          "mean": 0.9840818093777467,
+          "std": 0.008048189631896442,
+          "min": 0.9611591086061775,
+          "max": 0.9990908356230807,
+          "median": 0.984560778918526
+        }
+      },
+      "test_regime": "PLS"
+    },
+    "UB": {
+      "label": "UB",
+      "eta": 0.8,
+      "num_episodes": 200,
+      "summary": {
+        "available_A": {
+          "mean": 550.11,
+          "std": 249.86385873110981,
+          "min": 50.0,
+          "max": 1000.0,
+          "median": 580.0
+        },
+        "available_B": {
+          "mean": 531.03,
+          "std": 254.98556645426032,
+          "min": 9.0,
+          "max": 1000.0,
+          "median": 536.0
+        },
+        "committed_A": {
+          "mean": 397.985,
+          "std": 244.501870698365,
+          "min": 0.0,
+          "max": 836.0,
+          "median": 356.0
+        },
+        "committed_B": {
+          "mean": 374.835,
+          "std": 242.38396765256567,
+          "min": 0.0,
+          "max": 833.0,
+          "median": 357.0
+        },
+        "drop_A_count": {
+          "mean": 1.67,
+          "std": 1.217004519301387,
+          "min": 0.0,
+          "max": 6.0,
+          "median": 2.0
+        },
+        "drop_B_count": {
+          "mean": 1.58,
+          "std": 1.2975361266646877,
+          "min": 0.0,
+          "max": 6.0,
+          "median": 1.0
+        },
+        "drop_rate": {
+          "mean": 0.0032500000000000007,
+          "std": 0.0017628102563804194,
+          "min": 0.0,
+          "max": 0.008,
+          "median": 0.003
+        },
+        "dropped_value": {
+          "mean": 228.965,
+          "std": 131.0019609586055,
+          "min": 0.0,
+          "max": 636.0,
+          "median": 215.0
+        },
+        "drops": {
+          "mean": 3.25,
+          "std": 1.7628102563804193,
+          "min": 0.0,
+          "max": 8.0,
+          "median": 3.0
+        },
+        "flush_A_count": {
+          "mean": 28.635,
+          "std": 1.087094752080057,
+          "min": 26.0,
+          "max": 31.0,
+          "median": 29.0
+        },
+        "flush_B_count": {
+          "mean": 28.745,
+          "std": 1.0535535107435217,
+          "min": 26.0,
+          "max": 31.0,
+          "median": 29.0
+        },
+        "flushes": {
+          "mean": 57.38,
+          "std": 0.9977975746613138,
+          "min": 55.0,
+          "max": 60.0,
+          "median": 57.0
+        },
+        "money": {
+          "mean": 44015.47,
+          "std": 688.8070986132475,
+          "min": 41893.0,
+          "max": 45635.0,
+          "median": 43999.0
+        },
+        "settled_A_value": {
+          "mean": 24866.13,
+          "std": 904.1284328567485,
+          "min": 22242.0,
+          "max": 27218.0,
+          "median": 24879.0
+        },
+        "settled_B_value": {
+          "mean": 24887.34,
+          "std": 849.8951608286754,
+          "min": 22507.0,
+          "max": 27026.0,
+          "median": 24942.5
+        },
+        "settled_value": {
+          "mean": 49753.47,
+          "std": 773.61392121652,
+          "min": 47393.0,
+          "max": 51635.0,
+          "median": 49728.5
+        },
+        "total_transaction_value": {
+          "mean": 49982.435,
+          "std": 793.5675684999986,
+          "min": 47574.0,
+          "max": 52099.0,
+          "median": 49934.5
+        },
+        "total_value": {
+          "mean": 49982.435,
+          "std": 793.5675684999986,
+          "min": 47574.0,
+          "max": 52099.0,
+          "median": 49934.5
+        },
+        "value_accept_ratio": {
+          "mean": 0.9954275134147843,
+          "std": 0.002603957568223747,
+          "min": 0.9871535913387736,
+          "max": 1.0,
+          "median": 0.995737014403691
+        }
+      },
+      "test_regime": "UB"
+    },
+    "TLB": {
+      "label": "TLB",
+      "eta": 0.8,
+      "num_episodes": 200,
+      "summary": {
+        "available_A": {
+          "mean": 502.665,
+          "std": 260.193414165309,
+          "min": 35.0,
+          "max": 1000.0,
+          "median": 502.0
+        },
+        "available_B": {
+          "mean": 533.26,
+          "std": 258.40006269349084,
+          "min": 3.0,
+          "max": 1000.0,
+          "median": 546.5
+        },
+        "committed_A": {
+          "mean": 412.235,
+          "std": 259.9651703113323,
+          "min": 0.0,
+          "max": 860.0,
+          "median": 435.5
+        },
+        "committed_B": {
+          "mean": 376.21,
+          "std": 242.34800576856415,
+          "min": 0.0,
+          "max": 863.0,
+          "median": 374.0
+        },
+        "drop_A_count": {
+          "mean": 1.47,
+          "std": 1.256622457224126,
+          "min": 0.0,
+          "max": 6.0,
+          "median": 1.0
+        },
+        "drop_B_count": {
+          "mean": 1.275,
+          "std": 1.1529852557600206,
+          "min": 0.0,
+          "max": 5.0,
+          "median": 1.0
+        },
+        "drop_rate": {
+          "mean": 0.002745,
+          "std": 0.0018165833314219308,
+          "min": 0.0,
+          "max": 0.011,
+          "median": 0.002
+        },
+        "dropped_value": {
+          "mean": 189.82,
+          "std": 129.2741567367585,
+          "min": 0.0,
+          "max": 777.0,
+          "median": 176.5
+        },
+        "drops": {
+          "mean": 2.745,
+          "std": 1.8165833314219304,
+          "min": 0.0,
+          "max": 11.0,
+          "median": 2.0
+        },
+        "flush_A_count": {
+          "mean": 28.72,
+          "std": 1.0637668917577758,
+          "min": 26.0,
+          "max": 31.0,
+          "median": 29.0
+        },
+        "flush_B_count": {
+          "mean": 28.745,
+          "std": 1.118022808354105,
+          "min": 26.0,
+          "max": 32.0,
+          "median": 29.0
+        },
+        "flushes": {
+          "mean": 57.465,
+          "std": 0.9893305817571799,
+          "min": 55.0,
+          "max": 61.0,
+          "median": 57.0
+        },
+        "money": {
+          "mean": 44047.345,
+          "std": 653.1550627339575,
+          "min": 42632.0,
+          "max": 46445.0,
+          "median": 44035.0
+        },
+        "settled_A_value": {
+          "mean": 24925.905,
+          "std": 868.736741467172,
+          "min": 22896.0,
+          "max": 27162.0,
+          "median": 24905.0
+        },
+        "settled_B_value": {
+          "mean": 24867.94,
+          "std": 965.0143089094587,
+          "min": 22588.0,
+          "max": 27665.0,
+          "median": 24843.0
+        },
+        "settled_value": {
+          "mean": 49793.845,
+          "std": 735.5380350294605,
+          "min": 48132.0,
+          "max": 52369.0,
+          "median": 49798.5
+        },
+        "total_transaction_value": {
+          "mean": 49983.665,
+          "std": 735.2621592160173,
+          "min": 48360.0,
+          "max": 52504.0,
+          "median": 49967.0
+        },
+        "total_value": {
+          "mean": 49983.665,
+          "std": 735.2621592160173,
+          "min": 48360.0,
+          "max": 52504.0,
+          "median": 49967.0
+        },
+        "value_accept_ratio": {
+          "mean": 0.9962047681586094,
+          "std": 0.002579493610184865,
+          "min": 0.9844350961538462,
+          "max": 1.0,
+          "median": 0.9964646799245493
+        }
+      },
+      "test_regime": "TLB"
+    },
+    "LNB": {
+      "label": "LNB",
+      "eta": 0.8,
+      "num_episodes": 200,
+      "summary": {
+        "available_A": {
+          "mean": 543.0,
+          "std": 262.9769381523787,
+          "min": 18.0,
+          "max": 1000.0,
+          "median": 554.0
+        },
+        "available_B": {
+          "mean": 514.99,
+          "std": 245.42273712922363,
+          "min": 9.0,
+          "max": 1000.0,
+          "median": 481.5
+        },
+        "committed_A": {
+          "mean": 367.97,
+          "std": 251.41314424667618,
+          "min": 0.0,
+          "max": 875.0,
+          "median": 355.5
+        },
+        "committed_B": {
+          "mean": 416.345,
+          "std": 246.47094347001635,
+          "min": 0.0,
+          "max": 894.0,
+          "median": 427.5
+        },
+        "drop_A_count": {
+          "mean": 4.07,
+          "std": 2.0012745938526275,
+          "min": 0.0,
+          "max": 10.0,
+          "median": 4.0
+        },
+        "drop_B_count": {
+          "mean": 4.01,
+          "std": 2.1142138018658376,
+          "min": 0.0,
+          "max": 11.0,
+          "median": 4.0
+        },
+        "drop_rate": {
+          "mean": 0.00808,
+          "std": 0.002818439284426755,
+          "min": 0.002,
+          "max": 0.015,
+          "median": 0.008
+        },
+        "dropped_value": {
+          "mean": 820.26,
+          "std": 340.7618851925784,
+          "min": 155.0,
+          "max": 1626.0,
+          "median": 800.0
+        },
+        "drops": {
+          "mean": 8.08,
+          "std": 2.818439284426755,
+          "min": 2.0,
+          "max": 15.0,
+          "median": 8.0
+        },
+        "flush_A_count": {
+          "mean": 28.37,
+          "std": 1.3502222039353375,
+          "min": 24.0,
+          "max": 32.0,
+          "median": 28.0
+        },
+        "flush_B_count": {
+          "mean": 28.225,
+          "std": 1.2587195875174104,
+          "min": 25.0,
+          "max": 31.0,
+          "median": 28.0
+        },
+        "flushes": {
+          "mean": 56.595,
+          "std": 1.33827314102914,
+          "min": 52.0,
+          "max": 60.0,
+          "median": 57.0
+        },
+        "money": {
+          "mean": 43835.365,
+          "std": 998.3631412341905,
+          "min": 40903.0,
+          "max": 46665.0,
+          "median": 43835.0
+        },
+        "settled_A_value": {
+          "mean": 24773.27,
+          "std": 1165.6115635579463,
+          "min": 21167.0,
+          "max": 28279.0,
+          "median": 24760.5
+        },
+        "settled_B_value": {
+          "mean": 24721.595,
+          "std": 1081.8769897613129,
+          "min": 22275.0,
+          "max": 26961.0,
+          "median": 24644.5
+        },
+        "settled_value": {
+          "mean": 49494.865,
+          "std": 1116.7082326082316,
+          "min": 46103.0,
+          "max": 52665.0,
+          "median": 49482.0
+        },
+        "total_transaction_value": {
+          "mean": 50315.125,
+          "std": 1192.9524925054643,
+          "min": 46834.0,
+          "max": 53491.0,
+          "median": 50316.0
+        },
+        "total_value": {
+          "mean": 50315.125,
+          "std": 1192.9524925054643,
+          "min": 46834.0,
+          "max": 53491.0,
+          "median": 50316.0
+        },
+        "value_accept_ratio": {
+          "mean": 0.9837464133796885,
+          "std": 0.006653834175597845,
+          "min": 0.9677451349903791,
+          "max": 0.9967748647523929,
+          "median": 0.9841881301697489
+        }
+      },
+      "test_regime": "LNB"
+    },
+    "TLNB": {
+      "label": "TLNB",
+      "eta": 0.8,
+      "num_episodes": 200,
+      "summary": {
+        "available_A": {
+          "mean": 557.7,
+          "std": 244.12492703531936,
+          "min": 6.0,
+          "max": 1000.0,
+          "median": 552.0
+        },
+        "available_B": {
+          "mean": 532.72,
+          "std": 262.82391748088685,
+          "min": 8.0,
+          "max": 1000.0,
+          "median": 542.0
+        },
+        "committed_A": {
+          "mean": 386.765,
+          "std": 237.6002730953818,
+          "min": 0.0,
+          "max": 832.0,
+          "median": 407.0
+        },
+        "committed_B": {
+          "mean": 385.95,
+          "std": 252.7565973421861,
+          "min": 0.0,
+          "max": 898.0,
+          "median": 394.0
+        },
+        "drop_A_count": {
+          "mean": 2.495,
+          "std": 1.60933992680229,
+          "min": 0.0,
+          "max": 8.0,
+          "median": 2.0
+        },
+        "drop_B_count": {
+          "mean": 2.665,
+          "std": 1.6919736995591865,
+          "min": 0.0,
+          "max": 9.0,
+          "median": 2.0
+        },
+        "drop_rate": {
+          "mean": 0.0051600000000000005,
+          "std": 0.0022236006835760777,
+          "min": 0.001,
+          "max": 0.013,
+          "median": 0.005
+        },
+        "dropped_value": {
+          "mean": 422.61,
+          "std": 183.0372035953347,
+          "min": 43.0,
+          "max": 1042.0,
+          "median": 407.0
+        },
+        "drops": {
+          "mean": 5.16,
+          "std": 2.2236006835760773,
+          "min": 1.0,
+          "max": 13.0,
+          "median": 5.0
+        },
+        "flush_A_count": {
+          "mean": 28.505,
+          "std": 1.1532454205415257,
+          "min": 26.0,
+          "max": 31.0,
+          "median": 28.0
+        },
+        "flush_B_count": {
+          "mean": 28.505,
+          "std": 1.2247346651418014,
+          "min": 25.0,
+          "max": 34.0,
+          "median": 29.0
+        },
+        "flushes": {
+          "mean": 57.01,
+          "std": 1.2883710645617588,
+          "min": 53.0,
+          "max": 61.0,
+          "median": 57.0
+        },
+        "money": {
+          "mean": 43977.535,
+          "std": 962.2174487999063,
+          "min": 41240.0,
+          "max": 46398.0,
+          "median": 43966.0
+        },
+        "settled_A_value": {
+          "mean": 24849.235,
+          "std": 1008.8063489961787,
+          "min": 22635.0,
+          "max": 27631.0,
+          "median": 24766.5
+        },
+        "settled_B_value": {
+          "mean": 24829.3,
+          "std": 1031.2489563631082,
+          "min": 21878.0,
+          "max": 29050.0,
+          "median": 24868.0
+        },
+        "settled_value": {
+          "mean": 49678.535,
+          "std": 1078.1866020197988,
+          "min": 46540.0,
+          "max": 52398.0,
+          "median": 49675.0
+        },
+        "total_transaction_value": {
+          "mean": 50101.145,
+          "std": 1106.0050515142323,
+          "min": 47128.0,
+          "max": 52778.0,
+          "median": 50064.0
+        },
+        "total_value": {
+          "mean": 50101.145,
+          "std": 1106.0050515142323,
+          "min": 47128.0,
+          "max": 52778.0,
+          "median": 50064.0
+        },
+        "value_accept_ratio": {
+          "mean": 0.9915792908714846,
+          "std": 0.0036100649894594303,
+          "min": 0.9801072908115538,
+          "max": 0.9991348610747842,
+          "median": 0.9919544535865357
+        }
+      },
+      "test_regime": "TLNB"
+    },
+    "TPLB": {
+      "label": "TPLB",
+      "eta": 0.8,
+      "num_episodes": 200,
+      "summary": {
+        "available_A": {
+          "mean": 528.34,
+          "std": 252.97018480445476,
+          "min": 15.0,
+          "max": 966.0,
+          "median": 541.5
+        },
+        "available_B": {
+          "mean": 560.005,
+          "std": 255.85315119224154,
+          "min": 0.0,
+          "max": 1000.0,
+          "median": 584.0
+        },
+        "committed_A": {
+          "mean": 387.005,
+          "std": 247.07514034196157,
+          "min": 0.0,
+          "max": 888.0,
+          "median": 373.5
+        },
+        "committed_B": {
+          "mean": 372.68,
+          "std": 242.77009206242846,
+          "min": 0.0,
+          "max": 864.0,
+          "median": 365.0
+        },
+        "drop_A_count": {
+          "mean": 2.015,
+          "std": 1.4645050358397542,
+          "min": 0.0,
+          "max": 8.0,
+          "median": 2.0
+        },
+        "drop_B_count": {
+          "mean": 2.03,
+          "std": 1.3853158484620034,
+          "min": 0.0,
+          "max": 6.0,
+          "median": 2.0
+        },
+        "drop_rate": {
+          "mean": 0.004045,
+          "std": 0.0019957392114201694,
+          "min": 0.0,
+          "max": 0.01,
+          "median": 0.004
+        },
+        "dropped_value": {
+          "mean": 317.88,
+          "std": 160.85619540446677,
+          "min": 0.0,
+          "max": 719.0,
+          "median": 299.5
+        },
+        "drops": {
+          "mean": 4.045,
+          "std": 1.9957392114201695,
+          "min": 0.0,
+          "max": 10.0,
+          "median": 4.0
+        },
+        "flush_A_count": {
+          "mean": 28.67,
+          "std": 1.225193862211201,
+          "min": 26.0,
+          "max": 32.0,
+          "median": 29.0
+        },
+        "flush_B_count": {
+          "mean": 28.515,
+          "std": 1.2123427733112448,
+          "min": 25.0,
+          "max": 32.0,
+          "median": 29.0
+        },
+        "flushes": {
+          "mean": 57.185,
+          "std": 1.077392686071332,
+          "min": 55.0,
+          "max": 60.0,
+          "median": 57.0
+        },
+        "money": {
+          "mean": 43933.585,
+          "std": 775.2392745307735,
+          "min": 41897.0,
+          "max": 46147.0,
+          "median": 43891.0
+        },
+        "settled_A_value": {
+          "mean": 24889.985,
+          "std": 1038.2594303809622,
+          "min": 22281.0,
+          "max": 27383.0,
+          "median": 24871.0
+        },
+        "settled_B_value": {
+          "mean": 24762.1,
+          "std": 1022.0126956158617,
+          "min": 21858.0,
+          "max": 27556.0,
+          "median": 24781.0
+        },
+        "settled_value": {
+          "mean": 49652.085,
+          "std": 869.5723303871853,
+          "min": 47397.0,
+          "max": 52047.0,
+          "median": 49578.5
+        },
+        "total_transaction_value": {
+          "mean": 49969.965,
+          "std": 890.8866671889303,
+          "min": 47520.0,
+          "max": 52431.0,
+          "median": 49923.5
+        },
+        "total_value": {
+          "mean": 49969.965,
+          "std": 890.8866671889303,
+          "min": 47520.0,
+          "max": 52431.0,
+          "median": 49923.5
+        },
+        "value_accept_ratio": {
+          "mean": 0.9936492671681417,
+          "std": 0.0031940215636457442,
+          "min": 0.9858212521905368,
+          "max": 1.0,
+          "median": 0.993916657026279
+        }
+      },
+      "test_regime": "TPLB"
+    },
+    "PLB": {
+      "label": "PLB",
+      "eta": 0.8,
+      "num_episodes": 200,
+      "summary": {
+        "available_A": {
+          "mean": 476.67,
+          "std": 259.59464767209664,
+          "min": 3.0,
+          "max": 1000.0,
+          "median": 461.5
+        },
+        "available_B": {
+          "mean": 511.245,
+          "std": 255.57964507174668,
+          "min": 35.0,
+          "max": 1000.0,
+          "median": 481.0
+        },
+        "committed_A": {
+          "mean": 403.165,
+          "std": 263.79070828025766,
+          "min": 0.0,
+          "max": 875.0,
+          "median": 414.5
+        },
+        "committed_B": {
+          "mean": 412.06,
+          "std": 257.0878573561964,
+          "min": 0.0,
+          "max": 839.0,
+          "median": 429.0
+        },
+        "drop_A_count": {
+          "mean": 3.86,
+          "std": 2.02,
+          "min": 0.0,
+          "max": 10.0,
+          "median": 4.0
+        },
+        "drop_B_count": {
+          "mean": 3.73,
+          "std": 2.006763563552019,
+          "min": 0.0,
+          "max": 10.0,
+          "median": 4.0
+        },
+        "drop_rate": {
+          "mean": 0.007590000000000001,
+          "std": 0.0028003392651605626,
+          "min": 0.0,
+          "max": 0.015,
+          "median": 0.007
+        },
+        "dropped_value": {
+          "mean": 915.33,
+          "std": 372.0480897679761,
+          "min": 0.0,
+          "max": 1882.0,
+          "median": 908.5
+        },
+        "drops": {
+          "mean": 7.59,
+          "std": 2.800339265160563,
+          "min": 0.0,
+          "max": 15.0,
+          "median": 7.0
+        },
+        "flush_A_count": {
+          "mean": 28.285,
+          "std": 1.2384567008983398,
+          "min": 25.0,
+          "max": 32.0,
+          "median": 28.0
+        },
+        "flush_B_count": {
+          "mean": 28.115,
+          "std": 1.2537045106403661,
+          "min": 24.0,
+          "max": 31.0,
+          "median": 28.0
+        },
+        "flushes": {
+          "mean": 56.4,
+          "std": 1.3114877048604001,
+          "min": 53.0,
+          "max": 60.0,
+          "median": 56.0
+        },
+        "money": {
+          "mean": 43509.445,
+          "std": 968.029595092526,
+          "min": 41069.0,
+          "max": 46348.0,
+          "median": 43499.0
+        },
+        "settled_A_value": {
+          "mean": 24641.34,
+          "std": 1068.2218282735098,
+          "min": 21351.0,
+          "max": 27962.0,
+          "median": 24611.5
+        },
+        "settled_B_value": {
+          "mean": 24508.105,
+          "std": 1063.914194836689,
+          "min": 21384.0,
+          "max": 27332.0,
+          "median": 24574.0
+        },
+        "settled_value": {
+          "mean": 49149.445,
+          "std": 1085.0966302477398,
+          "min": 46369.0,
+          "max": 52348.0,
+          "median": 49152.0
+        },
+        "total_transaction_value": {
+          "mean": 50064.775,
+          "std": 1187.6670637746086,
+          "min": 47223.0,
+          "max": 53107.0,
+          "median": 50140.0
+        },
+        "total_value": {
+          "mean": 50064.775,
+          "std": 1187.6670637746086,
+          "min": 47223.0,
+          "max": 53107.0,
+          "median": 50140.0
+        },
+        "value_accept_ratio": {
+          "mean": 0.9817813824808852,
+          "std": 0.007256579131085987,
+          "min": 0.9631659294633421,
+          "max": 1.0,
+          "median": 0.9815203582514181
+        }
+      },
+      "test_regime": "PLB"
+    }
+  },
+  "aggregate": {
+    "mean_value_accept_ratio": 0.9914894640238687,
+    "worst_regime_value_accept_ratio": 0.9817813824808852,
+    "mean_drops": 4.6191666666666675,
+    "mean_flushes": 57.087916666666665,
+    "mean_money": 43913.27666666667,
+    "mean_settled_value": 49622.06833333333,
+    "mean_flush_A_count": 28.578750000000003,
+    "mean_flush_B_count": 28.50916666666667,
+    "mean_drop_A_count": 2.3283333333333336,
+    "mean_drop_B_count": 2.290833333333333,
+    "mean_settled_A_value": 24848.850416666668,
+    "mean_settled_B_value": 24773.217916666665
+  }
+}

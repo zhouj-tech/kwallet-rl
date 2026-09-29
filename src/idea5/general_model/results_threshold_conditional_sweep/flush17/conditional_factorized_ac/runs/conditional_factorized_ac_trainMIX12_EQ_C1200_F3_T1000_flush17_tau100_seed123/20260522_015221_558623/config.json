@@ -1,0 +1,242 @@
+{
+  "model_name": "conditional_factorized_ac",
+  "model_mode": "conditional_factorized_ac",
+  "seed": 123,
+  "save_mode": "full",
+  "env": {
+    "C": 1200.0,
+    "F": 3,
+    "T": 1000,
+    "T_max": 250.0,
+    "flush_levels": 17
+  },
+  "reward": {
+    "money_p": 1.0,
+    "money_tau": 100.0,
+    "drop_penalty": 0.0
+  },
+  "data": {
+    "train_regime": "MIX12_EQ",
+    "data_root": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools",
+    "train_pool_path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/MIX12_EQ_US_TLS_LNS_TLNS_TPLS_PLS_UB_TLB_LNB_TLNB_TPLB_PLB_master_T1000.npy",
+    "val_pool_path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/MIX12_EQ_US_TLS_LNS_TLNS_TPLS_PLS_UB_TLB_LNB_TLNB_TPLB_PLB_val_T1000.npy",
+    "test_pool_paths": {
+      "US": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/US_static_eval_T1000.npy",
+      "TLS": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TLS_static_eval_T1000.npy",
+      "LNS": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/LNS_static_eval_T1000.npy",
+      "TLNS": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TLNS_static_eval_T1000.npy",
+      "TPLS": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TPLS_static_eval_T1000.npy",
+      "PLS": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/PLS_static_eval_T1000.npy",
+      "UB": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/UB_static_eval_T1000.npy",
+      "TLB": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TLB_static_eval_T1000.npy",
+      "LNB": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/LNB_static_eval_T1000.npy",
+      "TLNB": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TLNB_static_eval_T1000.npy",
+      "TPLB": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TPLB_static_eval_T1000.npy",
+      "PLB": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/PLB_static_eval_T1000.npy"
+    }
+  },
+  "train": {
+    "episodes": 1000,
+    "max_steps": 1000,
+    "device": "cpu",
+    "learning_rate": 0.0003,
+    "gamma": 0.98,
+    "gae_lambda": 0.95,
+    "clip_eps": 0.2,
+    "update_epochs": 4,
+    "minibatch_size": 256,
+    "value_coef": 0.5,
+    "entropy_coef_start": 0.03,
+    "entropy_coef_end": 0.003,
+    "max_grad_norm": 1.0,
+    "val_every": 50,
+    "val_num_episodes": 200,
+    "hidden_size": 128,
+    "log_every": 25
+  },
+  "eval": {
+    "num_episodes": 200,
+    "max_steps": 1000
+  },
+  "output": {
+    "result_root": "src/idea5/general_model/results_threshold_conditional_sweep/flush17",
+    "log_root": "src/idea5/general_model/logs_threshold_conditional_sweep/flush17"
+  },
+  "conditional": {
+    "settle_embed_dim": 32,
+    "conditional_hidden_size": 256
+  },
+  "pool_fingerprints": {
+    "train": {
+      "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/MIX12_EQ_US_TLS_LNS_TLNS_TPLS_PLS_UB_TLB_LNB_TLNB_TPLB_PLB_master_T1000.npy",
+      "shape": [
+        5000,
+        1000
+      ],
+      "dtype": "float32",
+      "min": 1.0,
+      "max": 250.0,
+      "mean": 50.045894622802734,
+      "md5": "c6b2047a96bee1eb123e28815c6cf10e"
+    },
+    "validation": {
+      "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/MIX12_EQ_US_TLS_LNS_TLNS_TPLS_PLS_UB_TLB_LNB_TLNB_TPLB_PLB_val_T1000.npy",
+      "shape": [
+        300,
+        1000
+      ],
+      "dtype": "float32",
+      "min": 1.0,
+      "max": 250.0,
+      "mean": 50.04153060913086,
+      "md5": "4e871168dd843bb997bfd911fa17a775"
+    },
+    "eval": {
+      "US": {
+        "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/US_static_eval_T1000.npy",
+        "shape": [
+          200,
+          1000
+        ],
+        "dtype": "float32",
+        "min": 20.0,
+        "max": 80.0,
+        "mean": 49.98527526855469,
+        "md5": "f11752707a72332c8018214b0513a1e9"
+      },
+      "TLS": {
+        "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TLS_static_eval_T1000.npy",
+        "shape": [
+          200,
+          1000
+        ],
+        "dtype": "float32",
+        "min": 1.0,
+        "max": 118.0,
+        "mean": 49.9650993347168,
+        "md5": "da2a7882cd8f3b8f39ed7c9bed9e6683"
+      },
+      "LNS": {
+        "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/LNS_static_eval_T1000.npy",
+        "shape": [
+          200,
+          1000
+        ],
+        "dtype": "float32",
+        "min": 2.0,
+        "max": 180.0,
+        "mean": 50.08150100708008,
+        "md5": "ab56e9a812c4a1cacfec2e8021a9d9dd"
+      },
+      "TLNS": {
+        "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TLNS_static_eval_T1000.npy",
+        "shape": [
+          200,
+          1000
+        ],
+        "dtype": "float32",
+        "min": 3.0,
+        "max": 120.0,
+        "mean": 50.08230972290039,
+        "md5": "620f9745b1183f95d8be9ad458b238fb"
+      },
+      "TPLS": {
+        "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TPLS_static_eval_T1000.npy",
+        "shape": [
+          200,
+          1000
+        ],
+        "dtype": "float32",
+        "min": 31.0,
+        "max": 120.0,
+        "mean": 49.973609924316406,
+        "md5": "a8f91c4af146b6a5239b9f223880a440"
+      },
+      "PLS": {
+        "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/PLS_static_eval_T1000.npy",
+        "shape": [
+          200,
+          1000
+        ],
+        "dtype": "float32",
+        "min": 28.0,
+        "max": 250.0,
+        "mean": 50.08811569213867,
+        "md5": "7f18b898cd969dca51ed8f3224256a54"
+      },
+      "UB": {
+        "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/UB_static_eval_T1000.npy",
+        "shape": [
+          200,
+          1000
+        ],
+        "dtype": "float32",
+        "min": 19.0,
+        "max": 100.0,
+        "mean": 49.9824333190918,
+        "md5": "4299e8615897f090c2e71a27a39211ad"
+      },
+      "TLB": {
+        "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TLB_static_eval_T1000.npy",
+        "shape": [
+          200,
+          1000
+        ],
+        "dtype": "float32",
+        "min": 1.0,
+        "max": 120.0,
+        "mean": 49.983665466308594,
+        "md5": "2d4014eeaf1d7277ec4163485db93f10"
+      },
+      "LNB": {
+        "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/LNB_static_eval_T1000.npy",
+        "shape": [
+          200,
+          1000
+        ],
+        "dtype": "float32",
+        "min": 1.0,
+        "max": 180.0,
+        "mean": 50.31512451171875,
+        "md5": "5da9137b26c552170737758f0e994da1"
+      },
+      "TLNB": {
+        "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TLNB_static_eval_T1000.npy",
+        "shape": [
+          200,
+          1000
+        ],
+        "dtype": "float32",
+        "min": 3.0,
+        "max": 120.0,
+        "mean": 50.10114669799805,
+        "md5": "ea59186e80e9cbb91be8b20feabf01fe"
+      },
+      "TPLB": {
+        "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/TPLB_static_eval_T1000.npy",
+        "shape": [
+          200,
+          1000
+        ],
+        "dtype": "float32",
+        "min": 28.0,
+        "max": 120.0,
+        "mean": 49.969966888427734,
+        "md5": "fcb8d08dbf6abd465e1268e2717b244b"
+      },
+      "PLB": {
+        "path": "/Users/qiubi/kwallet-rl/src/ideaextra/data/pools/PLB_static_eval_T1000.npy",
+        "shape": [
+          200,
+          1000
+        ],
+        "dtype": "float32",
+        "min": 26.0,
+        "max": 250.0,
+        "mean": 50.06477355957031,
+        "md5": "a4ca964a6878552990d4d5c1817c6f20"
+      }
+    }
+  },
+  "scenario": "conditional_factorized_ac_trainMIX12_EQ_C1200_F3_T1000_flush17_tau100_seed123"
+}
