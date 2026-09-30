@@ -1,0 +1,49 @@
+# K-Wallet Research Task Queue
+# Primary owner: Codex
+# Executor: Trae
+#
+# Codex defines WHAT and WHY.
+# Trae decides HOW to execute within allowed engineering autonomy.
+
+tasks: []
+
+# Example task format:
+#
+# - task_id: E001
+#   status: proposed
+#   priority: high
+#
+#   question: >
+#     What research question does this experiment answer?
+#
+#   hypothesis: >
+#     What result do we expect, and why?
+#
+#   implementation:
+#     baseline: TBD
+#     variants: []
+#     seeds: [123, 323, 532]
+#
+#   budget:
+#     max_gpu_hours: 6
+#
+#   stop_condition: >
+#     Define when Trae should stop rather than waste more compute.
+#
+#   allowed_autonomy:
+#     - fix implementation bugs
+#     - retry failed runs
+#     - select an available GPU
+#     - reduce batch size if required by OOM
+#     - perform smoke tests
+#
+#   not_allowed:
+#     - change the research question
+#     - change reward definition
+#     - change evaluation metrics
+#     - introduce a new model architecture
+#     - remove or replace baselines
+#
+#   required_outputs:
+#     - summary.csv
+#     - run_manifest.json
