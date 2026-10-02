@@ -1,0 +1,13 @@
+regime,dist_family,bursty,target_mean,max_tx,note
+US,uniform,False,50.0,100.0,bounded baseline; smooth uniform transactions
+TLS,trunc_light,False,50.0,120.0,light-tail smooth regime; truncated normal around target mean
+LNS,lognormal,False,50.0,180.0,smooth lognormal; realistic right-skew heavy tail
+TLNS,trunc_lognormal,False,50.0,120.0,smooth truncated lognormal; controlled heavy tail
+TPLS,trunc_powerlaw,False,50.0,120.0,smooth truncated power law; strong tail with cap
+PLS,powerlaw,False,50.0,250.0,smooth power law; extreme heavy-tail stress test
+UB,uniform,True,50.0,100.0,bursty uniform; isolates time-structure effect without heavy tail
+TLB,trunc_light,True,50.0,120.0,bursty truncated light-tail; mild-value complexity plus burst
+LNB,lognormal,True,50.0,180.0,bursty lognormal; realistic complex regime with skew and burst
+TLNB,trunc_lognormal,True,50.0,120.0,bursty truncated lognormal; stable realistic heavy-tail burst regime
+TPLB,trunc_powerlaw,True,50.0,120.0,bursty truncated power law; high-pressure heavy tail with cap
+PLB,powerlaw,True,50.0,250.0,bursty power law; worst-case stress regime

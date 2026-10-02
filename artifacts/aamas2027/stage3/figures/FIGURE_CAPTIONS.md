@@ -1,0 +1,8 @@
+# Figure captions
+
+1. Macro12 Money on NEW12. Points are five trained-policy seed scores; circles and bars are means and unadjusted marginal 95% Student-t intervals (df=4). BF-T0.5 is one deterministic fixed-pool score per capacity, shown as a diamond/dashed reference without uncertainty. Panel y-ranges differ and are explicitly labeled; these are point plots, not zero-based bars.
+2. All five seed-paired structural differences and their mean/marginal 95% t interval. Holm p-values refer to the complete six-test Family A, not separate panels. A zero line is shown; seed pairing follows labels and does not imply shared RNG trajectories.
+3. All five full-minus-zero paired differences and their mean/marginal 95% t interval. Circles identify recovered zero-control training cohorts (123/323/532); squares identify new zero trainings (777/999). Holm correction uses both capacities in Family B. Positive values favor full conditioning. No equivalence claim follows from a crossing-zero interval.
+4. Descriptive seed-averaged per-regime contrasts, with one common diverging scale centered at zero. Positive blue values favor the left method; negative red values favor the right. Rows 1–6 are smooth; rows 7–12 are bursty according to the frozen manifest. TL/TLN/TPL are truncated distribution families, not time-local patterns. No regime-level tests or significance stars are added.
+
+All figures: same frozen streams, k=24, F=3, T=1000, 200 episodes/regime. Money = settled − 10×executed flushes. PDF/SVG are vector exports; PNG is for visual inspection. CIs reflect training-seed variation conditional on the fixed pools.

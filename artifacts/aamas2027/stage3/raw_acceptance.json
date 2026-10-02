@@ -1,0 +1,74 @@
+{
+  "approval_runtime_header": {
+    "numpy_version": "2.0.2",
+    "python_version": "3.10.12",
+    "torch_version": "2.5.1+cpu"
+  },
+  "benchmark_notes_retained": 42,
+  "internal_checksum_coverage": 155,
+  "internal_files": 157,
+  "ledger_complete": false,
+  "ledger_completed": 38,
+  "ledger_reconciled": true,
+  "limitations": [
+    "Raw freeze contains outputs/manifests, not checkpoint bytes, pool arrays, training receipts, or all original runtime/gate receipts; those cannot be independently rehashed from this archive.",
+    "Legacy local-benchmark labels and null runtime_lock_sha256 are retained, not repaired; acceptance uses the provided final freeze, embedded MAC_RUNTIME_APPROVED chain and five representative episode-hash parity attestations.",
+    "Approval header Python/Torch version strings differ from per-job runtime_local strings; report both rather than asserting literal lock equality."
+  ],
+  "lineage": "5573ec642f0f28c218f3e6058478f62ab6db6b2b",
+  "max_money_identity_error": 0.0,
+  "max_saved_summary_error": 1.1368683772161603e-13,
+  "new_zero_checkpoint_records": [
+    {
+      "checkpoint_sha256": "11b6275bc5263923f11f7474b820846bb702c9d1dc56216805bcf1aacf47e27d",
+      "job_id": "B-EVAL-ZERO-C1200-S777",
+      "run_info_sha256": "aede60fa521304ecced495b3b4b7da6616d7713125020e23a8eb28385618b4fe"
+    },
+    {
+      "checkpoint_sha256": "c02cb65e771e5e421a7fc753ec87c856a502b988edbb004890729cbe7f8df133",
+      "job_id": "B-EVAL-ZERO-C1200-S999",
+      "run_info_sha256": "71951976d67624db57bc6949a87a980f844dece99701b642c963c3b75ddbebed"
+    },
+    {
+      "checkpoint_sha256": "1f2757d4e5b082069795c76297cc16f12a4ca7f4ffc5502e8e3b5ddc79069163",
+      "job_id": "B-EVAL-ZERO-C800-S777",
+      "run_info_sha256": "c43b4502bdcc9aba98dbded4d11653e9d1cf4db2ab97875745d11029210e0663"
+    },
+    {
+      "checkpoint_sha256": "d40e8213d4efb20600e67cbf0816c27a7e4b5c62688ee06432a071428e635d16",
+      "job_id": "B-EVAL-ZERO-C800-S999",
+      "run_info_sha256": "0afa6b162f7e14da63db7710be3e36cd9c9e7fcba3aab57be314d0f44e3771e6"
+    }
+  ],
+  "preexisting_jobs": [
+    "A-EVAL-IF-C800-S123",
+    "A-EVAL-SC-C800-S123",
+    "B-EVAL-ZERO-C800-S123",
+    "C-EVAL-BFT05-C800"
+  ],
+  "raw_sha256": "576c9baa00c4438543ab9f9c2063f65bb26b1a6f287974a9e8ab91b18189ace3",
+  "root_pilot_duplicate_excluded": true,
+  "runtime_groups": [
+    {
+      "jobs": 42,
+      "runtime": {
+        "nproc": 10,
+        "numpy_version": "2.0.2",
+        "platform": "Darwin 25.5.0 arm64",
+        "processor": "arm",
+        "python_version": "3.10.22",
+        "torch_interop_threads": 10,
+        "torch_threads": 4,
+        "torch_version": "2.5.1"
+      }
+    }
+  ],
+  "scientific_complete": true,
+  "scientific_jobs": 42,
+  "status": "PASS",
+  "total_rows": 100800,
+  "uncovered_files": [
+    "README.md",
+    "SHA256SUMS.txt"
+  ]
+}
