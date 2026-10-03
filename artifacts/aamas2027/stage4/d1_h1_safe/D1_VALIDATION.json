@@ -1,0 +1,40 @@
+{
+  "cells": [
+    "U_C800_S123",
+    "U_C800_S323",
+    "U_C800_S532",
+    "U_C800_S777",
+    "U_C800_S999",
+    "U_C1200_S123",
+    "U_C1200_S323",
+    "U_C1200_S532",
+    "U_C1200_S777",
+    "U_C1200_S999",
+    "M_C800_S123",
+    "M_C800_S323",
+    "M_C800_S532",
+    "M_C800_S777",
+    "M_C800_S999",
+    "M_C1200_S123",
+    "M_C1200_S323",
+    "M_C1200_S532",
+    "M_C1200_S777",
+    "M_C1200_S999",
+    "BF_C800",
+    "BF_C1200"
+  ],
+  "checks": [
+    "all 22 cells present: episodes.csv/result.json/telemetry.json/traces, 2400 rows, PASS",
+    "no duplicate/missing regime-episode pairs; Money + count identities; finite",
+    "traces: 528 traced episodes (22 cells x 24), T=1000, fixed schema, forks 7 cols",
+    "U parity gate: 10 cells EXACT vs archived Stage 3.5 H1",
+    "M invariant: mask changes argmax iff raw flush argmax was s_BF",
+    "BF telemetry cells EXACT vs frozen Stage 2 BF-T0.5 episodes",
+    "frozen raw/adapter/sources/NEW12/checkpoint/stream hashes verified",
+    "no training/checkpoint artifacts; only csv/json/npz/py/md outputs"
+  ],
+  "completed_utc": "2026-10-03T03:38:58Z",
+  "elapsed_seconds": 1.4172780513763428,
+  "errors": [],
+  "status": "PASS"
+}

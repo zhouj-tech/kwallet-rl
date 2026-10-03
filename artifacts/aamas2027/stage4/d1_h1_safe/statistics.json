@@ -1,0 +1,312 @@
+{
+  "analysis_elapsed_seconds": 0.6380059719085693,
+  "bf_macro": {
+    "1200": 15298.890416666667,
+    "800": 4661.324583333333
+  },
+  "classification": {
+    "DIRECT_CONFLICT_IMPORTANCE": "LOW",
+    "RECOMMEND_A_PLUS_PILOT": "NO",
+    "RECOMMEND_STOP_IMPROVEMENT_BRANCH": "YES",
+    "STATE_DISTRIBUTION_MISMATCH_EVIDENCE": "WEAK",
+    "effects_by_capacity": {
+      "1200": "weak_positive",
+      "800": "weak_positive"
+    },
+    "lost_per_prefeasible_conflict_C1200": 1.0,
+    "lost_per_prefeasible_conflict_C800": 1.0,
+    "mean_executed_conflict_rate_C1200": 0.0008594999999999999,
+    "mean_executed_conflict_rate_C800": 0.00012166666666666667,
+    "mean_prefeasible_conflict_rate_C1200": 0.0008594999999999999,
+    "mean_prefeasible_conflict_rate_C800": 0.00012166666666666667,
+    "rule_doc": "Engineering heuristics fixed pre-results: HIGH if MASK_GATE passes; MODERATE if >=0.5% BF mean gain with >=4/5 seeds positive at a capacity; LOW for weak/null positive; NEGLIGIBLE only when null AND executed-conflict rate <1e-5. Mismatch STRONG when prefeasible-conflict rate >=1e-3 but best mean gain <0.5% BF; MODERATE at rate >=1e-4 with no positive mean."
+  },
+  "confirmatory": false,
+  "conflict_meta": {
+    "M-C1200-S123": {
+      "conflict_executed": 0,
+      "conflict_prefeasible": 317,
+      "fork_events": 317,
+      "fork_exposure_sum": -8420.0,
+      "lost": 0
+    },
+    "M-C1200-S323": {
+      "conflict_executed": 0,
+      "conflict_prefeasible": 371,
+      "fork_events": 371,
+      "fork_exposure_sum": -9775.0,
+      "lost": 0
+    },
+    "M-C1200-S532": {
+      "conflict_executed": 0,
+      "conflict_prefeasible": 6307,
+      "fork_events": 6307,
+      "fork_exposure_sum": -160423.0,
+      "lost": 0
+    },
+    "M-C1200-S777": {
+      "conflict_executed": 0,
+      "conflict_prefeasible": 110,
+      "fork_events": 110,
+      "fork_exposure_sum": -2378.0,
+      "lost": 0
+    },
+    "M-C1200-S999": {
+      "conflict_executed": 0,
+      "conflict_prefeasible": 3173,
+      "fork_events": 3173,
+      "fork_exposure_sum": -86979.0,
+      "lost": 0
+    },
+    "M-C800-S123": {
+      "conflict_executed": 0,
+      "conflict_prefeasible": 306,
+      "fork_events": 306,
+      "fork_exposure_sum": -6453.0,
+      "lost": 0
+    },
+    "M-C800-S323": {
+      "conflict_executed": 0,
+      "conflict_prefeasible": 297,
+      "fork_events": 297,
+      "fork_exposure_sum": -5840.0,
+      "lost": 0
+    },
+    "M-C800-S532": {
+      "conflict_executed": 0,
+      "conflict_prefeasible": 585,
+      "fork_events": 585,
+      "fork_exposure_sum": -12774.0,
+      "lost": 0
+    },
+    "M-C800-S777": {
+      "conflict_executed": 0,
+      "conflict_prefeasible": 0,
+      "fork_events": 0,
+      "fork_exposure_sum": 0.0,
+      "lost": 0
+    },
+    "M-C800-S999": {
+      "conflict_executed": 0,
+      "conflict_prefeasible": 259,
+      "fork_events": 259,
+      "fork_exposure_sum": -5533.0,
+      "lost": 0
+    },
+    "U-C1200-S123": {
+      "conflict_executed": 312,
+      "conflict_prefeasible": 312,
+      "fork_events": 312,
+      "fork_exposure_sum": -8308.0,
+      "lost": 312
+    },
+    "U-C1200-S323": {
+      "conflict_executed": 379,
+      "conflict_prefeasible": 379,
+      "fork_events": 379,
+      "fork_exposure_sum": -9999.0,
+      "lost": 379
+    },
+    "U-C1200-S532": {
+      "conflict_executed": 6345,
+      "conflict_prefeasible": 6345,
+      "fork_events": 6345,
+      "fork_exposure_sum": -161284.0,
+      "lost": 6345
+    },
+    "U-C1200-S777": {
+      "conflict_executed": 107,
+      "conflict_prefeasible": 107,
+      "fork_events": 107,
+      "fork_exposure_sum": -2309.0,
+      "lost": 107
+    },
+    "U-C1200-S999": {
+      "conflict_executed": 3171,
+      "conflict_prefeasible": 3171,
+      "fork_events": 3171,
+      "fork_exposure_sum": -87404.0,
+      "lost": 3171
+    },
+    "U-C800-S123": {
+      "conflict_executed": 307,
+      "conflict_prefeasible": 307,
+      "fork_events": 307,
+      "fork_exposure_sum": -6474.0,
+      "lost": 307
+    },
+    "U-C800-S323": {
+      "conflict_executed": 298,
+      "conflict_prefeasible": 298,
+      "fork_events": 298,
+      "fork_exposure_sum": -5859.0,
+      "lost": 298
+    },
+    "U-C800-S532": {
+      "conflict_executed": 597,
+      "conflict_prefeasible": 597,
+      "fork_events": 597,
+      "fork_exposure_sum": -13049.0,
+      "lost": 597
+    },
+    "U-C800-S777": {
+      "conflict_executed": 0,
+      "conflict_prefeasible": 0,
+      "fork_events": 0,
+      "fork_exposure_sum": 0.0,
+      "lost": 0
+    },
+    "U-C800-S999": {
+      "conflict_executed": 258,
+      "conflict_prefeasible": 258,
+      "fork_events": 258,
+      "fork_exposure_sum": -5500.0,
+      "lost": 258
+    }
+  },
+  "delta_per_conflict_exposure": {
+    "C1200_S123": {
+      "U_fork_exposure_sum": -8308.0,
+      "U_prefeasible_conflicts": 312,
+      "cell_money_delta": 2.172916666666424,
+      "delta_per_U_prefeasible_conflict": 0.006964476495725718
+    },
+    "C1200_S323": {
+      "U_fork_exposure_sum": -9999.0,
+      "U_prefeasible_conflicts": 379,
+      "cell_money_delta": 3.4158333333325572,
+      "delta_per_U_prefeasible_conflict": 0.009012752858397248
+    },
+    "C1200_S532": {
+      "U_fork_exposure_sum": -161284.0,
+      "U_prefeasible_conflicts": 6345,
+      "cell_money_delta": 38.27666666666664,
+      "delta_per_U_prefeasible_conflict": 0.006032571578670866
+    },
+    "C1200_S777": {
+      "U_fork_exposure_sum": -2309.0,
+      "U_prefeasible_conflicts": 107,
+      "cell_money_delta": 0.5749999999989086,
+      "delta_per_U_prefeasible_conflict": 0.005373831775690735
+    },
+    "C1200_S999": {
+      "U_fork_exposure_sum": -87404.0,
+      "U_prefeasible_conflicts": 3171,
+      "cell_money_delta": 22.13500000000022,
+      "delta_per_U_prefeasible_conflict": 0.006980447808262446
+    },
+    "C800_S123": {
+      "U_fork_exposure_sum": -6474.0,
+      "U_prefeasible_conflicts": 307,
+      "cell_money_delta": 1.815833333333103,
+      "delta_per_U_prefeasible_conflict": 0.005914766558088283
+    },
+    "C800_S323": {
+      "U_fork_exposure_sum": -5859.0,
+      "U_prefeasible_conflicts": 298,
+      "cell_money_delta": 1.1891666666660967,
+      "delta_per_U_prefeasible_conflict": 0.003990492170020459
+    },
+    "C800_S532": {
+      "U_fork_exposure_sum": -13049.0,
+      "U_prefeasible_conflicts": 597,
+      "cell_money_delta": 2.390416666667079,
+      "delta_per_U_prefeasible_conflict": 0.004004048017867804
+    },
+    "C800_S777": {
+      "U_fork_exposure_sum": 0.0,
+      "U_prefeasible_conflicts": 0,
+      "cell_money_delta": 0.0,
+      "delta_per_U_prefeasible_conflict": null
+    },
+    "C800_S999": {
+      "U_fork_exposure_sum": -5500.0,
+      "U_prefeasible_conflicts": 258,
+      "cell_money_delta": 1.357083333333776,
+      "delta_per_U_prefeasible_conflict": 0.005260012919898357
+    }
+  },
+  "generated_utc": "2026-10-03T03:43:41Z",
+  "mask_gate": {
+    "PASS": false,
+    "condition_at_least_one_capacity_plus_1pct": false,
+    "condition_no_seed_loses_gt_5pct": true,
+    "condition_other_capacity_at_worst_minus_1pct": true,
+    "mean_delta_C1200": 13.31508333333295,
+    "mean_delta_C800": 1.350500000000011,
+    "rule": "PASS iff (1) mean(M-U) >= +1% of frozen BF macro at >=1 capacity, (2) mean(M-U) >= -1% of BF at the other capacity, and (3) no seed loses >5% of BF relative to its own U baseline.",
+    "thresholds": {
+      "C1200_minus_1pct": -152.98890416666669,
+      "C1200_plus_1pct": 152.98890416666669,
+      "C1200_seed_loss_5pct_of_BF": 764.9445208333334,
+      "C800_minus_1pct": -46.61324583333333,
+      "C800_plus_1pct": 46.61324583333333,
+      "C800_seed_loss_5pct_of_BF": 233.06622916666666
+    },
+    "worst_seed_loss": {
+      "C1200_S123": -2.172916666666424,
+      "C1200_S323": -3.4158333333325572,
+      "C1200_S532": -38.27666666666664,
+      "C1200_S777": -0.5749999999989086,
+      "C1200_S999": -22.13500000000022,
+      "C800_S123": -1.815833333333103,
+      "C800_S323": -1.1891666666660967,
+      "C800_S532": -2.390416666667079,
+      "C800_S777": 0.0,
+      "C800_S999": -1.357083333333776
+    }
+  },
+  "note": "Post-hoc exploratory mechanism diagnostic. NEW12-v1 was already used for method selection. Paired t stats are raw, unadjusted, n=5 (df=4). Local fork numbers are ONE-STEP LOCAL EXPOSURE ONLY, not recoverable value, not an optimality theorem.",
+  "paired_M_minus_U": {
+    "1200": {
+      "ci95_hi": 33.76793466982734,
+      "ci95_lo": -7.13776800316144,
+      "deltas": {
+        "123": 2.172916666666424,
+        "323": 3.4158333333325572,
+        "532": 38.27666666666664,
+        "777": 0.5749999999989086,
+        "999": 22.13500000000022
+      },
+      "df": 4,
+      "max": 38.27666666666664,
+      "mean": 13.31508333333295,
+      "min": 0.5749999999989086,
+      "n": 5,
+      "n_negative": 0,
+      "n_positive": 5,
+      "n_zero": 0,
+      "p_two_sided_raw": 0.14496752122116408,
+      "sd": 16.47213043631952,
+      "se": 7.366560677970743,
+      "t": 1.8075033812116563,
+      "tcrit": 2.7764451051977908
+    },
+    "800": {
+      "ci95_hi": 2.451997310257253,
+      "ci95_lo": 0.2490026897427684,
+      "deltas": {
+        "123": 1.815833333333103,
+        "323": 1.1891666666660967,
+        "532": 2.390416666667079,
+        "777": 0.0,
+        "999": 1.357083333333776
+      },
+      "df": 4,
+      "max": 2.390416666667079,
+      "mean": 1.350500000000011,
+      "min": 0.0,
+      "n": 5,
+      "n_negative": 0,
+      "n_positive": 4,
+      "n_zero": 1,
+      "p_two_sided_raw": 0.02717493000483384,
+      "sd": 0.8871138342182019,
+      "se": 0.39672936741847564,
+      "t": 3.404083768206362,
+      "tcrit": 2.7764451051977908
+    }
+  },
+  "post_hoc_exploratory": true,
+  "validation_status": "PASS"
+}

@@ -1,0 +1,182 @@
+{
+  "arms": {
+    "BF": {
+      "arm": "BF",
+      "description": "Frozen BF-T0.5 rule under D1 instrumentation",
+      "environment": "E0 unmodified; action=(settle*(k+1)+flush)",
+      "flush_policy": "BF-T0.5 (frozen)",
+      "mask": null,
+      "other_interventions": "none",
+      "settle_policy": "BF-T0.5 (frozen factorized rule)"
+    },
+    "M": {
+      "arm": "M",
+      "description": "H1 with flush_logit[s_BF]=-inf when s_BF<k (single-logit mask)",
+      "environment": "E0 unmodified; action=(settle*(k+1)+flush)",
+      "flush_policy": "SC-FAC conditional flush head, conditioned on BF settle",
+      "mask": {
+        "masked_logits": 1,
+        "no_mask_when_settle_noop": true,
+        "noop_flush_index": 24,
+        "rule": "if s_BF < k: flush_logits[0, s_BF] = -infinity; argmax unchanged otherwise",
+        "tie_break": "torch.argmax smallest index (unchanged)"
+      },
+      "other_interventions": "none",
+      "settle_policy": "BF-T0.5 (frozen factorized rule)"
+    },
+    "U": {
+      "arm": "U",
+      "description": "Archived H1, instrumentation-only (parity arm)",
+      "environment": "E0 unmodified; action=(settle*(k+1)+flush)",
+      "flush_policy": "SC-FAC conditional flush head, conditioned on BF settle",
+      "mask": null,
+      "other_interventions": "none",
+      "settle_policy": "BF-T0.5 (frozen factorized rule)"
+    }
+  },
+  "confirmatory": false,
+  "constraints": [
+    "no training / no A+ / no retraining",
+    "no edits to frozen Stage 2/3/3.5 artifacts",
+    "additive under tools/aamas_stage4 and artifacts/aamas2027/stage4",
+    "mask changes exactly one flush logit; environment unmodified",
+    "local forks are read-only one-step snapshots (LOCAL EXPOSURE ONLY)"
+  ],
+  "created_utc": "2026-10-03T03:35:12Z",
+  "env": {
+    "F": 3,
+    "T": 1000,
+    "dataset": "NEW12-v1",
+    "episodes_per_regime": 200,
+    "k": 24,
+    "regimes": [
+      "US",
+      "TLS",
+      "LNS",
+      "TLNS",
+      "TPLS",
+      "PLS",
+      "UB",
+      "TLB",
+      "LNB",
+      "TLNB",
+      "TPLB",
+      "PLB"
+    ]
+  },
+  "experiment": "D1-H1-SAFE-v1",
+  "frozen": {
+    "frozen_repo": "/Users/zhouzhou/Desktop/kwallet-rl",
+    "lineage": "5573ec642f0f28c218f3e6058478f62ab6db6b2b",
+    "new12_manifest_sha256": "3a89e6023680752cd76b1eed953353a2d5163b751da1c9c4f3d407a98883cac5",
+    "raw_tarball_sha256": "576c9baa00c4438543ab9f9c2063f65bb26b1a6f287974a9e8ab91b18189ace3"
+  },
+  "matrix": {
+    "arms": [
+      "U",
+      "M"
+    ],
+    "bf_telemetry_cells": 2,
+    "capacities": [
+      800,
+      1200
+    ],
+    "cells_total": 22,
+    "episodes_per_cell": 2400,
+    "seeds": [
+      123,
+      323,
+      532,
+      777,
+      999
+    ],
+    "total_episodes": 52800,
+    "total_steps": 52800000
+  },
+  "parity_gate": {
+    "compares_against": "archived Stage 3.5 H1 episodes.csv",
+    "fields": [
+      "money",
+      "settled",
+      "flushes",
+      "drops",
+      "accepted_count",
+      "insufficient_drops",
+      "oversize_drops"
+    ],
+    "name": "U_PARITY",
+    "rule": "STOP all D1 interpretation on any failure"
+  },
+  "post_hoc_exploratory": true,
+  "runtime": {
+    "device": "cpu",
+    "numpy_version": "2.0.2",
+    "python_executable": "/Users/zhouzhou/benchmarks/A-EVAL-JA-C800-S123/.venv/bin/python",
+    "python_version": "3.10.22",
+    "torch_threads": 4,
+    "torch_version": "2.5.1"
+  },
+  "schema_version": 1,
+  "stage": "stage4_d1_h1_safe",
+  "trace_schema": {
+    "float_columns": [
+      "tx",
+      "bal_s",
+      "usable_balance",
+      "refilled_value",
+      "settled_value"
+    ],
+    "fork_columns": [
+      "step",
+      "tx",
+      "A_settled",
+      "B_settled",
+      "A_flushes",
+      "B_flushes",
+      "money_A_minus_B"
+    ],
+    "hist_edges": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      8,
+      10,
+      15,
+      20,
+      30,
+      50
+    ],
+    "int_columns": [
+      "step",
+      "s_bf",
+      "n_feasible",
+      "n_usable",
+      "raw_f",
+      "chosen_f",
+      "requested_f",
+      "executed_f",
+      "noop_flush",
+      "unusable_flush",
+      "conflict_raw",
+      "conflict_executed",
+      "lost_settlement",
+      "sc_settle_cf",
+      "sc_settle_differs",
+      "pending_n",
+      "frozen_n",
+      "ready_n",
+      "refill_completed",
+      "starvation_zero_usable",
+      "starvation_zero_feasible",
+      "accepted"
+    ],
+    "traced_episodes_per_regime": [
+      0,
+      1
+    ],
+    "traced_episodes_total": 528
+  }
+}
